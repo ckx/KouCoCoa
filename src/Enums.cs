@@ -5,4 +5,16 @@
         Info,
         Debug
     }
+
+    public enum DatabaseFileType {
+        Yaml,
+        Script
+    }
+
+    public enum DatabaseDataType {
+        UNDEFINED,
+        MOB_DB,
+        MOB_AVAIL_DB,
+        ITEM_DB
+    }
 }

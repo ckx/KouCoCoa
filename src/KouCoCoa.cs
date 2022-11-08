@@ -23,27 +23,9 @@ namespace KouCoCoa {
 
         static async Task Main(string[] args) {
             Logger.CreateLogFile();
-            // Setup config
             Globals.RunConfig = await ConfigManager.GetConfig();
-            await Logger.WriteLine($"Creating Veldrid graphics " +
-                $"window at screen position {Globals.RunConfig.WindowXY[0]},{Globals.RunConfig.WindowXY[1]} " +
-                $"with resolution {Globals.RunConfig.ResolutionXY[0]}x{Globals.RunConfig.ResolutionXY[1]}.");
-            if (Globals.RunConfig.WindowXY[0] > 1920) {
-                await Logger.WriteLine($"すごーい！お兄ちゃんデカすぎる…");
-            }
-            VeldridStartup.CreateWindowAndGraphicsDevice(
-                new WindowCreateInfo(Globals.RunConfig.WindowXY[0], Globals.RunConfig.WindowXY[1], 
-                Globals.RunConfig.ResolutionXY[0], Globals.RunConfig.ResolutionXY[1], 
-                WindowState.Normal, ProgramTitle + " ~ " + GetVersionTagline()),
-                new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
-                out _window,
-                out _gd);
-            _window.Resized += () => {
-                _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
-                _controller.WindowResized(_window.Width, _window.Height);
-            };
-            _cl = _gd.ResourceFactory.CreateCommandList();
-            _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
+            await SetupVeldridWindow();
+            await LoadDatabases();
 
             // Main application loop
             while (_window.Exists) {
@@ -63,10 +45,44 @@ namespace KouCoCoa {
                 _gd.SubmitCommands(_cl);
                 _gd.SwapBuffers(_gd.MainSwapchain);
             }
+
+            await ShutDown();
+        }
+
+        #region Private Methods
+        private static async Task SetupVeldridWindow() {
+            await Logger.WriteLine($"Creating Veldrid graphics " +
+                $"window at screen position {Globals.RunConfig.WindowPositionXY[0]},{Globals.RunConfig.WindowPositionXY[1]} " +
+                $"with resolution {Globals.RunConfig.WindowResolutionXY[0]}x{Globals.RunConfig.WindowResolutionXY[1]}.");
+            if (Globals.RunConfig.WindowPositionXY[0] > 1920) {
+                await Logger.WriteLine($"すごーい！お兄ちゃんデカすぎる…");
+            }
+            VeldridStartup.CreateWindowAndGraphicsDevice(
+                new WindowCreateInfo(Globals.RunConfig.WindowPositionXY[0], Globals.RunConfig.WindowPositionXY[1],
+                Globals.RunConfig.WindowResolutionXY[0], Globals.RunConfig.WindowResolutionXY[1],
+                WindowState.Normal, ProgramTitle + " ~ " + GetVersionTagline()),
+                new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
+                out _window,
+                out _gd);
+            _window.Resized += () => {
+                _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
+                _controller.WindowResized(_window.Width, _window.Height);
+            };
+            _cl = _gd.ResourceFactory.CreateCommandList();
+            _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
+
+        }
+
+        private static async Task LoadDatabases() {
+            DatabaseParser dbParser = new();
+            await dbParser.LoadDatabasesFromDirectory(Globals.RunConfig.YamlDbDirectoryPath);
+        }
+
+        private static async Task ShutDown() {
             await Logger.WriteLine("Shutdown signal received.");
 
-            Globals.RunConfig.WindowXY = new int[] { _window.Bounds.X, _window.Bounds.Y };
-            Globals.RunConfig.ResolutionXY = new int[] { _window.Width, _window.Height };
+            Globals.RunConfig.WindowPositionXY = new int[] { _window.Bounds.X, _window.Bounds.Y };
+            Globals.RunConfig.WindowResolutionXY = new int[] { _window.Width, _window.Height };
 
             await ConfigManager.StoreConfig(Globals.RunConfig);
             await Logger.WriteLine("[KouKou] え？お兄ちゃん、待ってー！もっと遊びたーい！");
@@ -77,7 +93,6 @@ namespace KouCoCoa {
             _gd.Dispose();
         }
 
-        #region Private Methods
         private static string GetVersionTagline() {
             List<string> taglines = new() {
                 "Girls need Tao cards, too!",

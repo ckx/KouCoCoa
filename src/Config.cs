@@ -10,20 +10,23 @@ namespace KouCoCoa {
     /// </summary>
     public class Config {
         public Config() {
-            DbPaths = new() { 
-                { "mob_db", new List<string>() { @"c:\repos\roguenarok\roguenarok\db\mob_db_rogue.yml" } },
-                { "item_db", new List<string>() { @"c:\repos\roguenarok\roguarnok\db\item_db_rogue_testing.yml" } }
+            AdditionalDbPaths = new() { 
+                { DatabaseDataType.MOB_DB, new List<string>() { @"c:\repos\roguenarok\roguenarok\db\mob_db_rogue.yml" } },
+                { DatabaseDataType.ITEM_DB, new List<string>() { @"c:\repos\roguenarok\roguarnok\db\item_db_rogue_testing.yml" } }
             };
             LoggingLevel = LogLevel.Info;
-            WindowXY = new int[] { 100, 100 };
-            ResolutionXY = new int[] { 1280, 720 };
+            WindowPositionXY = new int[] { 100, 100 };
+            WindowResolutionXY = new int[] { 1280, 720 };
+            SilenceLogger = false;
         }
 
         #region Properties
         public static string ConfigPath { get { return "config.yml"; } }
-        public Dictionary<string, List<string>> DbPaths { get; set; }
-        public int[] WindowXY;
-        public int[] ResolutionXY;
+        public string YamlDbDirectoryPath { get; set; }
+        public Dictionary<DatabaseDataType, List<string>> AdditionalDbPaths { get; set; }
+        public int[] WindowPositionXY;
+        public int[] WindowResolutionXY;
+        public bool SilenceLogger;
 
         /// <summary>
         /// 0 = Error

@@ -29,11 +29,9 @@ namespace KouCoCoa {
         }
 
         internal static async Task WriteLine(string logMessage, LogLevel? logLevel = null) {
-#if DEBUG
-            if (Globals.SilenceLogger) {
+            if (Globals.RunConfig.SilenceLogger) {
                 return;
             }
-#endif
             logLevel ??= LogLevel.Info;
             string line;
             line = $"[{Timestamp}] [{logLevel}] {logMessage}";
