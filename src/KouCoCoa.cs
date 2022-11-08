@@ -69,7 +69,7 @@ namespace KouCoCoa {
             Globals.RunConfig.ResolutionXY = new int[] { _window.Width, _window.Height };
 
             await ConfigManager.StoreConfig(Globals.RunConfig);
-            await Logger.WriteLine("え？お兄ちゃん、待ってー！もっと遊びたーい！");
+            await Logger.WriteLine("[KouKou] え？お兄ちゃん、待ってー！もっと遊びたーい！");
             // Clean up Veldrid resources
             _gd.WaitForIdle();
             _controller.Dispose();
