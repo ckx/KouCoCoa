@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>koucocoa_transparent.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="deps\**" />
     <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="deps\**" />
     <EmbeddedResource Remove="obj\**" />
+    <None Remove="deps\**" />
     <None Remove="obj\**" />
   </ItemGroup>
 
@@ -38,9 +42,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/win-x64/cimgui.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="$(RepositoryRootDirectory)/deps/cimgui/win-x64/cimgui.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/osx/cimgui.dylib" />
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/win-x64/cimgui.dll" />
     <Content Include="$(RepositoryRootDirectory)/deps/cimgui/osx/cimgui.dylib" CopyToOutputDirectory="PreserveNewest" />
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/linux-x64/cimgui.so" />
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/osx/cimgui.dylib" />
+    <Content Remove="d:\repos\KouCoCoa\/deps/cimgui/linux-x64/cimgui.so" />
     <Content Include="$(RepositoryRootDirectory)/deps/cimgui/linux-x64/cimgui.so" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="koucocoa_transparent.ico" />
   </ItemGroup>
 
 </Project>

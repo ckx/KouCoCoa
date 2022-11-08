@@ -19,7 +19,7 @@ namespace KouCoCoa {
         public static unsafe void SubmitUI() {
             // Demo code adapted from the official Dear ImGui demo program:
             // https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx11/main.cpp#L172
-
+            ImGui.ShowMetricsWindow();
             // 1. Show a simple window.
             // Tip: if we don't call ImGui.BeginWindow()/ImGui.EndWindow() the widgets automatically appears in a window called "Debug".
             {
