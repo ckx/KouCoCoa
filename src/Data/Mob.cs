@@ -5,19 +5,21 @@ namespace KouCoCoa {
         #region Default Constructor
         public Mob() {
             Id = 0;
-            AegisName = "Unknown";
+            AegisName = "UNKNOWN";
             Name = "Unknown";
-            JapaneseName = "Unknown";
-            Level = 0;
-            Hp = 0;
+            JapaneseName = Name;
+            Level = 1;
+            Hp = 1;
             Attack = 0;
             Attack2 = 0;
             Defense = 0;
             MagicDefense = 0;
-            Agi = 0;
-            Vit = 0;
-            Dex = 0;
-            Luk = 0;
+            Str = 1;
+            Agi = 1;
+            Vit = 1;
+            Int = 1;
+            Dex = 1;
+            Luk = 1;
             AttackRange = 0;
             SkillRange = 0;
             ChaseRange = 0;
@@ -25,7 +27,7 @@ namespace KouCoCoa {
             Race = "Formless";
             Element = "Neutral";
             ElementLevel = 1;
-            WalkSpeed = 0;
+            WalkSpeed = 125;
             AttackDelay = 0;
             AttackMotion = 0;
             DamageMotion = 0;
@@ -80,8 +82,10 @@ namespace KouCoCoa {
         public int Attack2 { get; set; }
         public int Defense { get; set; }
         public int MagicDefense { get; set; }
+        public int Str { get; set; }
         public int Agi { get; set; }
         public int Vit { get; set; }
+        public int Int { get; set; }
         public int Dex { get; set; }
         public int Luk { get; set; }
         public int AttackRange { get; set; }
