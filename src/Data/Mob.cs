@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 namespace KouCoCoa {
-    public struct Mob {
+    public class Mob {
+        #region Default Constructor
         public Mob() {
             Id = 0;
             AegisName = "Unknown";
@@ -33,38 +34,75 @@ namespace KouCoCoa {
             Modes = new();
             Drops = new();
         }
-        public int Id;
-        public string AegisName;
-        public string Name;
-        public string JapaneseName;
-        public int Level;
-        public int Hp;
-        public int Attack;
-        public int Attack2;
-        public int Defense;
-        public int MagicDefense;
-        public int Agi;
-        public int Vit;
-        public int Dex;
-        public int Luk;
-        public int AttackRange;
-        public int SkillRange;
-        public int ChaseRange;
-        public string Size;
-        public string Race;
-        public string Element;
-        public int ElementLevel;
-        public int WalkSpeed;
-        public int AttackDelay;
-        public int AttackMotion;
-        public int DamageMotion;
-        public string Ai;
-        public string Class;
-        public MobModes Modes;
-        public List<MobDrop> Drops;
+        #endregion
+
+        #region Copy Constructor
+        public Mob(Mob baseMob) {
+            Id = baseMob.Id;
+            AegisName = baseMob.AegisName;
+            Name = baseMob.Name;
+            JapaneseName = baseMob.JapaneseName;
+            Level = baseMob.Level;
+            Hp = baseMob.Hp;
+            Attack = baseMob.Attack;
+            Attack2 = baseMob.Attack2;
+            Defense = baseMob.Defense;
+            MagicDefense = baseMob.MagicDefense;
+            Agi = baseMob.Agi;
+            Vit = baseMob.Vit;
+            Dex = baseMob.Dex;
+            Luk = baseMob.Luk;
+            AttackRange = baseMob.AttackRange;
+            SkillRange = baseMob.SkillRange;
+            ChaseRange = baseMob.ChaseRange;
+            Size = baseMob.Size;
+            Race = baseMob.Race;
+            Element = baseMob.Element;
+            ElementLevel = baseMob.ElementLevel;
+            WalkSpeed = baseMob.WalkSpeed;
+            AttackDelay = baseMob.AttackDelay;
+            AttackMotion = baseMob.AttackMotion;
+            DamageMotion = baseMob.DamageMotion;
+            Ai = baseMob.Ai;
+            Class = baseMob.Class;
+            Modes = new MobModes(baseMob.Modes);
+            Drops = new List<MobDrop>(baseMob.Drops);
+        }
+        #endregion
+
+        public int Id { get; set; }
+        public string AegisName { get; set; }
+        public string Name { get; set; }
+        public string JapaneseName { get; set; }
+        public int Level { get; set; }
+        public int Hp { get; set; }
+        public int Attack { get; set; }
+        public int Attack2 { get; set; }
+        public int Defense { get; set; }
+        public int MagicDefense { get; set; }
+        public int Agi { get; set; }
+        public int Vit { get; set; }
+        public int Dex { get; set; }
+        public int Luk { get; set; }
+        public int AttackRange { get; set; }
+        public int SkillRange { get; set; }
+        public int ChaseRange { get; set; }
+        public string Size { get; set; }
+        public string Race { get; set; }
+        public string Element { get; set; }
+        public int ElementLevel { get; set; }
+        public int WalkSpeed { get; set; }
+        public int AttackDelay { get; set; }
+        public int AttackMotion { get; set; }
+        public int DamageMotion { get; set; }
+        public string Ai { get; set; }
+        public string Class { get; set; }
+        public MobModes Modes { get; set; }
+        public List<MobDrop> Drops { get; set; }
     }
 
-    public struct MobModes {
+    public class MobModes {
+        #region Default Constructor
         public MobModes() {
             CanMove = false;
             Looter = false;
@@ -93,44 +131,86 @@ namespace KouCoCoa {
             StatusImmune = false;
             SkillImmune = false;
         }
+        #endregion
 
-        public bool CanMove;
-        public bool Looter;
-        public bool Aggressive;
-        public bool Assist;
-        public bool CastSensorIdle;
-        public bool NoRandomWalk;
-        public bool NoCast;
-        public bool CanAttack;
-        public bool CastSensorChase;
-        public bool ChangeChase;
-        public bool Angry;
-        public bool ChangeTargetMelee;
-        public bool ChangeTargetChase;
-        public bool TargetWeak;
-        public bool RandomTarget;
-        public bool IgnoreMelee;
-        public bool IgnoreMagic;
-        public bool IgnoreRanged;
-        public bool Mvp;
-        public bool IgnoreMisc;
-        public bool KnockbackImmune;
-        public bool TeleportBlock;
-        public bool FixedItemDrop;
-        public bool Detector;
-        public bool StatusImmune;
-        public bool SkillImmune;
+        #region Copy Constructor
+        public MobModes(MobModes baseModes) {
+            CanMove = baseModes.CanMove;
+            Looter = baseModes.Looter;
+            Aggressive = baseModes.Aggressive;
+            Assist = baseModes.Assist;
+            CastSensorIdle = baseModes.CastSensorIdle;
+            NoRandomWalk = baseModes.NoRandomWalk;
+            NoCast = baseModes.NoCast;
+            CanAttack = baseModes.CanAttack;
+            CastSensorChase = baseModes.CastSensorChase;
+            ChangeChase = baseModes.ChangeChase;
+            Angry = baseModes.Angry;
+            ChangeTargetMelee = baseModes.ChangeTargetMelee;
+            ChangeTargetChase = baseModes.ChangeTargetChase;
+            TargetWeak = baseModes.TargetWeak;
+            RandomTarget = baseModes.RandomTarget;
+            IgnoreMelee = baseModes.IgnoreMelee;
+            IgnoreMagic = baseModes.IgnoreMagic;
+            IgnoreRanged = baseModes.IgnoreRanged;
+            Mvp = baseModes.Mvp;
+            IgnoreMisc = baseModes.IgnoreMisc;
+            KnockbackImmune = baseModes.KnockbackImmune;
+            TeleportBlock = baseModes.TeleportBlock;
+            FixedItemDrop = baseModes.FixedItemDrop;
+            Detector = baseModes.Detector;
+            StatusImmune = baseModes.StatusImmune;
+            SkillImmune = baseModes.SkillImmune;
+        }
+        #endregion
+
+        public bool CanMove { get; set; }
+        public bool Looter { get; set; }
+        public bool Aggressive { get; set; }
+        public bool Assist { get; set; }
+        public bool CastSensorIdle { get; set; }
+        public bool NoRandomWalk { get; set; }
+        public bool NoCast { get; set; }
+        public bool CanAttack { get; set; }
+        public bool CastSensorChase { get; set; }
+        public bool ChangeChase { get; set; }
+        public bool Angry { get; set; }
+        public bool ChangeTargetMelee { get; set; }
+        public bool ChangeTargetChase { get; set; }
+        public bool TargetWeak { get; set; }
+        public bool RandomTarget { get; set; }
+        public bool IgnoreMelee { get; set; }
+        public bool IgnoreMagic { get; set; }
+        public bool IgnoreRanged { get; set; }
+        public bool Mvp { get; set; }
+        public bool IgnoreMisc { get; set; }
+        public bool KnockbackImmune { get; set; }
+        public bool TeleportBlock { get; set; }
+        public bool FixedItemDrop { get; set; }
+        public bool Detector { get; set; }
+        public bool StatusImmune { get; set; }
+        public bool SkillImmune { get; set; }
     }
 
-    public struct MobDrop {
+    public class MobDrop {
+        #region Default Constructor
         public MobDrop() {
             Item = "Apple";
             Rate = 1;
             StealProtected = true;
         }
+        #endregion
 
-        public string Item;
-        public int Rate;
-        public bool StealProtected;
+        #region Copy Constructor
+        public MobDrop(MobDrop baseDrop) {
+            Item = baseDrop.Item;
+            Rate = baseDrop.Rate;
+            StealProtected = baseDrop.StealProtected;
+        }
+        #endregion
+
+        public string Item { get; set; }
+        public int Rate { get; set; }
+        public bool StealProtected { get; set; }
     }
 }

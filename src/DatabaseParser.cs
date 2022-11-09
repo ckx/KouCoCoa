@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Reflection;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -33,7 +34,7 @@ namespace KouCoCoa {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
 
             // inputDb acts as a temporary object while we determine the structure
-            dynamic inputDb;
+            ExpandoObject inputDb;
             try {
                 using (var yamlString = File.ReadAllTextAsync(filePath)) {
                     await Logger.WriteLine($"{filePath}: Identified as a YAML file, deserializing into ExpandoObject.", LogLevel.Debug);
@@ -118,11 +119,67 @@ namespace KouCoCoa {
                 return retList;
             }
 
-            List<object> mobEntries = mobDb.Body;
+            List<dynamic> mobEntries = mobDb.Body;
 
-            foreach (dynamic mobEntry in mobEntries) {
+            // Oh god plz spare me from ever having to look at this again
+            foreach (var mobEntry in mobEntries) {
+                // Create a new mob object, which will get added to our retList
                 Mob mob = new();
-                mob.Id = UInt32.Parse(mobEntry["Id"]);
+                /* 
+                 * The block below uses reflection to get all the public properties of a mob object, then checks
+                 * to see if that a key with the same name as the property exists in our mobEntry dynamic node. 
+                 * If it does, it attempts to parse the value of the key to an apporpriate type.
+                 */
+                foreach (PropertyInfo propertyInfo in mob.GetType().GetProperties(BindingFlags.Instance|BindingFlags.Public)) {
+                    string propName = propertyInfo.Name;
+                    if (mobEntry.ContainsKey(propName)) {
+                        // Val will morph to become our final value for this property
+                        var val = mobEntry[propName];
+                        if (propertyInfo.PropertyType == typeof(int)) {
+                            val = Int32.Parse(mobEntry[propName]);
+                        }
+                        if (propertyInfo.PropertyType == typeof(bool)) {
+                            val = bool.Parse(mobEntry[propName]);
+                        }
+                        // Because MobModes and MobDrop are their own types, we have to go another level deep in reflection.
+                        if (propertyInfo.PropertyType == typeof(MobModes)) {
+                            MobModes modes = new();
+                            foreach (PropertyInfo modePropInfo in mob.Modes.GetType().GetProperties(BindingFlags.Instance|BindingFlags.Public)) {
+                                string modePropName = modePropInfo.Name;
+                                if (val.ContainsKey(modePropName)) {
+                                    var modeVal = val[modePropName];
+                                    if (modePropInfo.PropertyType == typeof(bool)) {
+                                        modeVal = bool.Parse(val[modePropName]);
+                                    }
+                                    modes.GetType().GetProperty(modePropName).SetValue(modes, modeVal);
+                                }
+                            }
+                            val = new MobModes(modes);
+                        }
+                        if (propertyInfo.PropertyType == typeof(List<MobDrop>)) {
+                            List<MobDrop> mobDrops = new();
+                            foreach (var dropsVal in val) {
+                                MobDrop mobDrop = new MobDrop();
+                                foreach (PropertyInfo dropPropInfo in mobDrop.GetType().GetProperties(BindingFlags.Instance|BindingFlags.Public)) {
+                                    string dropPropName = dropPropInfo.Name;
+                                    if (dropsVal.ContainsKey(dropPropName)) {
+                                        var dropMemberVal = dropsVal[dropPropName];
+                                        if (dropPropInfo.PropertyType == typeof(int)) {
+                                            dropMemberVal = Int32.Parse(dropsVal[dropPropName]);
+                                        }
+                                        if (dropPropInfo.PropertyType == typeof(bool)) {
+                                            dropMemberVal = bool.Parse(dropsVal[dropPropName]);
+                                        }
+                                        mobDrop.GetType().GetProperty(dropPropName).SetValue(mobDrop, dropMemberVal);
+                                    }
+                                }
+                                mobDrops.Add(mobDrop);
+                            }
+                            val = new List<MobDrop>(mobDrops);
+                        }
+                        mob.GetType().GetProperty(propertyInfo.Name).SetValue(mob, val);
+                    }
+                }
                 Console.WriteLine(mob.Id);
             }
 
