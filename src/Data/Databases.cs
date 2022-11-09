@@ -10,6 +10,15 @@ namespace KouCoCoa {
         }
         #endregion
 
+        #region Copy Constructor
+        public MobDatabase(MobDatabase baseMobDb) {
+            Name = baseMobDb.Name;
+            FilePath = baseMobDb.FilePath;
+            DatabaseType = baseMobDb.DatabaseType;
+            Mobs = baseMobDb.Mobs;
+        }
+        #endregion
+
         #region IDatabase Properties
         public string Name { get; set; }
         public string FilePath { get; set; }

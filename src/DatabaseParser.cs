@@ -23,36 +23,13 @@ namespace KouCoCoa {
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Load a single database into this.AllDatabases
-        /// </summary>
-        // todo: if we move to pure yaml for databases this interface is unnecessary
-        public async Task<IDatabase?> ParseDatabase(string filePath) {
+        public async Task<IDatabase?> ParseDatabaseFromFile(string filePath) {
             IDatabase? retDb = null;
             string fileExt = Path.GetExtension(filePath);
-            switch (fileExt) {
-                case ".yml":
-                    retDb = await ParseYamlDatabase(filePath);
-                    break;
-                case ".txt":
-                    GetScriptDatabase();
-                    break;
-                default:
-                    await Logger.WriteLine($"{filePath}: Attempted to parse database but file type was unknown.", LogLevel.Warning);
-                    break;
+            if (fileExt != ".yml") {
+                await Logger.WriteLine($"{filePath}: Attempted to parse database but file type was unknown. Right now only .yml files are supported.", LogLevel.Warning);
+                return retDb;
             }
-
-            return retDb;
-        }
-        #endregion
-
-        #region Private methods
-        /// <summary>
-        /// Load a YAML database at filePath and add it to AllDatabases.
-        /// If the file is already in AllDatabases, it will be reloaded.
-        /// </summary>
-        private async Task<IDatabase?> ParseYamlDatabase(string filePath) {
-            IDatabase? retDb = null;
             string fileName = Path.GetFileNameWithoutExtension(filePath);
 
             // inputDb acts as a temporary object while we determine the structure
@@ -66,34 +43,44 @@ namespace KouCoCoa {
                 throw;
             }
 
-            DatabaseDataType dbType = await DetermineDatabaseType(inputDb);
-
-            switch (dbType) {
-                case DatabaseDataType.MOB_DB:
-                    retDb = new MobDatabase();
-                    break;
-                case DatabaseDataType.ITEM_DB:
-                    retDb = new ItemDatabase();
-                    break;
-                case DatabaseDataType.UNDEFINED:
-                    await Logger.WriteLine($"{filePath}: Undefined database type, skipping.", LogLevel.Debug);
-                    break;
-                default:
-                    break;
-            }
+            retDb = await ParseDatabase(inputDb);
 
             if (retDb != null) {
                 retDb.FilePath = filePath;
                 retDb.Name = fileName;
             }
+
             return retDb;
         }
 
-        // with any luck I won't need this (if we move all databases to YAML)
-        private void GetScriptDatabase() {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public async Task<IDatabase?> ParseDatabase(dynamic inputDb) {
+            IDatabase? retDb = null;
+            DatabaseDataType dbType = await DetermineDatabaseType(inputDb);
 
+            switch (dbType) {
+                case DatabaseDataType.MOB_DB:
+                    MobDatabase mobDb = new();
+                    mobDb.Mobs = await DeserializeMobDb(inputDb);
+                    retDb = new MobDatabase(mobDb);
+                    break;
+                case DatabaseDataType.ITEM_DB:
+                    retDb = new ItemDatabase();
+                    break;
+                case DatabaseDataType.UNDEFINED:
+                    await Logger.WriteLine($"Undefined database type, skipping.", LogLevel.Debug);
+                    break;
+                default:
+                    break;
+            }
+
+            return retDb;
+        }
+        #endregion
+
+        #region Private methods
         /// <summary>
         /// Check an ExpandoObject to determine what type of database it should deserialize into.
         /// </summary>
@@ -120,8 +107,27 @@ namespace KouCoCoa {
                     }
                 }
             }
-
+            await Logger.WriteLine($"DetermineDatabaseType identified type as: {retDbType}", LogLevel.Debug);
             return retDbType;
+        }
+
+        private async Task<List<Mob>> DeserializeMobDb(dynamic mobDb) {
+            List<Mob> retList = new();
+            if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
+                await Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);
+                return retList;
+            }
+
+            List<object> mobEntries = mobDb.Body;
+
+            foreach (dynamic mobEntry in mobEntries) {
+                Mob mob = new();
+                mob.Id = UInt32.Parse(mobEntry["Id"]);
+                Console.WriteLine(mob.Id);
+            }
+
+            await Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
+            return retList;
         }
         #endregion
     }
