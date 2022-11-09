@@ -10,3 +10,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "This one always gets me. Like, really, VS? A compiler message nagging about the default Main() parameters...?", Scope = "member", Target = "~M:KouCoCoa.KouCoCoa.Main(System.String[])")]
 [assembly: SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Clear initialization is good whether it's necessary or not.", Scope = "module")]
 [assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Range operator is completely fine, but can be less readable. Dunno why equal alternatives are always presented by these nagging messages as 'better' in VS.", Scope = "module")]
+[assembly: SuppressMessage("Style", "IDE0017:Simplify object initialization", Justification = "I like simplified object instantion, I don't like compiler warnings telling me to always use it.", Scope = "module")]

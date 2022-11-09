@@ -112,7 +112,7 @@ namespace KouCoCoa {
             return retDbType;
         }
 
-        private async Task<List<Mob>> DeserializeMobDb(dynamic mobDb) {
+        private static async Task<List<Mob>> DeserializeMobDb(dynamic mobDb) {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
                 await Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);
@@ -121,27 +121,31 @@ namespace KouCoCoa {
 
             List<dynamic> mobEntries = mobDb.Body;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             // Oh god plz spare me from ever having to look at this again
             foreach (var mobEntry in mobEntries) {
-                // Create a new mob object, which will get added to our retList
-                Mob mob = new();
                 /* 
                  * The block below uses reflection to get all the public properties of a mob object, then checks
-                 * to see if that a key with the same name as the property exists in our mobEntry dynamic node. 
-                 * If it does, it attempts to parse the value of the key to an apporpriate type.
+                 * to see if a key with the same name as the property exists in our mobEntry dynamic node. 
+                 * If it does, it attempts to parse the value of the key to the appropriate type and assign it to a mob object.
                  */
+                // First create a new mob object, which will get added to our retList
+                Mob mob = new();
+                // Get all public properties of a mob object
                 foreach (PropertyInfo propertyInfo in mob.GetType().GetProperties(BindingFlags.Instance|BindingFlags.Public)) {
                     string propName = propertyInfo.Name;
                     if (mobEntry.ContainsKey(propName)) {
-                        // Val will morph to become our final value for this property
+                        // val will morph to become our final value for this property
                         var val = mobEntry[propName];
+                        // Parse for different types
                         if (propertyInfo.PropertyType == typeof(int)) {
                             val = Int32.Parse(mobEntry[propName]);
                         }
                         if (propertyInfo.PropertyType == typeof(bool)) {
                             val = bool.Parse(mobEntry[propName]);
                         }
-                        // Because MobModes and MobDrop are their own types, we have to go another level deep in reflection.
+                        // Because MobModes and MobDrop are their own types, we have to go another level deep in reflection, repeating the steps above.
+                        // MobModes
                         if (propertyInfo.PropertyType == typeof(MobModes)) {
                             MobModes modes = new();
                             foreach (PropertyInfo modePropInfo in mob.Modes.GetType().GetProperties(BindingFlags.Instance|BindingFlags.Public)) {
@@ -156,6 +160,7 @@ namespace KouCoCoa {
                             }
                             val = new MobModes(modes);
                         }
+                        // MobDrops
                         if (propertyInfo.PropertyType == typeof(List<MobDrop>)) {
                             List<MobDrop> mobDrops = new();
                             foreach (var dropsVal in val) {
@@ -182,6 +187,7 @@ namespace KouCoCoa {
                 }
                 retList.Add(mob);
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             await Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
             return retList;
