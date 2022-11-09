@@ -180,7 +180,7 @@ namespace KouCoCoa {
                         mob.GetType().GetProperty(propertyInfo.Name).SetValue(mob, val);
                     }
                 }
-                Console.WriteLine(mob.Id);
+                retList.Add(mob);
             }
 
             await Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
