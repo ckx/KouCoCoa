@@ -6,12 +6,14 @@ namespace KouCoCoa {
         public MobDatabase() {
             Name = "MobDb";
             FilePath = "Unknown";
+            DatabaseType = DatabaseDataType.MOB_DB;
         }
         #endregion
 
         #region IDatabase Properties
         public string Name { get; set; }
         public string FilePath { get; set; }
+        public DatabaseDataType DatabaseType { get; set; }
         #endregion
 
         #region Properties
@@ -24,12 +26,14 @@ namespace KouCoCoa {
         internal ItemDatabase() {
             Name = "ItemDb";
             FilePath = "Unknown";
+            DatabaseType = DatabaseDataType.ITEM_DB;
         }
         #endregion
 
         #region IDatabase Properties
         public string Name { get; set; }
         public string FilePath { get; set; }
+        public DatabaseDataType DatabaseType { get; set; }
         #endregion
     }
 }

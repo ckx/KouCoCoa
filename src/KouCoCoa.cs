@@ -19,13 +19,16 @@ namespace KouCoCoa {
         private static ImGuiController _controller;
         // UI state
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
+
         #endregion
 
         static async Task Main(string[] args) {
             Logger.CreateLogFile();
             Globals.RunConfig = await ConfigManager.GetConfig();
             await SetupVeldridWindow();
-            await LoadDatabases();
+
+            DatabaseManager dbManager = new();
+            await dbManager.LoadStartupDatabases();
 
             // Main application loop
             while (_window.Exists) {
@@ -71,11 +74,6 @@ namespace KouCoCoa {
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-        }
-
-        private static async Task LoadDatabases() {
-            DatabaseParser dbParser = new();
-            await dbParser.LoadDatabasesFromDirectory(Globals.RunConfig.YamlDbDirectoryPath);
         }
 
         private static async Task ShutDown() {

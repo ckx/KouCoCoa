@@ -10,10 +10,7 @@ namespace KouCoCoa {
     /// </summary>
     public class Config {
         public Config() {
-            AdditionalDbPaths = new() { 
-                { DatabaseDataType.MOB_DB, new List<string>() { @"c:\repos\roguenarok\roguenarok\db\mob_db_rogue.yml" } },
-                { DatabaseDataType.ITEM_DB, new List<string>() { @"c:\repos\roguenarok\roguarnok\db\item_db_rogue_testing.yml" } }
-            };
+            AdditionalDbPaths = new();
             LoggingLevel = LogLevel.Info;
             WindowPositionXY = new int[] { 100, 100 };
             WindowResolutionXY = new int[] { 1280, 720 };
@@ -23,7 +20,7 @@ namespace KouCoCoa {
         #region Properties
         public static string ConfigPath { get { return "config.yml"; } }
         public string YamlDbDirectoryPath { get; set; }
-        public Dictionary<DatabaseDataType, List<string>> AdditionalDbPaths { get; set; }
+        public List<string> AdditionalDbPaths { get; set; }
         public int[] WindowPositionXY;
         public int[] WindowResolutionXY;
         public bool SilenceLogger;
@@ -44,7 +41,7 @@ namespace KouCoCoa {
         /// Load the config at Config.ConfigPath.
         /// </summary>
         public static async Task<Config> GetConfig() {
-            await Logger.WriteLine($"Loading config from {Config.ConfigPath}.");
+            await Logger.WriteLine($"Loading config from {Config.ConfigPath}...");
             Config retConf = new();
             var deserializer = new DeserializerBuilder().Build();
             try {
