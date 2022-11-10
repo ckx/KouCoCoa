@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Dynamic;
 using System.Reflection;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
-#nullable enable
 
 namespace KouCoCoa {
     // TODO: add built-in reference databases (vanilla rA dbs)?
@@ -164,7 +161,6 @@ namespace KouCoCoa {
 
             List<dynamic> mobEntries = mobDb.Body;
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
             // Oh god plz spare me from ever having to look at this again
             foreach (var mobEntry in mobEntries) {
                 /* 
@@ -230,7 +226,6 @@ namespace KouCoCoa {
                 }
                 retList.Add(mob);
             }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
             await Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
             return retList;
         }
