@@ -28,21 +28,19 @@ namespace KouCoCoa {
             Console.WriteLine($"Log file initiated at {_logPath}");
         }
 
-        internal static async Task WriteLine(string logMessage, LogLevel? logLevel = null) {
+        internal static async Task WriteLine(string logMessage, LogLevel logLevel = LogLevel.Info) {
             if (Globals.RunConfig.SilenceLogger) {
                 return;
             }
-            logLevel ??= LogLevel.Info;
             string line;
             line = $"[{Timestamp}] [{logLevel}] {logMessage}";
             await CommitLog(line, logLevel);
         }
 
-        private static async Task CommitLog(string line, LogLevel? logLevel) {
-            // console output, always happens
-            Console.WriteLine(line);
-            // write to file system only on appropriate config/loglevel
+        private static async Task CommitLog(string line, LogLevel logLevel) {
+            // Output log only if we are at an appropriate loglevel
             if (Globals.RunConfig.LoggingLevel >= logLevel) {
+                Console.WriteLine(line);
                 try {
                     using (StreamWriter sw = File.AppendText(_logPath)) {
                         await sw.WriteLineAsync(line);

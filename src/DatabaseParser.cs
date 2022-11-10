@@ -83,8 +83,7 @@ namespace KouCoCoa {
                         return dbType;
                     } else {
                         await Logger.WriteLine($"Database identified as unsupported type \"{entry.Value}\". " +
-                            $"This type is unsupported and undefined by KouCoCoa, so an undefined database will be returned. " +
-                            $"Undefined databases are usually skipped in loading.", LogLevel.Debug);
+                            $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
                         return RAthenaDbType.UNSUPPORTED;
                     }
                 }

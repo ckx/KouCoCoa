@@ -24,6 +24,9 @@ namespace KouCoCoa {
         static async Task Main(string[] args) {
             Logger.CreateLogFile();
             Globals.RunConfig = await ConfigManager.GetConfig();
+#if DEBUG
+            Globals.RunConfig.LoggingLevel = LogLevel.Debug;
+#endif
             await SetupVeldridWindow();
 
             Dictionary<RAthenaDbType, List<IDatabase>> _allDatabases = await DatabaseLoader.LoadConfigDatabases();
