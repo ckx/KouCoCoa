@@ -60,7 +60,8 @@ namespace KouCoCoa {
 
         #region Private methods
         /// <summary>
-        /// Shortcut to safelty adding elements to a dbmap
+        /// Shortcut to safelty adding elements to a database map. Doesn't load unsupported types, guards against null keys, 
+        /// and reloads DBs if one at the same file path was already loaded.
         /// </summary>
         private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) {
             if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
@@ -69,6 +70,12 @@ namespace KouCoCoa {
             // Guard against empty lists
             if (!map.ContainsKey(db.DatabaseType)) {
                 map[db.DatabaseType] = new();
+            }
+            // "Reload" the database if it's already present
+            foreach  (IDatabase existingDb in map[db.DatabaseType]) {
+                if (db.FilePath == existingDb.FilePath) {
+                    map[db.DatabaseType].Remove(existingDb);
+                }
             }
             map[db.DatabaseType].Add(db);
         }
