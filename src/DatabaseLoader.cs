@@ -40,7 +40,7 @@ namespace KouCoCoa {
             return retDb;
         }
 
-        private static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) {
+        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) {
             Dictionary<RAthenaDbType, List<IDatabase>> retDbMap = new();
             if (!Directory.Exists(directoryPath)) {
                 await Logger.WriteLine($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
