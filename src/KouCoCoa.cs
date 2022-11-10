@@ -19,7 +19,6 @@ namespace KouCoCoa {
         private static ImGuiController _controller;
         // UI state
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
-
         #endregion
 
         static async Task Main(string[] args) {
@@ -27,8 +26,7 @@ namespace KouCoCoa {
             Globals.RunConfig = await ConfigManager.GetConfig();
             await SetupVeldridWindow();
 
-            DatabaseManager dbManager = new();
-            await dbManager.LoadStartupDatabases();
+            Dictionary<RAthenaDbType, List<IDatabase>> _allDatabases = await DatabaseLoader.LoadConfigDatabases();
 
             // Main application loop
             while (_window.Exists) {

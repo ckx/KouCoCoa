@@ -3,7 +3,7 @@
         #region Properties
         public string Name { get; set; }
         public string FilePath { get; set; }
-        public DatabaseDataType DatabaseType { get; set; }
+        public RAthenaDbType DatabaseType { get; }
         #endregion
     }
 }

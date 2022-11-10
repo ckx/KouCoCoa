@@ -6,8 +6,8 @@
         Debug
     }
 
-    public enum DatabaseDataType {
-        UNDEFINED,
+    public enum RAthenaDbType {
+        UNSUPPORTED,
         MOB_DB,
         MOB_AVAIL_DB,
         ITEM_DB

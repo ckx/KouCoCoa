@@ -6,7 +6,7 @@ namespace KouCoCoa {
         public MobDatabase() {
             Name = "MobDb";
             FilePath = "Unknown";
-            DatabaseType = DatabaseDataType.MOB_DB;
+            DatabaseType = RAthenaDbType.MOB_DB;
         }
         #endregion
 
@@ -22,7 +22,7 @@ namespace KouCoCoa {
         #region IDatabase Properties
         public string Name { get; set; }
         public string FilePath { get; set; }
-        public DatabaseDataType DatabaseType { get; set; }
+        public RAthenaDbType DatabaseType { get; private set; }
         #endregion
 
         #region Properties
@@ -35,14 +35,33 @@ namespace KouCoCoa {
         internal ItemDatabase() {
             Name = "ItemDb";
             FilePath = "Unknown";
-            DatabaseType = DatabaseDataType.ITEM_DB;
+            DatabaseType = RAthenaDbType.ITEM_DB;
         }
         #endregion
 
         #region IDatabase Properties
         public string Name { get; set; }
         public string FilePath { get; set; }
-        public DatabaseDataType DatabaseType { get; set; }
+        public RAthenaDbType DatabaseType { get; private set; }
+        #endregion
+    }
+
+    /// <summary>
+    /// A type that says "we found a viable database here, but we don't know how to handle it".
+    /// </summary>
+    internal class UndefinedDatabase : IDatabase {
+        #region Default Constructor
+        internal UndefinedDatabase() {
+            Name = "UndefinedDb";
+            FilePath = "Unknown";
+            DatabaseType = RAthenaDbType.UNSUPPORTED;
+        }
+        #endregion
+
+        #region IDatabase Properties
+        public string Name { get; set; }
+        public string FilePath { get; set; }
+        public RAthenaDbType DatabaseType { get; private set; }
         #endregion
     }
 }

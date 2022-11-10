@@ -30,7 +30,7 @@ namespace KouCoCoa {
         private ResourceSet _mainResourceSet;
         private ResourceSet _fontTextureResourceSet;
 
-        private IntPtr _fontAtlasID = (IntPtr)1;
+        private readonly IntPtr _fontAtlasID = (IntPtr)1;
         private bool _controlDown;
         private bool _shiftDown;
         private bool _altDown;
@@ -189,7 +189,7 @@ namespace KouCoCoa {
             _lastAssignedID = 100;
         }
 
-        private byte[] LoadEmbeddedShaderCode(ResourceFactory factory, string name, ShaderStages stage) {
+        private static byte[] LoadEmbeddedShaderCode(ResourceFactory factory, string name, ShaderStages stage) {
             switch (factory.BackendType) {
                 case GraphicsBackend.Direct3D11: {
                         string resourceName = name + ".hlsl.bytes";
@@ -212,7 +212,7 @@ namespace KouCoCoa {
             }
         }
 
-        private byte[] GetEmbeddedResourceBytes(string resourceName) {
+        private static byte[] GetEmbeddedResourceBytes(string resourceName) {
             Assembly assembly = typeof(ImGuiController).Assembly;
             using (Stream s = assembly.GetManifestResourceStream(resourceName)) {
                 byte[] ret = new byte[s.Length];
