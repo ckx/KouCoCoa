@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Threading.Tasks;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -21,15 +20,16 @@ namespace KouCoCoa {
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
         #endregion
 
-        static async Task Main(string[] args) {
+        static void Main(string[] args) {
             Logger.CreateLogFile();
-            Globals.RunConfig = await ConfigManager.GetConfig();
+            Globals.RunConfig = ConfigManager.GetConfig();
 #if DEBUG
             Globals.RunConfig.LoggingLevel = LogLevel.Debug;
 #endif
-            await SetupVeldridWindow();
+            SetupVeldridWindow();
 
-            Dictionary<RAthenaDbType, List<IDatabase>> _allDatabases = await DatabaseLoader.LoadConfigDatabases();
+            Dictionary<RAthenaDbType, List<IDatabase>> _allDatabases = 
+                DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
 
             // Main application loop
             while (_window.Exists) {
@@ -38,7 +38,7 @@ namespace KouCoCoa {
                 _controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
                 /* -------- Imgui UI below this line ----- */
-                Sample.SubmitUI();
+                ImGuiNET.ImGui.ShowDemoWindow();
                 /* -------- Imgui UI above this line ----- */
 
                 _cl.Begin();
@@ -50,16 +50,16 @@ namespace KouCoCoa {
                 _gd.SwapBuffers(_gd.MainSwapchain);
             }
 
-            await ShutDown();
+            ShutDown();
         }
 
         #region Private Methods
-        private static async Task SetupVeldridWindow() {
-            await Logger.WriteLine($"Creating Veldrid graphics " +
+        private static void SetupVeldridWindow() {
+            Logger.WriteLine($"Creating Veldrid graphics " +
                 $"window at screen position {Globals.RunConfig.WindowPositionXY[0]},{Globals.RunConfig.WindowPositionXY[1]} " +
                 $"with resolution {Globals.RunConfig.WindowResolutionXY[0]}x{Globals.RunConfig.WindowResolutionXY[1]}.");
             if (Globals.RunConfig.WindowPositionXY[0] > 1920) {
-                await Logger.WriteLine($"すごーい！お兄ちゃんデカすぎる…");
+                Logger.WriteLine($"すごーい！お兄ちゃんデカすぎる…");
             }
             VeldridStartup.CreateWindowAndGraphicsDevice(
                 new WindowCreateInfo(Globals.RunConfig.WindowPositionXY[0], Globals.RunConfig.WindowPositionXY[1],
@@ -77,14 +77,14 @@ namespace KouCoCoa {
 
         }
 
-        private static async Task ShutDown() {
-            await Logger.WriteLine("Shutdown signal received.");
+        private static void ShutDown() {
+            Logger.WriteLine("Shutdown signal received.");
 
             Globals.RunConfig.WindowPositionXY = new int[] { _window.Bounds.X, _window.Bounds.Y };
             Globals.RunConfig.WindowResolutionXY = new int[] { _window.Width, _window.Height };
 
-            await ConfigManager.StoreConfig(Globals.RunConfig);
-            await Logger.WriteLine("[KouKou] え？お兄ちゃん、待ってー！もっと遊びたーい！");
+            ConfigManager.StoreConfig(Globals.RunConfig);
+            Logger.WriteLine("[KouKou] え？お兄ちゃん、待ってー！もっと遊びたーい！");
             // Clean up Veldrid resources
             _gd.WaitForIdle();
             _controller.Dispose();

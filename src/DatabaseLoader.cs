@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Dynamic;
 using System.Reflection;
 using YamlDotNet.Serialization.NamingConventions;
@@ -11,47 +10,46 @@ namespace KouCoCoa {
     // TODO: add built-in reference databases (vanilla rA dbs)?
     internal static class DatabaseLoader {
         #region Public Methods
-        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadConfigDatabases() {
+        public static Dictionary<RAthenaDbType, List<IDatabase>> LoadDatabasesFromConfig(Config conf) {
             // Load everything in the config dir
-            Dictionary<RAthenaDbType,List<IDatabase>> retDbMap = await LoadDatabasesFromDirectory(
-                Globals.RunConfig.YamlDbDirectoryPath);
+            Dictionary<RAthenaDbType,List<IDatabase>> retDbMap = LoadDatabasesFromDirectory(conf.YamlDbDirectoryPath);
 
             // Then load databases from the AdditionalDbPaths config list
-            foreach (string filePath in Globals.RunConfig.AdditionalDbPaths) {
-                IDatabase db = await LoadDatabaseFromFile(filePath);
+            foreach (string filePath in conf.AdditionalDbPaths) {
+                IDatabase db = LoadDatabaseFromFile(filePath);
                 AddDbToMap(ref retDbMap, ref db);
             }
             return retDbMap;
         }
 
-        public static async Task<IDatabase> LoadDatabaseFromFile(string filePath) {
+        public static IDatabase LoadDatabaseFromFile(string filePath) {
             if (!File.Exists(filePath)) {
-                await Logger.WriteLine($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
+                Logger.WriteLine($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
                 return new UndefinedDatabase();
             }
-            await Logger.WriteLine($"{filePath}: Loading database...", LogLevel.Debug);
-            IDatabase retDb = await ParseDatabaseFromFile(filePath);
+            Logger.WriteLine($"{filePath}: Loading database...", LogLevel.Debug);
+            IDatabase retDb = ParseDatabaseFromFile(filePath);
             // we're gonna return the DB either way, but logger will tell us if it's supported or not
             if (retDb.DatabaseType == RAthenaDbType.UNSUPPORTED) {
-                await Logger.WriteLine($"{filePath}: Database type is unsupported.", LogLevel.Debug);
+                Logger.WriteLine($"{filePath}: Database type is unsupported.", LogLevel.Debug);
             } else {
-                await Logger.WriteLine($"{filePath}: Database loaded into type: {retDb.DatabaseType}");
+                Logger.WriteLine($"{filePath}: Database loaded into type: {retDb.DatabaseType}");
             }
             return retDb;
         }
 
-        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) {
+        public static Dictionary<RAthenaDbType, List<IDatabase>> LoadDatabasesFromDirectory(string directoryPath) {
             Dictionary<RAthenaDbType, List<IDatabase>> retDbMap = new();
             if (!Directory.Exists(directoryPath)) {
-                await Logger.WriteLine($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
+                Logger.WriteLine($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
                 return retDbMap;
             }
 
-            await Logger.WriteLine($"Searching for databases in {directoryPath}...");
+            Logger.WriteLine($"Searching for databases in {directoryPath}...");
             string[] fileEntries = Directory.GetFiles(directoryPath);
             foreach (string filePath in fileEntries) {
-                await Logger.WriteLine($"{filePath}: Database found", LogLevel.Debug);
-                IDatabase db = await LoadDatabaseFromFile(filePath);
+                Logger.WriteLine($"{filePath}: Database found", LogLevel.Debug);
+                IDatabase db = LoadDatabaseFromFile(filePath);
                 AddDbToMap(ref retDbMap, ref db);
             }
             return retDbMap;
@@ -86,13 +84,13 @@ namespace KouCoCoa {
         /// Will return an undefined database if the rA db type isn't supported by the parser.
         /// Start here if you want to add support for a new database type.
         /// </summary>
-        private static async Task<IDatabase> ParseDatabase(dynamic inputDb) {
-            RAthenaDbType dbType = await DetermineRAthenaDbType(inputDb);
+        private static IDatabase ParseDatabase(dynamic inputDb) {
+            RAthenaDbType dbType = DetermineRAthenaDbType(inputDb);
 
             switch (dbType) {
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = new();
-                    mobDb.Mobs = await DeserializeMobDb(inputDb);
+                    mobDb.Mobs = DeserializeMobDb(inputDb);
                     return new MobDatabase(mobDb);
                 case RAthenaDbType.ITEM_DB:
                     return new ItemDatabase();
@@ -101,11 +99,11 @@ namespace KouCoCoa {
             }
         }
 
-        private static async Task<IDatabase> ParseDatabaseFromFile(string filePath) {
+        private static IDatabase ParseDatabaseFromFile(string filePath) {
             IDatabase retDb = new UndefinedDatabase();
             string fileExt = Path.GetExtension(filePath);
             if (fileExt != ".yml") {
-                await Logger.WriteLine($"{filePath}: Attempted to parse database but file type was unknown. Right now only .yml files are supported.", LogLevel.Warning);
+                Logger.WriteLine($"{filePath}: Attempted to parse database but file type was unknown. Right now only .yml files are supported.", LogLevel.Warning);
                 return retDb;
             }
             string fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -117,15 +115,14 @@ namespace KouCoCoa {
             // inputDb acts as a temporary object while we determine the structure of the supposed database
             ExpandoObject inputDb;
             try {
-                using (var yamlString = File.ReadAllTextAsync(filePath)) {
-                    await Logger.WriteLine($"{filePath}: Identified as a YAML file, deserializing into ExpandoObject.", LogLevel.Debug);
-                    inputDb = yamlDeserializer.Deserialize<ExpandoObject>(await yamlString);
-                }
+                string yamlString = File.ReadAllText(filePath);
+                Logger.WriteLine($"{filePath}: Identified as a YAML file, deserializing into ExpandoObject.", LogLevel.Debug);
+                inputDb = yamlDeserializer.Deserialize<ExpandoObject>(yamlString);
             } catch (Exception) {
                 throw;
             }
 
-            retDb = await ParseDatabase(inputDb);
+            retDb = ParseDatabase(inputDb);
             retDb.FilePath = filePath;
             retDb.Name = fileName;
 
@@ -135,9 +132,9 @@ namespace KouCoCoa {
         /// <summary>
         /// Check an ExpandoObject to determine what type of database it should deserialize into.
         /// </summary>
-        private static async Task<RAthenaDbType> DetermineRAthenaDbType(dynamic inputDb) {
+        private static RAthenaDbType DetermineRAthenaDbType(dynamic inputDb) {
             if (!((IDictionary<string, object>)inputDb).ContainsKey("Header")) {
-                await Logger.WriteLine($"No Header found in database, file is unsupported.", LogLevel.Debug);
+                Logger.WriteLine($"No Header found in database, file is unsupported.", LogLevel.Debug);
                 return RAthenaDbType.UNSUPPORTED;
             }
 
@@ -145,24 +142,24 @@ namespace KouCoCoa {
                 if (entry.Key.ToString() == "Type") {
                     RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
                     if (Enum.TryParse(entry.Value.ToString(), out dbType)) {
-                        await Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.Debug);
+                        Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.Debug);
                         return dbType;
                     } else {
-                        await Logger.WriteLine($"Database identified as unsupported type \"{entry.Value}\". " +
+                        Logger.WriteLine($"Database identified as unsupported type \"{entry.Value}\". " +
                             $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
                         return RAthenaDbType.UNSUPPORTED;
                     }
                 }
             }
 
-            await Logger.WriteLine($"Header was found for database, but no \"Type\" node was present in the header. File is unsupported.", LogLevel.Debug);
+            Logger.WriteLine($"Header was found for database, but no \"Type\" node was present in the header. File is unsupported.", LogLevel.Debug);
             return RAthenaDbType.UNSUPPORTED;
         }
 
-        private static async Task<List<Mob>> DeserializeMobDb(dynamic mobDb) {
+        private static List<Mob> DeserializeMobDb(dynamic mobDb) {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
-                await Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);
+                Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);
                 return retList;
             }
 
@@ -233,7 +230,7 @@ namespace KouCoCoa {
                 }
                 retList.Add(mob);
             }
-            await Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
+            Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
             return retList;
         }
         #endregion

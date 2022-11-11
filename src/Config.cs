@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
@@ -8,7 +7,7 @@ namespace KouCoCoa {
     /// <summary>
     /// config.yml.
     /// </summary>
-    public class Config {
+    internal class Config {
         public Config() {
             AdditionalDbPaths = new();
             LoggingLevel = LogLevel.Info;
@@ -35,25 +34,24 @@ namespace KouCoCoa {
         #endregion
     }
 
-    public class ConfigManager {
+    internal class ConfigManager {
         #region Static Methods
         /// <summary>
         /// Load the config at Config.ConfigPath.
         /// </summary>
-        public static async Task<Config> GetConfig() {
-            await Logger.WriteLine($"Loading config from {Config.ConfigPath}...");
+        public static Config GetConfig() {
+            Logger.WriteLine($"Loading config from {Config.ConfigPath}...");
             Config retConf = new();
             var deserializer = new DeserializerBuilder().Build();
             try {
-                using (var configString = File.ReadAllTextAsync(Config.ConfigPath)) {
-                    retConf = deserializer.Deserialize<Config>(await configString);
-                    await Logger.WriteLine($"{Config.ConfigPath} loaded successfully.");
-                }
+                string configString = File.ReadAllText(Config.ConfigPath);
+                retConf = deserializer.Deserialize<Config>(configString);
+                Logger.WriteLine($"{Config.ConfigPath} loaded successfully.");
             } catch (FileNotFoundException) {
-                await Logger.WriteLine($"{Config.ConfigPath} not found. Generating new config file.");
-                await StoreConfig(retConf);
+                Logger.WriteLine($"{Config.ConfigPath} not found. Generating new config file.");
+                StoreConfig(retConf);
             } catch (Exception ex) {
-                await Logger.WriteLine(
+                Logger.WriteLine(
                     $"Loading {Config.ConfigPath} failed. Exception thrown:\n" + 
                     $"{ex.Message}\n\n" + 
                     $"{ex.StackTrace}", LogLevel.Error);
@@ -66,17 +64,17 @@ namespace KouCoCoa {
         /// <summary>
         /// Save a config to the persistent file at Config.ConfigPath.
         /// </summary>
-        public static async Task StoreConfig(Config runningConfig) {
-            await Logger.WriteLine($"Attempting to write config to {Config.ConfigPath}...");
+        public static void StoreConfig(Config runningConfig) {
+            Logger.WriteLine($"Attempting to write config to {Config.ConfigPath}...");
             var serializer = new SerializerBuilder().Build();
             var yamlString = serializer.Serialize(runningConfig);
             try {
                 using (StreamWriter sw = File.CreateText(Config.ConfigPath)) {
                     sw.Write(yamlString);
-                    await Logger.WriteLine($"Running config saved to {Config.ConfigPath}.");
+                    Logger.WriteLine($"Running config saved to {Config.ConfigPath}.");
                 }
             } catch (Exception ex) {
-                await Logger.WriteLine(
+                Logger.WriteLine(
                     $"Failed to save config to {Config.ConfigPath}. Exception thrown:\n" +
                     $"{ex.Message}\n\n" + 
                     $"{ex.StackTrace}", LogLevel.Error);

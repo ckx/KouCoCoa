@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace KouCoCoa {
     internal static class Logger {
@@ -28,22 +27,22 @@ namespace KouCoCoa {
             Console.WriteLine($"Log file initiated at {_logPath}");
         }
 
-        internal static async Task WriteLine(string logMessage, LogLevel logLevel = LogLevel.Info) {
+        internal static void WriteLine(string logMessage, LogLevel logLevel = LogLevel.Info) {
             if (Globals.RunConfig.SilenceLogger) {
                 return;
             }
             string line;
             line = $"[{Timestamp}] [{logLevel}] {logMessage}";
-            await CommitLog(line, logLevel);
+            CommitLog(line, logLevel);
         }
 
-        private static async Task CommitLog(string line, LogLevel logLevel) {
+        private static void CommitLog(string line, LogLevel logLevel) {
             // Output log only if we are at an appropriate loglevel
             if (Globals.RunConfig.LoggingLevel >= logLevel) {
                 Console.WriteLine(line);
                 try {
                     using (StreamWriter sw = File.AppendText(_logPath)) {
-                        await sw.WriteLineAsync(line);
+                        sw.WriteLine(line);
                     }
                 } catch (Exception) {
                     throw;
