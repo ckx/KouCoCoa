@@ -4,7 +4,7 @@ using System.IO;
 
 namespace KouCoCoa {
     internal static class Logger {
-        internal static string Timestamp {
+        public static string Timestamp {
             get {
                 return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}";
             }
@@ -12,7 +12,7 @@ namespace KouCoCoa {
 
         private static string _logPath = "";
 
-        internal static void CreateLogFile() {
+        public static void CreateLogFile() {
             var logDirectory = "Logs";
             System.IO.Directory.CreateDirectory(logDirectory);
             var logFileName = $"[{DateTime.Now:yyyy-MM-dd}]KouCoCoa-{DateTime.Now:HHmmss}.log";
@@ -27,7 +27,7 @@ namespace KouCoCoa {
             Console.WriteLine($"Log file initiated at {_logPath}");
         }
 
-        internal static void WriteLine(string logMessage, LogLevel logLevel = LogLevel.Info) {
+        public static void WriteLine(string logMessage, LogLevel logLevel = LogLevel.Info) {
             if (Globals.RunConfig.SilenceLogger) {
                 return;
             }

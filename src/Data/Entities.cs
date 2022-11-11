@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 namespace KouCoCoa {
-    public class Mob {
+    #region Mobs
+    internal class Mob {
         #region Default Constructor
         public Mob() {
             Id = 0;
@@ -105,7 +106,7 @@ namespace KouCoCoa {
         public List<MobDrop> Drops { get; set; }
     }
 
-    public class MobModes {
+    internal class MobModes {
         #region Default Constructor
         public MobModes() {
             CanMove = false;
@@ -196,7 +197,7 @@ namespace KouCoCoa {
         public bool SkillImmune { get; set; }
     }
 
-    public class MobDrop {
+    internal class MobDrop {
         #region Default Constructor
         public MobDrop() {
             Item = "Apple";
@@ -217,4 +218,5 @@ namespace KouCoCoa {
         public int Rate { get; set; }
         public bool StealProtected { get; set; }
     }
+    #endregion
 }

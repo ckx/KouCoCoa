@@ -8,7 +8,7 @@ using Veldrid.StartupUtilities;
 namespace KouCoCoa {
     class KouCoCoa {
         #region Properties
-        public static string ProgramTitle { get { return "KouCoCoa"; } }
+        public static string ProgramName { get { return "KouCoCoa"; } }
         #endregion
 
         #region Private member variables
@@ -16,7 +16,8 @@ namespace KouCoCoa {
         private static GraphicsDevice _gd;
         private static CommandList _cl;
         private static ImGuiController _controller;
-        // UI state
+        // UI
+        private static UiContainer _uiContainer;
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
         #endregion
 
@@ -26,20 +27,23 @@ namespace KouCoCoa {
 #if DEBUG
             Globals.RunConfig.LoggingLevel = LogLevel.Debug;
 #endif
+            Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases =
+    DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
+            _uiContainer = new(startupDatabases);
+
             SetupVeldridWindow();
+            UpdateLoop();
+            ShutDown();
+        }
 
-            Dictionary<RAthenaDbType, List<IDatabase>> _allDatabases = 
-                DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
-
-            // Main application loop
+        #region Private Methods
+        private static void UpdateLoop() {
             while (_window.Exists) {
                 InputSnapshot snapshot = _window.PumpEvents();
                 if (!_window.Exists) { break; }
                 _controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
-                /* -------- Imgui UI below this line ----- */
-                ImGuiNET.ImGui.ShowDemoWindow();
-                /* -------- Imgui UI above this line ----- */
+                _uiContainer.Update();
 
                 _cl.Begin();
                 _cl.SetFramebuffer(_gd.MainSwapchain.Framebuffer);
@@ -49,22 +53,20 @@ namespace KouCoCoa {
                 _gd.SubmitCommands(_cl);
                 _gd.SwapBuffers(_gd.MainSwapchain);
             }
-
-            ShutDown();
         }
 
-        #region Private Methods
         private static void SetupVeldridWindow() {
+            string windowTitle = ProgramName + " ~ " + GetVersionTagline();
             Logger.WriteLine($"Creating Veldrid graphics " +
                 $"window at screen position {Globals.RunConfig.WindowPositionXY[0]},{Globals.RunConfig.WindowPositionXY[1]} " +
                 $"with resolution {Globals.RunConfig.WindowResolutionXY[0]}x{Globals.RunConfig.WindowResolutionXY[1]}.");
             if (Globals.RunConfig.WindowPositionXY[0] > 1920) {
-                Logger.WriteLine($"すごーい！お兄ちゃんデカすぎる…");
+                Logger.WriteLine($"[KouKou] すごーい！お兄ちゃんデカすぎる…");
             }
             VeldridStartup.CreateWindowAndGraphicsDevice(
                 new WindowCreateInfo(Globals.RunConfig.WindowPositionXY[0], Globals.RunConfig.WindowPositionXY[1],
                 Globals.RunConfig.WindowResolutionXY[0], Globals.RunConfig.WindowResolutionXY[1],
-                WindowState.Normal, ProgramTitle + " ~ " + GetVersionTagline()),
+                WindowState.Normal, windowTitle),
                 new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
                 out _window,
                 out _gd);

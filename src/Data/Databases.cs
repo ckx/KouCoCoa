@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 namespace KouCoCoa {
-    public class MobDatabase : IDatabase {
+    internal class MobDatabase : IDatabase {
+        #region Constructors
         #region Default Constructor
         public MobDatabase() {
             Name = "MobDb";
@@ -18,6 +19,7 @@ namespace KouCoCoa {
             Mobs = baseMobDb.Mobs;
         }
         #endregion
+        #endregion
 
         #region IDatabase Properties
         public string Name { get; set; }
@@ -26,13 +28,13 @@ namespace KouCoCoa {
         #endregion
 
         #region Properties
-        public List<Mob> Mobs;
+        public List<Mob> Mobs { get; set; }
         #endregion
     }
 
     internal class ItemDatabase : IDatabase {
         #region Default Constructor
-        internal ItemDatabase() {
+        public ItemDatabase() {
             Name = "ItemDb";
             FilePath = "Unknown";
             DatabaseType = RAthenaDbType.ITEM_DB;
@@ -44,6 +46,10 @@ namespace KouCoCoa {
         public string FilePath { get; set; }
         public RAthenaDbType DatabaseType { get; private set; }
         #endregion
+
+        #region Properties
+        //public List<Item> Items { get; set; }
+        #endregion
     }
 
     /// <summary>
@@ -51,7 +57,7 @@ namespace KouCoCoa {
     /// </summary>
     internal class UndefinedDatabase : IDatabase {
         #region Default Constructor
-        internal UndefinedDatabase() {
+        public UndefinedDatabase() {
             Name = "UndefinedDb";
             FilePath = "Unknown";
             DatabaseType = RAthenaDbType.UNSUPPORTED;

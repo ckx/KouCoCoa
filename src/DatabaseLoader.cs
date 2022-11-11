@@ -29,12 +29,6 @@ namespace KouCoCoa {
             }
             Logger.WriteLine($"{filePath}: Loading database...", LogLevel.Debug);
             IDatabase retDb = ParseDatabaseFromFile(filePath);
-            // we're gonna return the DB either way, but logger will tell us if it's supported or not
-            if (retDb.DatabaseType == RAthenaDbType.UNSUPPORTED) {
-                Logger.WriteLine($"{filePath}: Database type is unsupported.", LogLevel.Debug);
-            } else {
-                Logger.WriteLine($"{filePath}: Database loaded into type: {retDb.DatabaseType}");
-            }
             return retDb;
         }
 
@@ -63,6 +57,7 @@ namespace KouCoCoa {
         /// </summary>
         private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) {
             if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
+                Logger.WriteLine($"{db.FilePath}: Skipping unsupported database.", LogLevel.Debug);
                 return;
             }
             // Guard against empty lists
@@ -76,6 +71,7 @@ namespace KouCoCoa {
                 }
             }
             map[db.DatabaseType].Add(db);
+            Logger.WriteLine($"{db.FilePath}: Database loaded.");
         }
 
         /// <summary>
