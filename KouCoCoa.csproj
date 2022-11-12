@@ -47,6 +47,7 @@
   <ItemGroup>
     <Reference Include="ImGui.NET">
       <HintPath>C:\tools\imgui.net\ImGui.NET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 
