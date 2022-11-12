@@ -1,13 +1,13 @@
 ﻿namespace KouCoCoa {
-    internal interface IUiElement {
-        #region Properties
-        public bool Visible { get; set; }
-        #endregion
+    //internal interface IUiElement {
+    //    #region Properties
+    //    public bool Visible;
+    //    #endregion
 
-        #region Methods
-        public void Update();
-        #endregion
-    }
+    //    #region Methods
+    //    public void Update();
+    //    #endregion
+    //}
 
     internal interface IDatabase {
         #region Properties
