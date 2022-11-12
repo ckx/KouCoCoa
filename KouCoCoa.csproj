@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ImGui.NET.Docking" Version="1.75.0" />
     <PackageReference Include="Veldrid" Version="4.8.0" />
     <PackageReference Include="Veldrid.StartupUtilities" Version="4.8.0" />
     <PackageReference Include="YamlDotNet" Version="12.0.2" />
@@ -43,6 +42,18 @@
 
   <ItemGroup>
     <Content Include="koucocoa_transparent.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ImGui.NET">
+      <HintPath>C:\tools\imgui.net\ImGui.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="cimgui.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
