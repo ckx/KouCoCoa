@@ -30,7 +30,7 @@ namespace KouCoCoa {
 
         #region Private member variables
         private Dictionary<RAthenaDbType, List<IDatabase>> _databases = new();
-        private List<UiElement> _uiElements = new();
+        private List<UiWindow> _uiElements = new();
         #endregion
 
         #region tempdevstuff

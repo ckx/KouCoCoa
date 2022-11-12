@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KouCoCoa {
-    internal abstract class UiElement {
+    internal abstract class UiWindow {
         public bool Visible;
 
         public abstract void Update();

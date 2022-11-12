@@ -3,7 +3,7 @@ using System.Reflection;
 using ImGuiNET;
 
 namespace KouCoCoa {
-    internal class MobDatabaseEditor : UiElement {
+    internal class MobDatabaseEditor : UiWindow {
         #region Constructors
         public MobDatabaseEditor(List<MobDatabase> mobDbs) {
             _mobDbs = mobDbs;
