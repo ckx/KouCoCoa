@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Veldrid;
-using Veldrid.Sdl2;
-using Veldrid.StartupUtilities;
+using System.Windows.Forms;
 
 namespace KouCoCoa {
     class KouCoCoa {
@@ -12,15 +10,9 @@ namespace KouCoCoa {
         #endregion
 
         #region Private member variables
-        private static Sdl2Window _window;
-        private static GraphicsDevice _gd;
-        private static CommandList _cl;
-        private static ImGuiController _controller;
-        // UI
-        private static UiContainer _uiContainer;
-        private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
         #endregion
 
+        [STAThread]
         static void Main(string[] args) {
             Logger.CreateLogFile();
             Globals.RunConfig = ConfigManager.GetConfig();
@@ -29,71 +21,14 @@ namespace KouCoCoa {
 #endif
             Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases =
     DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
-            _uiContainer = new(startupDatabases);
 
-            SetupVeldridWindow();
-            UpdateLoop();
-            ShutDown();
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
         }
 
         #region Private Methods
-        private static void UpdateLoop() {
-            while (_window.Exists) {
-                InputSnapshot snapshot = _window.PumpEvents();
-                if (!_window.Exists) { break; }
-                _controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
-
-                _uiContainer.Update();
-
-                _cl.Begin();
-                _cl.SetFramebuffer(_gd.MainSwapchain.Framebuffer);
-                _cl.ClearColorTarget(0, new RgbaFloat(_clearColor.X, _clearColor.Y, _clearColor.Z, 1f));
-                _controller.Render(_gd, _cl);
-                _cl.End();
-                _gd.SubmitCommands(_cl);
-                _gd.SwapBuffers(_gd.MainSwapchain);
-            }
-        }
-
-        private static void SetupVeldridWindow() {
-            string windowTitle = ProgramName + " ~ " + GetVersionTagline();
-            Logger.WriteLine($"Creating Veldrid graphics " +
-                $"window at screen position {Globals.RunConfig.WindowPositionXY[0]},{Globals.RunConfig.WindowPositionXY[1]} " +
-                $"with resolution {Globals.RunConfig.WindowResolutionXY[0]}x{Globals.RunConfig.WindowResolutionXY[1]}.");
-            if (Globals.RunConfig.WindowPositionXY[0] > 1920) {
-                Logger.WriteLine($"[KouKou] すごーい！お兄ちゃんデカすぎる…");
-            }
-            VeldridStartup.CreateWindowAndGraphicsDevice(
-                new WindowCreateInfo(Globals.RunConfig.WindowPositionXY[0], Globals.RunConfig.WindowPositionXY[1],
-                Globals.RunConfig.WindowResolutionXY[0], Globals.RunConfig.WindowResolutionXY[1],
-                WindowState.Normal, windowTitle),
-                new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
-                out _window,
-                out _gd);
-            _window.Resized += () => {
-                _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
-                _controller.WindowResized(_window.Width, _window.Height);
-            };
-            _cl = _gd.ResourceFactory.CreateCommandList();
-            _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
-
-        }
-
-        private static void ShutDown() {
-            Logger.WriteLine("Shutdown signal received.");
-
-            Globals.RunConfig.WindowPositionXY = new int[] { _window.Bounds.X, _window.Bounds.Y };
-            Globals.RunConfig.WindowResolutionXY = new int[] { _window.Width, _window.Height };
-
-            ConfigManager.StoreConfig(Globals.RunConfig);
-            Logger.WriteLine("[KouKou] え？お兄ちゃん、待ってー！もっと遊びたーい！");
-            // Clean up Veldrid resources
-            _gd.WaitForIdle();
-            _controller.Dispose();
-            _cl.Dispose();
-            _gd.Dispose();
-        }
-
         private static string GetVersionTagline() {
             List<string> taglines = new() {
                 "Girls need Tao cards, too!",
