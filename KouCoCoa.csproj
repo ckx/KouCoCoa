@@ -2,18 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>koucocoa_transparent.ico</ApplicationIcon>
+	<UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="deps\**" />
     <Compile Remove="obj\**" />
+    <Compile Remove="src\Shaders\**" />
     <EmbeddedResource Remove="deps\**" />
     <EmbeddedResource Remove="obj\**" />
+    <EmbeddedResource Remove="src\Shaders\**" />
     <None Remove="deps\**" />
     <None Remove="obj\**" />
+    <None Remove="src\Shaders\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,31 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.8.0" />
-    <PackageReference Include="Veldrid.StartupUtilities" Version="4.8.0" />
     <PackageReference Include="YamlDotNet" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="src/Shaders/GLSL/imgui-vertex.glsl" LogicalName="imgui-vertex.glsl" />
-    <EmbeddedResource Include="src/Shaders/GLSL/imgui-frag.glsl" LogicalName="imgui-frag.glsl" />
-    <EmbeddedResource Include="src/Shaders/HLSL/imgui-vertex.hlsl.bytes" LogicalName="imgui-vertex.hlsl.bytes" />
-    <EmbeddedResource Include="src/Shaders/HLSL/imgui-frag.hlsl.bytes" LogicalName="imgui-frag.hlsl.bytes" />
-    <EmbeddedResource Include="src/Shaders/SPIR-V/imgui-vertex.spv" LogicalName="imgui-vertex.spv" />
-    <EmbeddedResource Include="src/Shaders/SPIR-V/imgui-frag.spv" LogicalName="imgui-frag.spv" />
-    <EmbeddedResource Include="src/Shaders/Metal/imgui-vertex.metallib" LogicalName="imgui-vertex.metallib" />
-    <EmbeddedResource Include="src/Shaders/Metal/imgui-frag.metallib" LogicalName="imgui-frag.metallib" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="koucocoa_transparent.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ImGui.NET">
-      <HintPath>C:\tools\imgui.net\ImGui.NET.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
