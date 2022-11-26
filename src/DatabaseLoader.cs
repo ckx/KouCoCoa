@@ -9,6 +9,12 @@ using YamlDotNet.Serialization;
 namespace KouCoCoa {
     // TODO: add built-in reference databases (vanilla rA dbs)?
     internal static class DatabaseLoader {
+        #region Private Fields
+        private static readonly List<string> SupportedFileTypes = new() {
+            ".yml", ".txt"
+        };
+        #endregion
+
         #region Public Methods
         public static Dictionary<RAthenaDbType, List<IDatabase>> LoadDatabasesFromConfig(Config conf) {
             // Load everything in the config dir
@@ -80,7 +86,7 @@ namespace KouCoCoa {
         /// Will return an undefined database if the rA db type isn't supported by the parser.
         /// Start here if you want to add support for a new database type.
         /// </summary>
-        private static IDatabase ParseDatabase(dynamic inputDb) {
+        private static IDatabase ParseDatabase(ExpandoObject inputDb) {
             RAthenaDbType dbType = DetermineRAthenaDbType(inputDb);
 
             switch (dbType) {
@@ -97,9 +103,7 @@ namespace KouCoCoa {
 
         private static IDatabase ParseDatabaseFromFile(string filePath) {
             IDatabase retDb = new UndefinedDatabase();
-            string fileExt = Path.GetExtension(filePath);
-            if (fileExt != ".yml") {
-                Logger.WriteLine($"{filePath}: Attempted to parse database but file type was unknown. Right now only .yml files are supported.", LogLevel.Warning);
+            if (!CheckSupportedFileType(filePath)) {
                 return retDb;
             }
             string fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -125,16 +129,38 @@ namespace KouCoCoa {
             return retDb;
         }
 
+        private static bool CheckSupportedFileType(string filePath)
+        {
+            string fileExt = Path.GetExtension(filePath);
+            if (SupportedFileTypes.Contains(fileExt)) {
+                return true;
+            }
+
+            string fileTypesMsg = "";
+            for (int i = 0; i < SupportedFileTypes.Count; i++) {
+                if (i == SupportedFileTypes.Count - 1) {
+                    fileTypesMsg += $"{SupportedFileTypes[i]}";
+                }
+                fileTypesMsg += $"{SupportedFileTypes[i]}, ";
+            }
+            Logger.WriteLine($"{filePath}: Attempted to parse database but file extension was unknown. " +
+                $"Supported extensions:{fileTypesMsg}", LogLevel.Warning);
+            return false;
+        }
+
         /// <summary>
         /// Check an ExpandoObject to determine what type of database it should deserialize into.
         /// </summary>
-        private static RAthenaDbType DetermineRAthenaDbType(dynamic inputDb) {
-            if (!((IDictionary<string, object>)inputDb).ContainsKey("Header")) {
-                Logger.WriteLine($"No Header found in database, file is unsupported.", LogLevel.Debug);
+        private static RAthenaDbType DetermineRAthenaDbType(ExpandoObject inputDb) {
+            var inputDbDict = (IDictionary<string, object>)inputDb;
+
+            if (!inputDbDict.ContainsKey("Header")) {
+                Logger.WriteLine($"No Header found in database, file is unsupported or malformed.", LogLevel.Debug);
                 return RAthenaDbType.UNSUPPORTED;
             }
+            var headerEntries = (IDictionary<object, object>)inputDbDict["Header"];
 
-            foreach (KeyValuePair<object, object> entry in inputDb.Header) {
+            foreach (KeyValuePair<object, object> entry in headerEntries) {
                 if (entry.Key.ToString() == "Type") {
                     RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
                     if (Enum.TryParse(entry.Value.ToString(), out dbType)) {

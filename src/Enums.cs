@@ -3,7 +3,8 @@
         Error,
         Warning,
         Info,
-        Debug
+        Debug,
+        DebugVerbose
     }
 
     public enum RAthenaDbType {

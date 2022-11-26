@@ -9,10 +9,9 @@ namespace KouCoCoa {
     /// </summary>
     internal class Config {
         public Config() {
-            AdditionalDbPaths = new();
             LoggingLevel = LogLevel.Info;
-            WindowPositionXY = new int[] { 100, 100 };
-            WindowResolutionXY = new int[] { 1280, 720 };
+            YamlDbDirectoryPath = "";
+            AdditionalDbPaths = new();
             SilenceLogger = false;
         }
 
@@ -20,8 +19,6 @@ namespace KouCoCoa {
         public static string ConfigPath { get { return "config.yml"; } }
         public string YamlDbDirectoryPath { get; set; }
         public List<string> AdditionalDbPaths { get; set; }
-        public int[] WindowPositionXY;
-        public int[] WindowResolutionXY;
         public bool SilenceLogger;
 
         /// <summary>
@@ -37,22 +34,22 @@ namespace KouCoCoa {
     internal class ConfigManager {
         #region Static Methods
         /// <summary>
-        /// Load the config at Config.ConfigPath.
+        /// Load the config file at filePath.
         /// </summary>
-        public static Config GetConfig() {
-            Logger.WriteLine($"Loading config from {Config.ConfigPath}...");
+        public static Config GetConfig(string filePath = "config.yml") {
+            Logger.WriteLine($"Loading config from {filePath}...");
             Config retConf = new();
             var deserializer = new DeserializerBuilder().Build();
             try {
-                string configString = File.ReadAllText(Config.ConfigPath);
+                string configString = File.ReadAllText(filePath);
                 retConf = deserializer.Deserialize<Config>(configString);
-                Logger.WriteLine($"{Config.ConfigPath} loaded successfully.");
+                Logger.WriteLine($"{filePath} loaded successfully.");
             } catch (FileNotFoundException) {
-                Logger.WriteLine($"{Config.ConfigPath} not found. Generating new config file.");
+                Logger.WriteLine($"{filePath} not found. Generating new config file.");
                 StoreConfig(retConf);
             } catch (Exception ex) {
                 Logger.WriteLine(
-                    $"Loading {Config.ConfigPath} failed. Exception thrown:\n" + 
+                    $"Loading {filePath} failed. Exception thrown:\n" + 
                     $"{ex.Message}\n\n" + 
                     $"{ex.StackTrace}", LogLevel.Error);
                 throw;
@@ -64,18 +61,18 @@ namespace KouCoCoa {
         /// <summary>
         /// Save a config to the persistent file at Config.ConfigPath.
         /// </summary>
-        public static void StoreConfig(Config runningConfig) {
-            Logger.WriteLine($"Attempting to write config to {Config.ConfigPath}...");
+        public static void StoreConfig(Config runningConfig, string filePath = "config.yml") {
+            Logger.WriteLine($"Attempting to write config to {filePath}...");
             var serializer = new SerializerBuilder().Build();
             var yamlString = serializer.Serialize(runningConfig);
             try {
-                using (StreamWriter sw = File.CreateText(Config.ConfigPath)) {
+                using (StreamWriter sw = File.CreateText(filePath)) {
                     sw.Write(yamlString);
-                    Logger.WriteLine($"Running config saved to {Config.ConfigPath}.");
+                    Logger.WriteLine($"Running config saved to {filePath}.");
                 }
             } catch (Exception ex) {
                 Logger.WriteLine(
-                    $"Failed to save config to {Config.ConfigPath}. Exception thrown:\n" +
+                    $"Failed to save config to {filePath}. Exception thrown:\n" +
                     $"{ex.Message}\n\n" + 
                     $"{ex.StackTrace}", LogLevel.Error);
                 throw;
