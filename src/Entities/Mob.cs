@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace KouCoCoa {
-    #region Mobs
-    internal class Mob {
+namespace KouCoCoa
+{
+    internal class Mob
+    {
+        #region Constructors
         #region Default Constructor
-        public Mob() {
+        public Mob()
+        {
             Id = 0;
             AegisName = "UNKNOWN";
             Name = "Unknown";
@@ -36,11 +39,13 @@ namespace KouCoCoa {
             Class = "Normal";
             Modes = new();
             Drops = new();
+            Skills = new();
         }
         #endregion
 
         #region Copy Constructor
-        public Mob(Mob baseMob) {
+        public Mob(Mob baseMob)
+        {
             Id = baseMob.Id;
             AegisName = baseMob.AegisName;
             Name = baseMob.Name;
@@ -70,9 +75,12 @@ namespace KouCoCoa {
             Class = baseMob.Class;
             Modes = new MobModes(baseMob.Modes);
             Drops = new List<MobDrop>(baseMob.Drops);
+            Skills = new List<MobSkill>(baseMob.Skills);
         }
         #endregion
+        #endregion
 
+        #region Properties
         public int Id { get; set; }
         public string AegisName { get; set; }
         public string Name { get; set; }
@@ -104,11 +112,16 @@ namespace KouCoCoa {
         public string Class { get; set; }
         public MobModes Modes { get; set; }
         public List<MobDrop> Drops { get; set; }
+        public List<MobSkill> Skills { get; set; }
+        #endregion
     }
 
-    internal class MobModes {
+    internal class MobModes
+    {
+        #region Constructor
         #region Default Constructor
-        public MobModes() {
+        public MobModes()
+        {
             CanMove = false;
             Looter = false;
             Aggressive = false;
@@ -139,7 +152,8 @@ namespace KouCoCoa {
         #endregion
 
         #region Copy Constructor
-        public MobModes(MobModes baseModes) {
+        public MobModes(MobModes baseModes)
+        {
             CanMove = baseModes.CanMove;
             Looter = baseModes.Looter;
             Aggressive = baseModes.Aggressive;
@@ -168,7 +182,9 @@ namespace KouCoCoa {
             SkillImmune = baseModes.SkillImmune;
         }
         #endregion
+        #endregion
 
+        #region Properties
         public bool CanMove { get; set; }
         public bool Looter { get; set; }
         public bool Aggressive { get; set; }
@@ -195,11 +211,15 @@ namespace KouCoCoa {
         public bool Detector { get; set; }
         public bool StatusImmune { get; set; }
         public bool SkillImmune { get; set; }
+        #endregion
     }
 
-    internal class MobDrop {
+    internal class MobDrop
+    {
+        #region Constructors
         #region Default Constructor
-        public MobDrop() {
+        public MobDrop()
+        {
             Item = "Apple";
             Rate = 1;
             StealProtected = true;
@@ -207,16 +227,45 @@ namespace KouCoCoa {
         #endregion
 
         #region Copy Constructor
-        public MobDrop(MobDrop baseDrop) {
+        public MobDrop(MobDrop baseDrop)
+        {
             Item = baseDrop.Item;
             Rate = baseDrop.Rate;
             StealProtected = baseDrop.StealProtected;
         }
         #endregion
+        #endregion
 
+        #region Properties
         public string Item { get; set; }
         public int Rate { get; set; }
         public bool StealProtected { get; set; }
+        #endregion
     }
-    #endregion
+
+    internal class MobSkill
+    {
+        #region Constructors
+        #region Default Constructor
+        public MobSkill()
+        {
+            MobName = "";
+            SkillName = "";
+        }
+        #endregion
+
+        #region Copy Constructor
+        public MobSkill(MobSkill baseSkill)
+        {
+            MobName = baseSkill.MobName;
+            SkillName = baseSkill.SkillName;
+        }
+        #endregion
+        #endregion
+
+        #region Properties
+        public string MobName;
+        public string SkillName;
+        #endregion
+    }
 }
