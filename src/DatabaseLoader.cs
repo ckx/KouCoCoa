@@ -5,8 +5,10 @@ using System.Dynamic;
 using System.Reflection;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
+using System.Linq;
 
-namespace KouCoCoa {
+namespace KouCoCoa
+{
     // TODO: add built-in reference databases (vanilla rA dbs)?
     internal static class DatabaseLoader {
         #region Private Fields
@@ -110,7 +112,7 @@ namespace KouCoCoa {
             switch (dbType) {
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = new();
-                    mobDb.Mobs = DeserializeMobDb(inputDb);
+                    mobDb.Mobs = ParseMobDb(inputDb);
                     return new MobDatabase(mobDb);
                 case RAthenaDbType.ITEM_DB:
                     return new ItemDatabase();
@@ -124,11 +126,12 @@ namespace KouCoCoa {
             RAthenaDbType dbType = DetermineRAthenaDbType(inputDb);
 
             switch (dbType) {
-                case RAthenaDbType.MOB_SKILLS_DB:
-                    
-                    break;
+                case RAthenaDbType.MOB_SKILL_DB:
+                    MobSkillDatabase mobSkillDb = new();
+                    mobSkillDb.Skills = ParseMobSkillDb(inputDb);
+                    return new MobSkillDatabase(mobSkillDb);
                 default:
-                    break;
+                    return new UndefinedDatabase();
             }
         }
 
@@ -140,23 +143,43 @@ namespace KouCoCoa {
             if (!CheckSupportedFileType(filePath)) {
                 return retDb;
             }
+
+            string fileExt = Path.GetExtension(filePath);
             string fileName = Path.GetFileNameWithoutExtension(filePath);
 
-            IDeserializer yamlDeserializer = new DeserializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance)
-                .Build();
+            switch (fileExt) {
+                case ".yml":
+                    IDeserializer yamlDeserializer = new DeserializerBuilder()
+                        .WithNamingConvention(PascalCaseNamingConvention.Instance)
+                        .Build();
 
-            // inputDb acts as a temporary object while we determine the structure of the supposed database
-            ExpandoObject inputDb;
-            try {
-                string yamlString = File.ReadAllText(filePath);
-                Logger.WriteLine($"{filePath}: Identified as a YAML file, deserializing into ExpandoObject.", LogLevel.Debug);
-                inputDb = yamlDeserializer.Deserialize<ExpandoObject>(yamlString);
-            } catch (Exception) {
-                throw;
+                    // inputDb acts as a temporary object while we determine the structure of the supposed database
+                    ExpandoObject yamlDb = new();
+                    try {
+                        string yamlString = File.ReadAllText(filePath);
+                        Logger.WriteLine($"{filePath}: Identified as a YAML file, attempting deserialization into ExpandoObject.", LogLevel.DebugVerbose);
+                        yamlDb = yamlDeserializer.Deserialize<ExpandoObject>(yamlString);
+                    } catch (Exception) {
+                        throw;
+                    }
+
+                    retDb = ParseDatabase(yamlDb);
+                    break;
+                case ".txt":
+                    List<string> txtDb = new();
+                    try {
+                        txtDb = File.ReadAllLines(filePath).ToList();
+                        Logger.WriteLine($"{filePath}: Identified as TXT file, loaded into a List<string>", LogLevel.DebugVerbose);
+                    } catch (Exception) {
+                        throw;
+                    }
+                    retDb = ParseDatabase(txtDb);
+                    break;
+                default:
+                    Logger.WriteLine($"The database {fileName}{fileExt} is unsupported.", LogLevel.Warning);
+                    break;
             }
 
-            retDb = ParseDatabase(inputDb);
             retDb.FilePath = filePath;
             retDb.Name = fileName;
 
@@ -221,16 +244,31 @@ namespace KouCoCoa {
         private static RAthenaDbType DetermineRAthenaDbType(List<string> inputDb)
         {
             RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
+            if (inputDb[0] == "// Mob Skill Database") {
+                dbType = RAthenaDbType.MOB_SKILL_DB;
+                Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.Debug);
+                return dbType;
+            }
 
-
-
-
+            Logger.WriteLine($"Database type is unsupported. " +
+                             $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
             return RAthenaDbType.UNSUPPORTED;
 
         }
 
+        private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)
+        {
+            List<MobSkill> retList = new();
+
+            foreach (string skill in mobSkillDb) {
+                // todo: parsing logic
+            }
+
+            return retList;
+        }
+
         // TODO: move this away from dynamic typing/reflection and do a plain old property-by-property assign.
-        private static List<Mob> DeserializeMobDb(dynamic mobDb) {
+        private static List<Mob> ParseMobDb(dynamic mobDb) {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
                 Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);

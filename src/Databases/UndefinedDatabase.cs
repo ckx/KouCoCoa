@@ -2,7 +2,7 @@
 namespace KouCoCoa
 {
     /// <summary>
-    /// A type that says "we found a viable database here, but we don't have a class to deserialize it into"
+    /// A type that says "we found a viable database here, but we don't have a class to deserialize it into".
     /// </summary>
     internal class UndefinedDatabase : IDatabase
     {

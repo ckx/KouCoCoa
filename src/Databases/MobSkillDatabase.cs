@@ -13,7 +13,7 @@ namespace KouCoCoa
         {
             Name = "MobSkillDb";
             FilePath = "Unknown";
-            DatabaseType = RAthenaDbType.MOB_SKILLS_DB;
+            DatabaseType = RAthenaDbType.MOB_SKILL_DB;
             Skills = new();
         }
         #endregion
