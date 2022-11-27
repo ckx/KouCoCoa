@@ -45,7 +45,7 @@ namespace KouCoCoa
                 Logger.WriteLine($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
                 return new UndefinedDatabase();
             }
-            Logger.WriteLine($"{filePath}: Loading database...", LogLevel.Debug);
+            Logger.WriteLine($"{filePath}: Attempting to load database...", LogLevel.DebugVerbose);
             IDatabase retDb = ParseDatabaseFromFile(filePath);
             return retDb;
         }
@@ -68,7 +68,7 @@ namespace KouCoCoa
                 if (!CheckSupportedFileType(filePath)) {
                     continue;
                 }
-                Logger.WriteLine($"{filePath}: Potential database found.", LogLevel.Debug);
+                Logger.WriteLine($"{filePath}: Potential database found.", LogLevel.DebugVerbose);
                 IDatabase db = LoadDatabaseFromFile(filePath);
                 AddDbToMap(ref retDbMap, ref db);
             }
@@ -83,7 +83,7 @@ namespace KouCoCoa
         /// </summary>
         private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) {
             if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
-                Logger.WriteLine($"{db.FilePath}: Skipping unsupported database.", LogLevel.Debug);
+                Logger.WriteLine($"{db.FilePath}: Skipping unsupported database.", LogLevel.DebugVerbose);
                 return;
             }
             // Guard against empty lists
@@ -195,16 +195,9 @@ namespace KouCoCoa
             if (SupportedFileTypes.Contains(fileExt)) {
                 return true;
             }
-
-            string fileTypesMsg = "";
-            for (int i = 0; i < SupportedFileTypes.Count; i++) {
-                if (i == SupportedFileTypes.Count - 1) {
-                    fileTypesMsg += $"{SupportedFileTypes[i]}";
-                }
-                fileTypesMsg += $"{SupportedFileTypes[i]}, ";
-            }
+            string supportedExtensions = string.Join(", ", SupportedFileTypes);
             Logger.WriteLine($"{filePath}: Attempted to parse file, but file's extension was unknown. " +
-                $"Supported extensions:{fileTypesMsg}", LogLevel.Warning);
+                $"Supported extensions: {supportedExtensions}", LogLevel.DebugVerbose);
             return false;
         }
 
@@ -224,11 +217,11 @@ namespace KouCoCoa
             foreach (KeyValuePair<object, object> entry in headerEntries) {
                 if (entry.Key.ToString() == "Type") {
                     if (Enum.TryParse(entry.Value.ToString(), out dbType)) {
-                        Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.Debug);
+                        Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.DebugVerbose);
                         return dbType;
                     } else {
                         Logger.WriteLine($"Database identified as unsupported type \"{entry.Value}\". " +
-                            $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
+                            $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.DebugVerbose);
                         return RAthenaDbType.UNSUPPORTED;
                     }
                 }
@@ -246,7 +239,7 @@ namespace KouCoCoa
             RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
             if (inputDb[0] == "// Mob Skill Database") {
                 dbType = RAthenaDbType.MOB_SKILL_DB;
-                Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.Debug);
+                Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.DebugVerbose);
                 return dbType;
             }
 
@@ -259,7 +252,7 @@ namespace KouCoCoa
         private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)
         {
             List<MobSkill> retList = new();
-            int expectedMinimumValueCount = 19;
+            int expectedValueCount = 19;
 
             foreach (string skill in mobSkillDb) {
                 if (skill.StartsWith("//") || skill.Length <= 0) {
@@ -269,8 +262,8 @@ namespace KouCoCoa
                 string[] skillFields = skill.Split(",");
                 // Awful, but no real way for me to enforce mob_skill_db field length, so this checks to see if we are operating on a line
                 // with "probably correct" number of values.
-                if (skillFields.Length != expectedMinimumValueCount) {
-                    Logger.WriteLine($"Failed to parse line in mob_skill_db, skipping. Found {skillFields.Length} values, but expected at least {expectedMinimumValueCount}. " +
+                if (skillFields.Length != expectedValueCount) {
+                    Logger.WriteLine($"Failed to parse line in mob_skill_db, skipping. Found {skillFields.Length} values, but expected {expectedValueCount}. " +
                         $"Line is:\n{skill}", LogLevel.Warning);
                     continue;
                 }
@@ -319,7 +312,7 @@ namespace KouCoCoa
         private static List<Mob> ParseMobDb(dynamic mobDb) {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
-                Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty Mob List.", LogLevel.Warning);
+                Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty MobList.", LogLevel.Warning);
                 return retList;
             }
 
@@ -389,7 +382,7 @@ namespace KouCoCoa
                 }
                 retList.Add(mob);
             }
-            Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.Debug);
+            Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.DebugVerbose);
             return retList;
         }
         #endregion

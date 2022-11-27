@@ -17,7 +17,7 @@ namespace KouCoCoa {
             Logger.CreateLogFile();
             Globals.RunConfig = ConfigManager.GetConfig();
 #if DEBUG
-            Globals.RunConfig.LoggingLevel = LogLevel.DebugVerbose;
+            Globals.RunConfig.LoggingLevel = LogLevel.Debug;
 #endif
             Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases =
     DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
