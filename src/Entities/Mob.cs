@@ -262,10 +262,31 @@ namespace KouCoCoa
         }
         #endregion
         #endregion
-
+        // Structure of Database:
+        // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,Target,Condition type,
+        // Condition value,val1,val2,val3,val4,val5,Emotion,Chat
+        //1299,Goblin Leader@NPC_SUMMONSLAVE,attack,196,5,10000,2000,60000,no,self,slavele,2,1122,1123,1124,1125,1126,27,
         #region Properties
+        public int MobId;
+        public string Info;
         public string MobName;
         public string SkillName;
+        public MobState State;
+        public int SkillId;
+        public int SkillLv;
+        /// <summary>
+        /// RATE: the chance of the skill being casted when the condition is fulfilled (10000 = 100%)
+        /// </summary>
+        public int Rate;
+        public int CastTime;
+
+        /// <summary>
+        /// DELAY: the time (in milliseconds) before attempting to recast the same skill.
+        /// </summary>
+        public int Delay;
+
+        public CancelableSkill Cancelable;
+
         #endregion
     }
 }

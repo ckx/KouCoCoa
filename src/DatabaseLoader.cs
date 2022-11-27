@@ -261,7 +261,13 @@ namespace KouCoCoa
             List<MobSkill> retList = new();
 
             foreach (string skill in mobSkillDb) {
-                // todo: parsing logic
+                if (skill.StartsWith("//") || skill.Length < 1) {
+                    // Skip comments & empty lines
+                    continue;
+                }
+                string[] skillFields = skill.Split(",");
+                foreach (string field in skillFields) {
+                }
             }
 
             return retList;
