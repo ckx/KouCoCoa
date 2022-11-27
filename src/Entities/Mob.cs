@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 
 namespace KouCoCoa
 {
@@ -249,16 +250,54 @@ namespace KouCoCoa
         #region Default Constructor
         public MobSkill()
         {
+            MobId = 0;
             MobName = "";
             SkillName = "";
+            DummyValue = "";
+            State = MobState.any;
+            SkillId = 0;
+            SkillLv = 0;
+            Rate = 0;
+            CastTime = 0;
+            Delay = 0;
+            Cancelable = MobSkillCancelable.yes;
+            Target = MobSkillTarget.target; ;
+            ConditionType = MobSkillConditionType.always;
+            ConditionValue = "";
+            Val1 = "";
+            Val2 = "";
+            Val3 = "";
+            Val4 = "";
+            Val5 = "";
+            Emotion = "";
+            Chat = "";
         }
         #endregion
 
         #region Copy Constructor
         public MobSkill(MobSkill baseSkill)
         {
+            MobId = baseSkill.MobId;
+            DummyValue = baseSkill.DummyValue;
             MobName = baseSkill.MobName;
             SkillName = baseSkill.SkillName;
+            State = baseSkill.State;
+            SkillId = baseSkill.SkillId;
+            SkillLv = baseSkill.SkillLv;
+            Rate = baseSkill.Rate;
+            CastTime = baseSkill.CastTime;
+            Delay = baseSkill.Delay;
+            Cancelable = baseSkill.Cancelable;
+            Target = baseSkill.Target;
+            ConditionType = baseSkill.ConditionType;
+            ConditionValue = baseSkill.ConditionValue;
+            Val1 = baseSkill.Val1;
+            Val2 = baseSkill.Val2;
+            Val3 = baseSkill.Val3;
+            Val4 = baseSkill.Val4;
+            Val5 = baseSkill.Val5;
+            Emotion = baseSkill.Emotion;
+            Chat = baseSkill.Chat;
         }
         #endregion
         #endregion
@@ -267,26 +306,35 @@ namespace KouCoCoa
         // Condition value,val1,val2,val3,val4,val5,Emotion,Chat
         //1299,Goblin Leader@NPC_SUMMONSLAVE,attack,196,5,10000,2000,60000,no,self,slavele,2,1122,1123,1124,1125,1126,27,
         #region Properties
-        public int MobId;
-        public string Info;
-        public string MobName;
-        public string SkillName;
-        public MobState State;
-        public int SkillId;
-        public int SkillLv;
+        public int MobId { get; set; }
+        public string DummyValue { get; set; }
+        public string MobName { get; set; }
+        public string SkillName { get; set; }
+        public MobState State { get; set; }
+        public int SkillId { get; set; }
+        public int SkillLv { get; set; }
         /// <summary>
         /// RATE: the chance of the skill being casted when the condition is fulfilled (10000 = 100%)
         /// </summary>
-        public int Rate;
-        public int CastTime;
+        public int Rate { get; set; }
+        public int CastTime { get; set; }
 
         /// <summary>
         /// DELAY: the time (in milliseconds) before attempting to recast the same skill.
         /// </summary>
-        public int Delay;
+        public int Delay { get; set; }
 
-        public CancelableSkill Cancelable;
-
+        public MobSkillCancelable Cancelable { get; set; }
+        public MobSkillTarget Target { get; set; }
+        public MobSkillConditionType ConditionType { get; set; }
+        public string ConditionValue { get; set; }
+        public string Val1 { get; set; }
+        public string Val2 { get; set; }
+        public string Val3 { get; set; }
+        public string Val4 { get; set; }
+        public string Val5 { get; set; }
+        public string Emotion { get; set; }
+        public string Chat { get; set; }
         #endregion
     }
 }

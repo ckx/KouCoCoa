@@ -259,15 +259,57 @@ namespace KouCoCoa
         private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)
         {
             List<MobSkill> retList = new();
+            int expectedMinimumValueCount = 19;
 
             foreach (string skill in mobSkillDb) {
-                if (skill.StartsWith("//") || skill.Length < 1) {
+                if (skill.StartsWith("//") || skill.Length <= 0) {
                     // Skip comments & empty lines
                     continue;
                 }
                 string[] skillFields = skill.Split(",");
-                foreach (string field in skillFields) {
+                // Awful, but no real way for me to enforce mob_skill_db field length, so this checks to see if we are operating on a line
+                // with "probably correct" number of values.
+                if (skillFields.Length != expectedMinimumValueCount) {
+                    Logger.WriteLine($"Failed to parse line in mob_skill_db, skipping. Found {skillFields.Length} values, but expected at least {expectedMinimumValueCount}. " +
+                        $"Line is:\n{skill}", LogLevel.Warning);
+                    continue;
                 }
+
+                MobSkill mobSkill = new();
+
+                // Property assignments of a MobSkill
+                // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,Target,Condition type,
+                // Condition value,val1,val2,val3,val4,val5,Emotion,Chat
+                mobSkill.MobId = int.TryParse(skillFields[0], out int id) ? id : 0;
+
+                mobSkill.DummyValue = skillFields[1];
+                string[] mobSkillInfo = mobSkill.DummyValue.Split("@");
+                if (mobSkillInfo.Length == 2) {
+                    // The DummyValue is probably the standard "mobName@skillName" format, so assign them:
+                    mobSkill.MobName = mobSkillInfo[0];
+                    mobSkill.SkillName = mobSkillInfo[1];
+                }
+
+                mobSkill.State = Enum.TryParse(skillFields[2], true, out MobState state) ? state : MobState.idle;
+                mobSkill.SkillId = int.TryParse(skillFields[3], out int skillId) ? skillId : 0;
+                mobSkill.SkillLv = int.TryParse(skillFields[4], out int skillLv) ? skillLv : 0;
+                mobSkill.Rate = int.TryParse(skillFields[5], out int rate) ? rate : 0;
+                mobSkill.CastTime = int.TryParse(skillFields[6], out int castTime) ? castTime : 0;
+                mobSkill.Delay = int.TryParse(skillFields[7], out int delay) ? delay : 0;
+                mobSkill.Cancelable = Enum.TryParse(skillFields[8], out MobSkillCancelable cancelable) ? cancelable : MobSkillCancelable.yes;
+                mobSkill.Target = Enum.TryParse(skillFields[9], out MobSkillTarget target) ? target : MobSkillTarget.target;
+                mobSkill.ConditionType = Enum.TryParse(skillFields[10], out MobSkillConditionType conditionType) ? conditionType : MobSkillConditionType.always;
+                mobSkill.ConditionValue = skillFields[11];
+                mobSkill.Val1 = skillFields[12];
+                mobSkill.Val2 = skillFields[13];
+                mobSkill.Val3 = skillFields[14];
+                mobSkill.Val4 = skillFields[15];
+                mobSkill.Val5 = skillFields[16];
+                mobSkill.Emotion = skillFields[17];
+                mobSkill.Chat = skillFields[18];
+
+                MobSkill newMobSkill = new(mobSkill);
+                retList.Add(newMobSkill);
             }
 
             return retList;
