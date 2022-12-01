@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KouCoCoa {
@@ -12,20 +13,21 @@ namespace KouCoCoa {
         #region Private member variables
         #endregion
 
-        [STAThread]
-        static void Main(string[] args) {
-            Logger.CreateLogFile();
-            Globals.RunConfig = ConfigManager.GetConfig();
+        static async Task Main(string[] args) {
+            await Logger.CreateLogFile();
+            Globals.RunConfig = await ConfigIO.GetConfig();
 #if DEBUG
             Globals.RunConfig.LoggingLevel = LogLevel.Debug;
 #endif
-            Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases =
-    DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
+            Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases = 
+                await DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
 
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainContainer());
+
+            // Run the winforms logic on an STAThread
+            Thread uiThread = new(() => Application.Run(new MainContainer())); 
+            uiThread.SetApartmentState(ApartmentState.STA); 
+            uiThread.Start();
         }
 
         #region Private Methods

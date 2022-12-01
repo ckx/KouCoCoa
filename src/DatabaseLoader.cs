@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Dynamic;
 using System.Reflection;
+using System.Threading.Tasks;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace KouCoCoa
 {
@@ -23,14 +25,19 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="conf"></param>
         /// <returns></returns>
-        public static Dictionary<RAthenaDbType, List<IDatabase>> LoadDatabasesFromConfig(Config conf) {
+        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromConfig(Config conf) {
             // Load everything in the config dir
-            Dictionary<RAthenaDbType,List<IDatabase>> retDbMap = LoadDatabasesFromDirectory(conf.YamlDbDirectoryPath);
+            var retDbMap = await LoadDatabasesFromDirectory(conf.YamlDbDirectoryPath);
 
             // Then load databases from the AdditionalDbPaths config list
             foreach (string filePath in conf.AdditionalDbPaths) {
-                IDatabase db = LoadDatabaseFromFile(filePath);
+                IDatabase db = await LoadDatabaseFromFile(filePath);
+                if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
+                    await Logger.WriteLineAsync($"{db.FilePath}: Skipping unsupported database.", LogLevel.DebugVerbose);
+                    continue;
+                }
                 AddDbToMap(ref retDbMap, ref db);
+                await Logger.WriteLineAsync($"{db.FilePath}: Database loaded.");
             }
             return retDbMap;
         }
@@ -40,13 +47,13 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static IDatabase LoadDatabaseFromFile(string filePath) {
+        public static async Task<IDatabase> LoadDatabaseFromFile(string filePath) {
             if (!File.Exists(filePath)) {
-                Logger.WriteLine($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
+                await Logger.WriteLineAsync($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
                 return new UndefinedDatabase();
             }
-            Logger.WriteLine($"{filePath}: Attempting to load database...", LogLevel.DebugVerbose);
-            IDatabase retDb = ParseDatabaseFromFile(filePath);
+            await Logger.WriteLineAsync($"{filePath}: Attempting to load database...", LogLevel.DebugVerbose);
+            IDatabase retDb = await ParseDatabaseFromFile(filePath);
             return retDb;
         }
 
@@ -55,21 +62,21 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <returns></returns>
-        public static Dictionary<RAthenaDbType, List<IDatabase>> LoadDatabasesFromDirectory(string directoryPath) {
+        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) {
             Dictionary<RAthenaDbType, List<IDatabase>> retDbMap = new();
             if (!Directory.Exists(directoryPath)) {
-                Logger.WriteLine($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
+                await Logger.WriteLineAsync($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
                 return retDbMap;
             }
 
-            Logger.WriteLine($"Searching for databases in {directoryPath}...");
+            await Logger.WriteLineAsync($"Searching for databases in {directoryPath}...");
             string[] fileEntries = Directory.GetFiles(directoryPath);
             foreach (string filePath in fileEntries) {
                 if (!CheckSupportedFileType(filePath)) {
                     continue;
                 }
-                Logger.WriteLine($"{filePath}: Potential database found.", LogLevel.DebugVerbose);
-                IDatabase db = LoadDatabaseFromFile(filePath);
+                await Logger.WriteLineAsync($"{filePath}: Potential database found.", LogLevel.DebugVerbose);
+                IDatabase db = await LoadDatabaseFromFile(filePath);
                 AddDbToMap(ref retDbMap, ref db);
             }
             return retDbMap;
@@ -82,10 +89,6 @@ namespace KouCoCoa
         /// and reloads DBs if one at the same file path was already loaded.
         /// </summary>
         private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) {
-            if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
-                Logger.WriteLine($"{db.FilePath}: Skipping unsupported database.", LogLevel.DebugVerbose);
-                return;
-            }
             // Guard against empty lists
             if (!map.ContainsKey(db.DatabaseType)) {
                 map[db.DatabaseType] = new();
@@ -97,7 +100,6 @@ namespace KouCoCoa
                 }
             }
             map[db.DatabaseType].Add(db);
-            Logger.WriteLine($"{db.FilePath}: Database loaded.");
         }
 
         /// <summary>
@@ -138,7 +140,7 @@ namespace KouCoCoa
         /// <summary>
         /// Attempt to load a database from file at filePath
         /// </summary>
-        private static IDatabase ParseDatabaseFromFile(string filePath) {
+        private static async Task<IDatabase> ParseDatabaseFromFile(string filePath) {
             IDatabase retDb = new UndefinedDatabase();
             if (!CheckSupportedFileType(filePath)) {
                 return retDb;
@@ -156,8 +158,8 @@ namespace KouCoCoa
                     // inputDb acts as a temporary object while we determine the structure of the supposed database
                     ExpandoObject yamlDb = new();
                     try {
-                        string yamlString = File.ReadAllText(filePath);
-                        Logger.WriteLine($"{filePath}: Identified as a YAML file, attempting deserialization into ExpandoObject.", LogLevel.DebugVerbose);
+                        string yamlString = await File.ReadAllTextAsync(filePath);
+                        await Logger.WriteLineAsync($"{filePath}: Identified as a YAML file, attempting deserialization into ExpandoObject.", LogLevel.DebugVerbose);
                         yamlDb = yamlDeserializer.Deserialize<ExpandoObject>(yamlString);
                     } catch (Exception) {
                         throw;
@@ -169,14 +171,14 @@ namespace KouCoCoa
                     List<string> txtDb = new();
                     try {
                         txtDb = File.ReadAllLines(filePath).ToList();
-                        Logger.WriteLine($"{filePath}: Identified as TXT file, loaded into a List<string>", LogLevel.DebugVerbose);
+                        await Logger.WriteLineAsync($"{filePath}: Identified as TXT file, loaded into a List<string>", LogLevel.DebugVerbose);
                     } catch (Exception) {
                         throw;
                     }
                     retDb = ParseDatabase(txtDb);
                     break;
                 default:
-                    Logger.WriteLine($"The database {fileName}{fileExt} is unsupported.", LogLevel.Warning);
+                    await Logger.WriteLineAsync($"The database {fileName}{fileExt} is unsupported.", LogLevel.Warning);
                     break;
             }
 

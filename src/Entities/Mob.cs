@@ -261,7 +261,7 @@ namespace KouCoCoa
             CastTime = 0;
             Delay = 0;
             Cancelable = MobSkillCancelable.yes;
-            Target = MobSkillTarget.target; ;
+            Target = MobSkillTarget.target;
             ConditionType = MobSkillConditionType.always;
             ConditionValue = "";
             Val1 = "";
