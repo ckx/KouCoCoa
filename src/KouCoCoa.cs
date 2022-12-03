@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KouCoCoa {
-    class KouCoCoa {
+    class Program {
         #region Properties
         public static string ProgramName { get { return "KouCoCoa"; } }
-        #endregion
-
-        #region Private member variables
         #endregion
 
         static async Task Main(string[] args) {
@@ -25,7 +22,7 @@ namespace KouCoCoa {
             ApplicationConfiguration.Initialize();
 
             // Run the winforms logic on an STAThread
-            Thread uiThread = new(() => Application.Run(new MainContainer())); 
+            Thread uiThread = new(() => Application.Run(new MainContainer(startupDatabases))); 
             uiThread.SetApartmentState(ApartmentState.STA); 
             uiThread.Start();
         }

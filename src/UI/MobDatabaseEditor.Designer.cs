@@ -27,25 +27,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.mobList = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // mobList
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(800, 450);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.mobList.FormattingEnabled = true;
+            this.mobList.ItemHeight = 41;
+            this.mobList.Location = new System.Drawing.Point(12, 73);
+            this.mobList.Name = "mobList";
+            this.mobList.Size = new System.Drawing.Size(305, 1070);
+            this.mobList.TabIndex = 0;
             // 
             // MobDatabaseEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(1943, 1230);
+            this.Controls.Add(this.mobList);
+            this.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.Name = "MobDatabaseEditor";
             this.Text = "MobDatabaseEditor";
             this.Load += new System.EventHandler(this.MobDatabaseEditor_Load);
@@ -55,6 +55,6 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ListBox mobList;
     }
 }

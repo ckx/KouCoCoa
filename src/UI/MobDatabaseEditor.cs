@@ -10,20 +10,16 @@ using System.Windows.Forms;
 
 namespace KouCoCoa
 {
-    public partial class MobDatabaseEditor : Form
+    internal partial class MobDatabaseEditor : Form
     {
-        public MobDatabaseEditor()
+        public MobDatabaseEditor(MobDatabase mobDb)
         {
             InitializeComponent();
         }
 
         private void MobDatabaseEditor_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
+            
         }
     }
 }
