@@ -42,78 +42,77 @@
             this.mobListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobListBox.FormattingEnabled = true;
             this.mobListBox.ItemHeight = 15;
-            this.mobListBox.Location = new System.Drawing.Point(1, 28);
+            this.mobListBox.Location = new System.Drawing.Point(1, 30);
             this.mobListBox.Margin = new System.Windows.Forms.Padding(1);
             this.mobListBox.Name = "mobListBox";
-            this.mobListBox.Size = new System.Drawing.Size(248, 421);
+            this.mobListBox.Size = new System.Drawing.Size(248, 607);
             this.mobListBox.TabIndex = 0;
             // 
             // leftDockTableLayoutPanel
             // 
             this.leftDockTableLayoutPanel.ColumnCount = 1;
             this.leftDockTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.leftDockTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.leftDockTableLayoutPanel.Controls.Add(this.mobListBox, 0, 1);
             this.leftDockTableLayoutPanel.Controls.Add(this.mobFilterBox, 0, 0);
             this.leftDockTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftDockTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.leftDockTableLayoutPanel.Name = "leftDockTableLayoutPanel";
             this.leftDockTableLayoutPanel.RowCount = 2;
-            this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
-            this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94F));
-            this.leftDockTableLayoutPanel.Size = new System.Drawing.Size(250, 450);
+            this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.leftDockTableLayoutPanel.Size = new System.Drawing.Size(250, 638);
             this.leftDockTableLayoutPanel.TabIndex = 1;
             // 
             // mobFilterBox
             // 
             this.mobFilterBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobFilterBox.Location = new System.Drawing.Point(3, 3);
+            this.mobFilterBox.MaximumSize = new System.Drawing.Size(244, 23);
             this.mobFilterBox.Name = "mobFilterBox";
             this.mobFilterBox.Size = new System.Drawing.Size(244, 23);
             this.mobFilterBox.TabIndex = 1;
             // 
             // mobSkillTableLayoutPanel
             // 
-            this.mobSkillTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mobSkillTableLayoutPanel.ColumnCount = 1;
             this.mobSkillTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mobSkillTableLayoutPanel.Controls.Add(this.mobSkillsColumnLabel, 0, 0);
             this.mobSkillTableLayoutPanel.Controls.Add(this.mobSkillList, 0, 1);
-            this.mobSkillTableLayoutPanel.Location = new System.Drawing.Point(600, 0);
+            this.mobSkillTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.mobSkillTableLayoutPanel.Location = new System.Drawing.Point(658, 0);
             this.mobSkillTableLayoutPanel.Name = "mobSkillTableLayoutPanel";
             this.mobSkillTableLayoutPanel.RowCount = 2;
-            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 427F));
-            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mobSkillTableLayoutPanel.Size = new System.Drawing.Size(200, 450);
+            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobSkillTableLayoutPanel.Size = new System.Drawing.Size(200, 638);
             this.mobSkillTableLayoutPanel.TabIndex = 2;
             // 
             // mobSkillsColumnLabel
             // 
             this.mobSkillsColumnLabel.AutoSize = true;
-            this.mobSkillsColumnLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSkillsColumnLabel.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.mobSkillsColumnLabel.Location = new System.Drawing.Point(3, 0);
+            this.mobSkillsColumnLabel.MaximumSize = new System.Drawing.Size(194, 21);
             this.mobSkillsColumnLabel.Name = "mobSkillsColumnLabel";
-            this.mobSkillsColumnLabel.Size = new System.Drawing.Size(194, 23);
+            this.mobSkillsColumnLabel.Size = new System.Drawing.Size(63, 21);
             this.mobSkillsColumnLabel.TabIndex = 0;
             this.mobSkillsColumnLabel.Text = "Skill list";
             // 
             // mobSkillList
             // 
-            this.mobSkillList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mobSkillList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSkillList.FormattingEnabled = true;
             this.mobSkillList.ItemHeight = 15;
-            this.mobSkillList.Location = new System.Drawing.Point(3, 26);
+            this.mobSkillList.Location = new System.Drawing.Point(3, 24);
             this.mobSkillList.Name = "mobSkillList";
-            this.mobSkillList.Size = new System.Drawing.Size(194, 409);
+            this.mobSkillList.Size = new System.Drawing.Size(194, 611);
             this.mobSkillList.TabIndex = 1;
             // 
             // MobDatabaseEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(858, 638);
             this.Controls.Add(this.mobSkillTableLayoutPanel);
             this.Controls.Add(this.leftDockTableLayoutPanel);
             this.Name = "MobDatabaseEditor";
