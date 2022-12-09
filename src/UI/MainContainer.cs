@@ -25,7 +25,7 @@ namespace KouCoCoa
         private void KouCoCoaInitialization()
         {
             foreach (KeyValuePair<RAthenaDbType, List<IDatabase>> dbEntries in _databases) {
-                this.menuStrip1.Items.Add(dbEntries.Key.ToString());
+                this.mainMenuStrip.Items.Add(dbEntries.Key.ToString());
             }
 
             // MobDBs menu
@@ -57,7 +57,13 @@ namespace KouCoCoa
         private void mobDbs_Selection(object sender, EventArgs e, MobDatabase senderMobDb) 
         {
             if (_databases[RAthenaDbType.MOB_DB].Contains(senderMobDb)) {
-                MobDatabaseEditor mde = new(senderMobDb);
+                MobSkillDatabase mobSkillDb = new();
+                if (_databases.ContainsKey(RAthenaDbType.MOB_SKILL_DB)) {
+                    // TODO: Is there any point to all this? We will probably only ever have 1 mob skill db...
+                    // https://github.com/ckx/KouCoCoa/issues/2
+                    mobSkillDb = (MobSkillDatabase)_databases[RAthenaDbType.MOB_SKILL_DB][0];
+                }
+                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb);
                 mde.MdiParent = this;
                 mde.Show();
             }
