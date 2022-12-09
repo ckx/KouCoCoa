@@ -31,7 +31,7 @@ namespace KouCoCoa
         #region Private methods
         private void KouCoCoaInitialization()
         {
-            this.Text = $"{_mobDb.Name} :: Mob Database Editor";
+            Text = $"{_mobDb.Name} :: Mob Database Editor";
 
             // Event subscriptions
             mobListBox.SelectedValueChanged += mobListBox_SelectedValueChanged;

@@ -25,12 +25,12 @@ namespace KouCoCoa
         private void KouCoCoaInitialization()
         {
             foreach (KeyValuePair<RAthenaDbType, List<IDatabase>> dbEntries in _databases) {
-                this.mainMenuStrip.Items.Add(dbEntries.Key.ToString());
+                mainMenuStrip.Items.Add(dbEntries.Key.ToString());
             }
 
             // MobDBs menu
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
-            this.mobDBToolStripMenuItem.DropDown = _mobDbsCMS;
+            mobDBToolStripMenuItem.DropDown = _mobDbsCMS;
             ToolStripMenuItem mobDbMenuItem = new("ROGUENAROK DB", null, null, "ROGUENAROK");
         }
         #endregion
