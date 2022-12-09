@@ -1,5 +1,7 @@
-﻿namespace KouCoCoa {
-    internal interface IDatabase {
+﻿namespace KouCoCoa 
+{
+    internal interface IDatabase 
+    {
         #region Properties
         public string Name { get; set; }
         public string FilePath { get; set; }

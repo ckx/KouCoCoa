@@ -12,9 +12,11 @@ using System.Runtime.CompilerServices;
 namespace KouCoCoa
 {
     // TODO: add built-in reference databases (vanilla rA dbs)?
-    internal static class DatabaseLoader {
+    internal static class DatabaseLoader 
+    {
         #region Private Fields
-        private static readonly List<string> SupportedFileTypes = new() {
+        private static readonly List<string> SupportedFileTypes = new() 
+        {
             ".yml", ".txt"
         };
         #endregion
@@ -25,7 +27,8 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="conf"></param>
         /// <returns></returns>
-        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromConfig(Config conf) {
+        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromConfig(Config conf) 
+        {
             // Load everything in the config dir
             var retDbMap = await LoadDatabasesFromDirectory(conf.YamlDbDirectoryPath);
 
@@ -47,7 +50,8 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static async Task<IDatabase> LoadDatabaseFromFile(string filePath) {
+        public static async Task<IDatabase> LoadDatabaseFromFile(string filePath) 
+        {
             if (!File.Exists(filePath)) {
                 await Logger.WriteLineAsync($"Loading db at {filePath} failed. File not found.", LogLevel.Warning);
                 return new UndefinedDatabase();
@@ -62,7 +66,8 @@ namespace KouCoCoa
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <returns></returns>
-        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) {
+        public static async Task<Dictionary<RAthenaDbType, List<IDatabase>>> LoadDatabasesFromDirectory(string directoryPath) 
+        {
             Dictionary<RAthenaDbType, List<IDatabase>> retDbMap = new();
             if (!Directory.Exists(directoryPath)) {
                 await Logger.WriteLineAsync($"Cannot load databases at {directoryPath}. Directory not found. Returning empty DatabaseMap.", LogLevel.Warning);
@@ -88,7 +93,8 @@ namespace KouCoCoa
         /// Shortcut to safelty adding elements to a database map. Doesn't load unsupported types, guards against null keys, 
         /// and reloads DBs if one at the same file path was already loaded.
         /// </summary>
-        private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) {
+        private static void AddDbToMap(ref Dictionary<RAthenaDbType, List<IDatabase>> map, ref IDatabase db) 
+        {
             // Guard against empty lists
             if (!map.ContainsKey(db.DatabaseType)) {
                 map[db.DatabaseType] = new();
@@ -108,7 +114,8 @@ namespace KouCoCoa
         /// Will return an undefined database if the rA db type isn't supported by the parser.
         /// Start here if you want to add support for a new database type.
         /// </summary>
-        private static IDatabase ParseDatabase(ExpandoObject inputDb) {
+        private static IDatabase ParseDatabase(ExpandoObject inputDb) 
+        {
             RAthenaDbType dbType = DetermineRAthenaDbType(inputDb);
 
             switch (dbType) {
@@ -140,7 +147,8 @@ namespace KouCoCoa
         /// <summary>
         /// Attempt to load a database from file at filePath
         /// </summary>
-        private static async Task<IDatabase> ParseDatabaseFromFile(string filePath) {
+        private static async Task<IDatabase> ParseDatabaseFromFile(string filePath) 
+        {
             IDatabase retDb = new UndefinedDatabase();
             if (!CheckSupportedFileType(filePath)) {
                 return retDb;
@@ -191,7 +199,7 @@ namespace KouCoCoa
         /// <summary>
         /// Returns true if the file extension of a file at filePath is contained within SupportedFileTypes.
         /// </summary>
-        private static bool CheckSupportedFileType(string filePath)
+        private static bool CheckSupportedFileType(string filePath) 
         {
             string fileExt = Path.GetExtension(filePath);
             if (SupportedFileTypes.Contains(fileExt)) {
@@ -206,7 +214,8 @@ namespace KouCoCoa
         /// <summary>
         /// Check an ExpandoObject to determine what type of database it should deserialize into.
         /// </summary>
-        private static RAthenaDbType DetermineRAthenaDbType(ExpandoObject inputDb) {
+        private static RAthenaDbType DetermineRAthenaDbType(ExpandoObject inputDb) 
+        {
             RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
 
             var inputDbDict = (IDictionary<string, object>)inputDb;
@@ -311,7 +320,8 @@ namespace KouCoCoa
         }
 
         // TODO: move this away from dynamic typing/reflection and do a plain old property-by-property assign.
-        private static List<Mob> ParseMobDb(dynamic mobDb) {
+        private static List<Mob> ParseMobDb(dynamic mobDb) 
+        {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
                 Logger.WriteLine($"MobDB found, but no Body object is defined for this database. Returning empty MobList.", LogLevel.Warning);

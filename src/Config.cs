@@ -8,8 +8,10 @@ namespace KouCoCoa {
     /// <summary>
     /// config.yml.
     /// </summary>
-    internal class Config {
-        public Config() {
+    internal class Config 
+    {
+        public Config() 
+        {
             LoggingLevel = LogLevel.Info;
             YamlDbDirectoryPath = "";
             AdditionalDbPaths = new();
@@ -32,7 +34,8 @@ namespace KouCoCoa {
         #endregion
     }
 
-    internal class ConfigIO {
+    internal class ConfigIO 
+    {
         #region Static Methods
         /// <summary>
         /// Load the config file at filePath.
@@ -62,7 +65,8 @@ namespace KouCoCoa {
         /// <summary>
         /// Save a config to the persistent file at Config.ConfigPath.
         /// </summary>
-        public static async Task StoreConfig(Config runningConfig, string filePath = "config.yml") {
+        public static async Task StoreConfig(Config runningConfig, string filePath = "config.yml") 
+        {
             await Logger.WriteLineAsync($"Attempting to write config to {filePath}...");
             var serializer = new SerializerBuilder().Build();
             var yamlString = serializer.Serialize(runningConfig);

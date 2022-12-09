@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace KouCoCoa {
-    internal class Globals {
+namespace KouCoCoa 
+{
+    internal class Globals 
+    {
         /// <summary>
         /// Global config for simplicity
         /// </summary>

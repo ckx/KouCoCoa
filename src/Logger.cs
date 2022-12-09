@@ -3,7 +3,9 @@ using System.IO;
 using System.Threading.Tasks;
 
 namespace KouCoCoa {
-    internal static class Logger {
+    internal static class Logger 
+    
+    {
         public static string Timestamp {
             get {
                 return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}";
@@ -12,7 +14,8 @@ namespace KouCoCoa {
 
         private static string _logPath = "";
 
-        public static async Task CreateLogFile() {
+        public static async Task CreateLogFile() 
+        {
             string logDirectory = "Logs";
             Directory.CreateDirectory(logDirectory);
             string logFileName = $"[{DateTime.Now:yyyy-MM-dd}]KouCoCoa-{DateTime.Now:HHmmss}.log";
@@ -27,7 +30,8 @@ namespace KouCoCoa {
             Console.WriteLine($"Log file initiated at {_logPath}");
         }
 
-        public static async Task WriteLineAsync(string logMessage, LogLevel logLevel = LogLevel.Info) {
+        public static async Task WriteLineAsync(string logMessage, LogLevel logLevel = LogLevel.Info) 
+        {
             if (Globals.RunConfig.SilenceLogger) {
                 return;
             }
@@ -36,7 +40,8 @@ namespace KouCoCoa {
             await CommitLogAsync(line, logLevel);
         }
 
-        private static async Task CommitLogAsync(string line, LogLevel logLevel) {
+        private static async Task CommitLogAsync(string line, LogLevel logLevel) 
+        {
             // Output log only if we are at an appropriate loglevel
             if (Globals.RunConfig.LoggingLevel >= logLevel) {
                 Console.WriteLine(line);
