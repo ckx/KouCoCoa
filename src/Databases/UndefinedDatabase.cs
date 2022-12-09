@@ -6,7 +6,7 @@ namespace KouCoCoa
     /// </summary>
     internal class UndefinedDatabase : IDatabase
     {
-        #region Default Constructor
+        #region Constructors
         public UndefinedDatabase()
         {
             Name = "UndefinedDb";

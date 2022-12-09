@@ -8,7 +8,6 @@ namespace KouCoCoa
     internal class MobSkillDatabase : IDatabase
     {
         #region Constructors
-        #region Default Constructor
         public MobSkillDatabase()
         {
             Name = "MobSkillDb";
@@ -16,8 +15,8 @@ namespace KouCoCoa
             DatabaseType = RAthenaDbType.MOB_SKILL_DB;
             Skills = new();
         }
-        #endregion
-        #region Copy Constructor
+
+        // Copy constructor
         public MobSkillDatabase(MobSkillDatabase baseMobSkillDb)
         {
             Name = baseMobSkillDb.Name;
@@ -25,7 +24,6 @@ namespace KouCoCoa
             DatabaseType = baseMobSkillDb.DatabaseType;
             Skills = new List<MobSkill>(baseMobSkillDb.Skills);
         }
-        #endregion
         #endregion
 
         #region IDatabase Properties

@@ -15,7 +15,8 @@
         MOB_DB,
         MOB_AVAIL_DB,
         ITEM_DB,
-        MOB_SKILL_DB
+        MOB_SKILL_DB,
+        NPC_IDENTITY
     }
 
     //	any (except dead) / idle (in standby) / walk (in movement) / dead (on killed) /

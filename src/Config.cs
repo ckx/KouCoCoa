@@ -16,12 +16,14 @@ namespace KouCoCoa {
             YamlDbDirectoryPath = "";
             AdditionalDbPaths = new();
             SilenceLogger = false;
+            NpcIdentityLub = "data/default_npcidentity.lub";
         }
 
         #region Properties
         public static string ConfigPath { get { return "config.yml"; } }
         public string YamlDbDirectoryPath { get; set; }
         public List<string> AdditionalDbPaths { get; set; }
+        public string NpcIdentityLub { get; set; }
         public bool SilenceLogger;
 
         /// <summary>

@@ -7,16 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace KouCoCoa
 {
     internal partial class MobDatabaseEditor : Form
     {
         #region Constructor
-        public MobDatabaseEditor(MobDatabase mobDb, MobSkillDatabase mobSkillDb)
+        public MobDatabaseEditor(MobDatabase mobDb, MobSkillDatabase mobSkillDb, NpcIdentityDatabase npcIdDb)
         {
             _mobDb = new(mobDb);
             _mobSkillDb = new(mobSkillDb);
+            _npcIdDb = new(npcIdDb);
             InitializeComponent();
             KouCoCoaInitialization();
         }
@@ -25,6 +27,7 @@ namespace KouCoCoa
         #region Private members
         private readonly MobDatabase _mobDb = new();
         private readonly MobSkillDatabase _mobSkillDb = new();
+        private readonly NpcIdentityDatabase _npcIdDb = new();
         private readonly List<string> _mobNames = new();
         #endregion
 
@@ -82,14 +85,28 @@ namespace KouCoCoa
 
         private void mobListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            string selectedItem = mobListBox.SelectedItem.ToString();
+            mobNameLabel.Text = selectedItem;
+
             // Find the mob we've selected
             Mob selectedMob = new();
-            int mobId = int.Parse(Utilities.StringSplit(mobListBox.SelectedItem.ToString(), '[', ']'));
+            int mobId = int.Parse(Utilities.StringSplit(selectedItem, '[', ']'));
             foreach (Mob mob in _mobDb.Mobs) {
                 if (mob.Id == mobId) {
                     selectedMob = mob;
                 }
             }
+
+            // Show mob's sprite
+            string imageLocation = "data/koucocoa_transparent.png";
+            if (_npcIdDb.Identities.ContainsKey(mobId)) {
+                imageLocation = $"data/spritedata/{_npcIdDb.Identities[mobId]}.gif";
+            }
+            if (!File.Exists(imageLocation)) {
+                Logger.WriteLine($"No file found at {imageLocation}.");
+                imageLocation = "data/koucocoa_transparent.png";
+            }
+            mobSpritePictureBox.ImageLocation = imageLocation;
 
             // Populate the Skill List
             mobSkillList.BeginUpdate();

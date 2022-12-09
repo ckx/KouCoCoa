@@ -63,7 +63,12 @@ namespace KouCoCoa
                     // https://github.com/ckx/KouCoCoa/issues/2
                     mobSkillDb = (MobSkillDatabase)_databases[RAthenaDbType.MOB_SKILL_DB][0];
                 }
-                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb);
+                NpcIdentityDatabase npcIdDb = new();
+                if (_databases.ContainsKey(RAthenaDbType.NPC_IDENTITY)) {
+                    // ditto the above...
+                    npcIdDb = (NpcIdentityDatabase)_databases[RAthenaDbType.NPC_IDENTITY][0];
+                }
+                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb, npcIdDb);
                 mde.MdiParent = this;
                 mde.Show();
             }

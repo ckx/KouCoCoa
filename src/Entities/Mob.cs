@@ -6,7 +6,6 @@ namespace KouCoCoa
     internal class Mob
     {
         #region Constructors
-        #region Default Constructor
         public Mob()
         {
             Id = 0;
@@ -42,9 +41,7 @@ namespace KouCoCoa
             Drops = new();
             Skills = new();
         }
-        #endregion
 
-        #region Copy Constructor
         public Mob(Mob baseMob)
         {
             Id = baseMob.Id;
@@ -78,7 +75,6 @@ namespace KouCoCoa
             Drops = new List<MobDrop>(baseMob.Drops);
             Skills = new List<MobSkill>(baseMob.Skills);
         }
-        #endregion
         #endregion
 
         #region Properties
@@ -120,7 +116,6 @@ namespace KouCoCoa
     internal class MobModes
     {
         #region Constructor
-        #region Default Constructor
         public MobModes()
         {
             CanMove = false;
@@ -150,9 +145,7 @@ namespace KouCoCoa
             StatusImmune = false;
             SkillImmune = false;
         }
-        #endregion
 
-        #region Copy Constructor
         public MobModes(MobModes baseModes)
         {
             CanMove = baseModes.CanMove;
@@ -182,7 +175,6 @@ namespace KouCoCoa
             StatusImmune = baseModes.StatusImmune;
             SkillImmune = baseModes.SkillImmune;
         }
-        #endregion
         #endregion
 
         #region Properties
@@ -218,23 +210,19 @@ namespace KouCoCoa
     internal class MobDrop
     {
         #region Constructors
-        #region Default Constructor
         public MobDrop()
         {
             Item = "Apple";
             Rate = 1;
             StealProtected = true;
         }
-        #endregion
 
-        #region Copy Constructor
         public MobDrop(MobDrop baseDrop)
         {
             Item = baseDrop.Item;
             Rate = baseDrop.Rate;
             StealProtected = baseDrop.StealProtected;
         }
-        #endregion
         #endregion
 
         #region Properties
@@ -247,7 +235,6 @@ namespace KouCoCoa
     internal class MobSkill
     {
         #region Constructors
-        #region Default Constructor
         public MobSkill()
         {
             MobId = 0;
@@ -272,9 +259,7 @@ namespace KouCoCoa
             Emotion = "";
             Chat = "";
         }
-        #endregion
 
-        #region Copy Constructor
         public MobSkill(MobSkill baseSkill)
         {
             MobId = baseSkill.MobId;
@@ -300,7 +285,7 @@ namespace KouCoCoa
             Chat = baseSkill.Chat;
         }
         #endregion
-        #endregion
+
         // Structure of Database:
         // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,Target,Condition type,
         // Condition value,val1,val2,val3,val4,val5,Emotion,Chat

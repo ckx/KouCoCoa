@@ -17,7 +17,7 @@ namespace KouCoCoa
         #region Private Fields
         private static readonly List<string> SupportedFileTypes = new() 
         {
-            ".yml", ".txt"
+            ".yml", ".txt", ".lub"
         };
         #endregion
 
@@ -32,7 +32,7 @@ namespace KouCoCoa
             // Load everything in the config dir
             var retDbMap = await LoadDatabasesFromDirectory(conf.YamlDbDirectoryPath);
 
-            // Then load databases from the AdditionalDbPaths config list
+            // Load databases from the AdditionalDbPaths config list
             foreach (string filePath in conf.AdditionalDbPaths) {
                 IDatabase db = await LoadDatabaseFromFile(filePath);
                 if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
@@ -42,6 +42,15 @@ namespace KouCoCoa
                 AddDbToMap(ref retDbMap, ref db);
                 await Logger.WriteLineAsync($"{db.FilePath}: Database loaded.");
             }
+
+            // Load from the NpcIdentityLub file
+            IDatabase npcIdentityDb = await LoadDatabaseFromFile(conf.NpcIdentityLub);
+            if (npcIdentityDb.DatabaseType == RAthenaDbType.UNSUPPORTED) {
+                await Logger.WriteLineAsync($"{npcIdentityDb.FilePath}: Failed to load NPC Identity Lub database.", LogLevel.Warning);
+            }
+            AddDbToMap(ref retDbMap, ref npcIdentityDb);
+            await Logger.WriteLineAsync($"{npcIdentityDb.FilePath}: Database loaded.");
+
             return retDbMap;
         }
 
@@ -139,6 +148,10 @@ namespace KouCoCoa
                     MobSkillDatabase mobSkillDb = new();
                     mobSkillDb.Skills = ParseMobSkillDb(inputDb);
                     return new MobSkillDatabase(mobSkillDb);
+                case RAthenaDbType.NPC_IDENTITY:
+                    NpcIdentityDatabase npcIdDb = new();
+                    npcIdDb.Identities = ParseNpcIdDb(inputDb);
+                    return new NpcIdentityDatabase(npcIdDb);
                 default:
                     return new UndefinedDatabase();
             }
@@ -175,6 +188,7 @@ namespace KouCoCoa
 
                     retDb = ParseDatabase(yamlDb);
                     break;
+                case ".lub":
                 case ".txt":
                     List<string> txtDb = new();
                     try {
@@ -250,77 +264,23 @@ namespace KouCoCoa
             RAthenaDbType dbType = RAthenaDbType.UNSUPPORTED;
             if (inputDb[0] == "// Mob Skill Database") {
                 dbType = RAthenaDbType.MOB_SKILL_DB;
-                Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.DebugVerbose);
+            } else if (inputDb[0] == "jobtbl = {") {
+                dbType = RAthenaDbType.NPC_IDENTITY;
+            }
+
+            // Catch & log unsupported
+            if (dbType == RAthenaDbType.UNSUPPORTED) {
+                Logger.WriteLine($"Database type is unsupported. " +
+                           $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
                 return dbType;
             }
 
-            Logger.WriteLine($"Database type is unsupported. " +
-                             $"An undefined database will be returned, and loading will usually be skipped.", LogLevel.Debug);
-            return RAthenaDbType.UNSUPPORTED;
-
-        }
-
-        private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)
-        {
-            List<MobSkill> retList = new();
-            int expectedValueCount = 19;
-
-            foreach (string skill in mobSkillDb) {
-                if (skill.StartsWith("//") || skill.Length <= 0) {
-                    // Skip comments & empty lines
-                    continue;
-                }
-                string[] skillFields = skill.Split(",");
-                // Awful, but no real way for me to enforce mob_skill_db field length, so this checks to see if we are operating on a line
-                // with "probably correct" number of values.
-                if (skillFields.Length != expectedValueCount) {
-                    Logger.WriteLine($"Failed to parse line in mob_skill_db, skipping. Found {skillFields.Length} values, but expected {expectedValueCount}. " +
-                        $"Line is:\n{skill}", LogLevel.Warning);
-                    continue;
-                }
-
-                MobSkill mobSkill = new();
-
-                // Property assignments of a MobSkill
-                // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,Target,Condition type,
-                // Condition value,val1,val2,val3,val4,val5,Emotion,Chat
-                mobSkill.MobId = int.TryParse(skillFields[0], out int id) ? id : 0;
-
-                mobSkill.DummyValue = skillFields[1];
-                string[] mobSkillInfo = mobSkill.DummyValue.Split("@");
-                if (mobSkillInfo.Length == 2) {
-                    // The DummyValue is probably the standard "mobName@skillName" format, so assign them:
-                    mobSkill.MobName = mobSkillInfo[0];
-                    mobSkill.SkillName = mobSkillInfo[1];
-                }
-
-                mobSkill.State = Enum.TryParse(skillFields[2], true, out MobState state) ? state : MobState.idle;
-                mobSkill.SkillId = int.TryParse(skillFields[3], out int skillId) ? skillId : 0;
-                mobSkill.SkillLv = int.TryParse(skillFields[4], out int skillLv) ? skillLv : 0;
-                mobSkill.Rate = int.TryParse(skillFields[5], out int rate) ? rate : 0;
-                mobSkill.CastTime = int.TryParse(skillFields[6], out int castTime) ? castTime : 0;
-                mobSkill.Delay = int.TryParse(skillFields[7], out int delay) ? delay : 0;
-                mobSkill.Cancelable = Enum.TryParse(skillFields[8], out MobSkillCancelable cancelable) ? cancelable : MobSkillCancelable.yes;
-                mobSkill.Target = Enum.TryParse(skillFields[9], out MobSkillTarget target) ? target : MobSkillTarget.target;
-                mobSkill.ConditionType = Enum.TryParse(skillFields[10], out MobSkillConditionType conditionType) ? conditionType : MobSkillConditionType.always;
-                mobSkill.ConditionValue = skillFields[11];
-                mobSkill.Val1 = skillFields[12];
-                mobSkill.Val2 = skillFields[13];
-                mobSkill.Val3 = skillFields[14];
-                mobSkill.Val4 = skillFields[15];
-                mobSkill.Val5 = skillFields[16];
-                mobSkill.Emotion = skillFields[17];
-                mobSkill.Chat = skillFields[18];
-
-                MobSkill newMobSkill = new(mobSkill);
-                retList.Add(newMobSkill);
-            }
-
-            return retList;
+            Logger.WriteLine($"Database identified as supported type: {dbType}", LogLevel.DebugVerbose);
+            return dbType;
         }
 
         // TODO: move this away from dynamic typing/reflection and do a plain old property-by-property assign.
-        private static List<Mob> ParseMobDb(dynamic mobDb) 
+        private static List<Mob> ParseMobDb(dynamic mobDb)
         {
             List<Mob> retList = new();
             if (!((IDictionary<string, object>)mobDb).ContainsKey("Body")) {
@@ -396,6 +356,85 @@ namespace KouCoCoa
             }
             Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.DebugVerbose);
             return retList;
+        }
+
+        private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)
+        {
+            List<MobSkill> retList = new();
+            int expectedValueCount = 19;
+
+            foreach (string skill in mobSkillDb) {
+                if (skill.StartsWith("//") || skill.Length <= 0) {
+                    // Skip comments & empty lines
+                    continue;
+                }
+                string[] skillFields = skill.Split(",");
+                // Awful, but no real way for me to enforce mob_skill_db field length, so this checks to see if we are operating on a line
+                // with "probably correct" number of values.
+                if (skillFields.Length != expectedValueCount) {
+                    Logger.WriteLine($"Failed to parse line in mob_skill_db, skipping. Found {skillFields.Length} values, but expected {expectedValueCount}. " +
+                        $"Line is:\n{skill}", LogLevel.Warning);
+                    continue;
+                }
+
+                MobSkill mobSkill = new();
+
+                // Property assignments of a MobSkill
+                // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,Target,Condition type,
+                // Condition value,val1,val2,val3,val4,val5,Emotion,Chat
+                mobSkill.MobId = int.TryParse(skillFields[0], out int id) ? id : 0;
+
+                mobSkill.DummyValue = skillFields[1];
+                string[] mobSkillInfo = mobSkill.DummyValue.Split("@");
+                if (mobSkillInfo.Length == 2) {
+                    // The DummyValue is probably the standard "mobName@skillName" format, so assign them:
+                    mobSkill.MobName = mobSkillInfo[0];
+                    mobSkill.SkillName = mobSkillInfo[1];
+                }
+
+                mobSkill.State = Enum.TryParse(skillFields[2], true, out MobState state) ? state : MobState.idle;
+                mobSkill.SkillId = int.TryParse(skillFields[3], out int skillId) ? skillId : 0;
+                mobSkill.SkillLv = int.TryParse(skillFields[4], out int skillLv) ? skillLv : 0;
+                mobSkill.Rate = int.TryParse(skillFields[5], out int rate) ? rate : 0;
+                mobSkill.CastTime = int.TryParse(skillFields[6], out int castTime) ? castTime : 0;
+                mobSkill.Delay = int.TryParse(skillFields[7], out int delay) ? delay : 0;
+                mobSkill.Cancelable = Enum.TryParse(skillFields[8], out MobSkillCancelable cancelable) ? cancelable : MobSkillCancelable.yes;
+                mobSkill.Target = Enum.TryParse(skillFields[9], out MobSkillTarget target) ? target : MobSkillTarget.target;
+                mobSkill.ConditionType = Enum.TryParse(skillFields[10], out MobSkillConditionType conditionType) ? conditionType : MobSkillConditionType.always;
+                mobSkill.ConditionValue = skillFields[11];
+                mobSkill.Val1 = skillFields[12];
+                mobSkill.Val2 = skillFields[13];
+                mobSkill.Val3 = skillFields[14];
+                mobSkill.Val4 = skillFields[15];
+                mobSkill.Val5 = skillFields[16];
+                mobSkill.Emotion = skillFields[17];
+                mobSkill.Chat = skillFields[18];
+
+                MobSkill newMobSkill = new(mobSkill);
+                retList.Add(newMobSkill);
+            }
+
+            return retList;
+        }
+
+        private static Dictionary<int, string> ParseNpcIdDb(List<string> npcIdDb)
+        {
+            Dictionary<int, string> retDb = new();
+            foreach (string line in npcIdDb) {
+                if (line.Contains('{') || line.Contains('}')) {
+                    continue;
+                }
+                if (line.Contains('=')) {
+                    string[] entry = line.Split('=', StringSplitOptions.TrimEntries);
+                    if (entry[1].Contains(',')) {
+                        string[] keyString = entry[1].Split(',');
+                        int entryKey = int.TryParse(keyString[0], out int npcId) ? npcId : 0;
+                        string entryValue = entry[0].Substring(3);
+                        retDb.TryAdd(entryKey, entryValue);
+                    }
+                }
+            }
+            return retDb;
         }
         #endregion
     }

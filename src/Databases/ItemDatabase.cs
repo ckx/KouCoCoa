@@ -4,7 +4,7 @@
     /// ITEM_DB
     /// </summary>
     internal class ItemDatabase : IDatabase {
-        #region Default Constructor
+        #region Constructors
         public ItemDatabase() {
             Name = "ItemDb";
             FilePath = "Unknown";
