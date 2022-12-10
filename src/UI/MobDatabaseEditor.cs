@@ -32,6 +32,7 @@ namespace KouCoCoa
         private readonly NpcIdentityDatabase _npcIdDb = new();
         private readonly Dictionary<string, Image> _images = new();
         private readonly List<string> _mobNames = new();
+        private readonly string _defaultMobImageKey = "koucocoa_transparent.png";
         #endregion
 
         #region Private methods
@@ -66,7 +67,60 @@ namespace KouCoCoa
                 }
             }
         }
-        #endregion
+
+        private void ShowMobSprite(int mobId)
+        {
+            string imgKey = _defaultMobImageKey;
+
+            if (_npcIdDb.Identities.ContainsKey(mobId)) {
+                string baseKey = $"{_npcIdDb.Identities[mobId]}.gif";
+                imgKey = RemapSprite(baseKey);
+            }
+            if (!_images.ContainsKey(imgKey)) {
+                Logger.WriteLine($"Mob image not found, key was: {imgKey}");
+                imgKey = _defaultMobImageKey;
+            }
+            mobSpritePictureBox.Image = _images[imgKey];
+            return;
+        }
+
+#if DEBUG
+        private void ShowMobSpriteDebug(int mobId)
+        {
+            string imgKey = string.Empty;
+            Image image;
+
+            if (_npcIdDb.Identities.ContainsKey(mobId)) {
+                string baseKey = $"{_npcIdDb.Identities[mobId]}.gif";
+                imgKey = $"data/spritedata/{RemapSprite(baseKey)}";
+            }
+
+            if (File.Exists(imgKey)) {
+                image = Image.FromFile(imgKey);
+            } else if (File.Exists($"data/{_defaultMobImageKey}")) {
+                imgKey = $"data/{_defaultMobImageKey}";
+                image = Image.FromFile(imgKey);
+            } else {
+                image = mobSpritePictureBox.ErrorImage;
+            }
+            mobSpritePictureBox.Image = image;
+        }
+#endif
+
+        private static string RemapSprite(string inputKey)
+        {
+            string outputKey = string.Empty;
+            switch (inputKey) {
+                case "CHONCHON.gif":
+                    outputKey = "CHOCHO.gif";
+                    break;
+                default:
+                    outputKey = new(inputKey);
+                    break;
+            }
+            return outputKey;
+        }
+#endregion
 
         #region Event Handlers
         private void mobFilterBox_TextChanged(object sender, EventArgs e)
@@ -92,31 +146,28 @@ namespace KouCoCoa
             mobNameLabel.Text = selectedItem;
 
             // Find the mob we've selected
-            Mob selectedMob = new();
+            Mob mob = new();
             int mobId = int.Parse(Utilities.StringSplit(selectedItem, '[', ']'));
-            foreach (Mob mob in _mobDb.Mobs) {
-                if (mob.Id == mobId) {
-                    selectedMob = mob;
+            foreach (Mob entry in _mobDb.Mobs) {
+                if (entry.Id == mobId) {
+                    mob = entry;
                 }
             }
 
-            // Show mob's sprite
-            string imageKey = "koucocoa_transparent.png";
-            if (_npcIdDb.Identities.ContainsKey(mobId)) {
-                imageKey = $"{_npcIdDb.Identities[mobId]}.gif";
-            }
-            // todo: error handling, set koucocoa transparent here
-            mobSpritePictureBox.Size = _images[imageKey].Size;
-            mobSpritePictureBox.Image = _images[imageKey];
+#if DEBUG
+            ShowMobSpriteDebug(mob.Id);
+#else
+            ShowMobSprite(mob.Id);
+#endif
 
             // Populate the Skill List
             mobSkillList.BeginUpdate();
             mobSkillList.Items.Clear();
-            foreach (MobSkill skill in selectedMob.Skills) {
+            foreach (MobSkill skill in mob.Skills) {
                 mobSkillList.Items.Add($"[{skill.SkillId}] {skill.SkillName} (Lv. {skill.SkillLv})");
             }
             mobSkillList.EndUpdate();
         }
-        #endregion
+#endregion
     }
 }

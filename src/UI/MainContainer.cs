@@ -29,6 +29,7 @@ namespace KouCoCoa
         #region Private methods
         private void KouCoCoaInitialization()
         {
+            this.Text = $"{Program.ProgramName} ～ {GetVersionTagline()}";
             foreach (KeyValuePair<RAthenaDbType, List<IDatabase>> dbEntries in _databases) {
                 mainMenuStrip.Items.Add(dbEntries.Key.ToString());
             }
@@ -37,6 +38,36 @@ namespace KouCoCoa
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
             mobDBToolStripMenuItem.DropDown = _mobDbsCMS;
             ToolStripMenuItem mobDbMenuItem = new("ROGUENAROK DB", null, null, "ROGUENAROK");
+        }
+
+        private static string GetVersionTagline()
+        {
+            List<string> taglines = new() {
+                "Girls need Tao cards, too!",
+                "Onii-chan, look! Another Iron Cain!",
+                "The way to a girl's heart is Grilled Peco!",
+                "Slow Poison !!",
+                "heal plz",
+                "zeny plz",
+                "pa baps po",
+                "Son of Great Bitch !!",
+                "THEN WHO WAS STRINGS!?",
+                "Remember, all you need for level 99 is a Cotton Shirts!",
+                "If only ASSASSIN OF THE DARK could save us!!",
+                "Don't forget to remove all your ekipz!!",
+                "Don't you have anything better to do? Go outside.",
+                "Mou, onii-chan!! That's not where you stick a Tao card!!",
+                "Ohh, time to wang some DBs?",
+                "ONE... HUNDRED... ICE PICKS!?!?!?",
+                "Where did I leave my Megingjard...",
+                "WE ARE THE STAAAAAARS",
+                "Boys are... Arrow Shower.",
+                "Oh, my Drooping Cat? Yeah, it has more INT than you..."
+            };
+
+            Random rand = new();
+            int index = rand.Next(taglines.Count);
+            return taglines[index];
         }
         #endregion
 

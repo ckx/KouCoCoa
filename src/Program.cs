@@ -36,7 +36,7 @@ namespace KouCoCoa {
         private static Dictionary<string, Image> LoadImages()
         {
             Dictionary<string, Image> retDict = new();
-
+#if !DEBUG
             using (ZipArchive zip = ZipFile.Open("data/spritedata.zip", ZipArchiveMode.Read)) {
                 foreach (ZipArchiveEntry entry in zip.Entries) {
                     Stream stream = entry.Open();
@@ -44,36 +44,8 @@ namespace KouCoCoa {
                     retDict.Add(entry.FullName, img);
                 }
             }
+#endif
             return retDict;
-        }
-
-        private static string GetVersionTagline() {
-            List<string> taglines = new() {
-                "Girls need Tao cards, too!",
-                "Onii-chan, look! Another Iron Cain!",
-                "The way to a girl's heart is Grilled Peco!",
-                "Slow Poison !!",
-                "heal plz",
-                "zeny plz",
-                "pa baps po",
-                "Son of Great Bitch !!",
-                "THEN WHO WAS STRINGS!?",
-                "Remember, all you need for level 99 is a Cotton Shirts!",
-                "If only ASSASSIN OF THE DARK could save us!!",
-                "Don't forget to remove all your ekipz!!",
-                "Don't you have anything better to do? Go outside.",
-                "Mou, onii-chan!! That's not where you stick a Tao card!!",
-                "Ohh, time to wang some DBs?",
-                "ONE... HUNDRED... ICE PICKS!?!?!?",
-                "Where did I leave my Megingjard...",
-                "WE ARE THE STAAAAAARS",
-                "Boys are... Arrow Shower.",
-                "Oh, my Drooping Cat? Yeah, it has more INT than you..."
-            };
-
-            Random rand = new();
-            int index = rand.Next(taglines.Count);
-            return taglines[index];
         }
         #endregion
     }

@@ -1,5 +1,8 @@
 syntax: glob
 
+#KouCoCoa things
+data/spritedata/
+
 #NuGet things
 project.lock.json
 
