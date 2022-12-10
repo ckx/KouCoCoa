@@ -312,6 +312,26 @@ namespace KouCoCoa
                         if (propertyInfo.PropertyType == typeof(bool)) {
                             val = bool.Parse(mobEntry[propName]);
                         }
+                        if (propertyInfo.PropertyType == typeof(MobClass)) {
+                            if (Enum.TryParse(mobEntry[propName], out MobClass mobClass)) {
+                                val = mobClass;
+                            }
+                        }
+                        if (propertyInfo.PropertyType == typeof(MobRace)) {
+                            if (Enum.TryParse(mobEntry[propName], out MobRace mobRace)) {
+                                val = mobRace;
+                            }
+                        }
+                        if (propertyInfo.PropertyType == typeof(MobSize)) {
+                            if (Enum.TryParse(mobEntry[propName], out MobSize mobSize)) {
+                                val = mobSize;
+                            }
+                        }
+                        if (propertyInfo.PropertyType == typeof(MobElement)) {
+                            if (Enum.TryParse(mobEntry[propName], out MobElement mobElement)) {
+                                val = mobElement;
+                            }
+                        }
                         // Because MobModes and MobDrop are their own types, we have to go another level deep in reflection, repeating the steps above.
                         // MobModes
                         if (propertyInfo.PropertyType == typeof(MobModes)) {

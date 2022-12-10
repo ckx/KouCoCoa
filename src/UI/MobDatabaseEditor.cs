@@ -54,8 +54,32 @@ namespace KouCoCoa
             }
             mobListBoxCollection.AddRange(_mobNames.Cast<object>().ToArray());
             mobListBox.Items.AddRange(mobListBoxCollection);
+
+            InitializeComboBoxValues();
         }
 
+        private void InitializeComboBoxValues()
+        {
+            foreach (MobClass mobClass in Enum.GetValues(typeof(MobClass))) {
+                mobClassComboBox.Items.Add(mobClass.ToString());
+            }
+            foreach (MobRace mobRace in Enum.GetValues(typeof(MobRace))) {
+                mobRaceComboBox.Items.Add(mobRace.ToString());
+            }
+            foreach (MobSize mobSize in Enum.GetValues(typeof(MobSize))) {
+                mobSizeComboBox.Items.Add(mobSize.ToString());
+            }
+            foreach (MobElement mobElement in Enum.GetValues(typeof(MobElement))) {
+                mobElementComboBox.Items.Add(mobElement.ToString());
+            }
+            for (int i = 1; i < 5; i++) {
+                mobEleLvlComboBox.Items.Add(i.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Correlate mob skills with the mob
+        /// </summary>
         private void AssignMobSkillsToMobs()
         {
             foreach (MobSkill skill in _mobSkillDb.Skills) {
@@ -68,7 +92,10 @@ namespace KouCoCoa
             }
         }
 
-        private void ShowMobSprite(int mobId)
+        /// <summary>
+        /// Load sprite image from the image list DB
+        /// </summary>
+        private string ShowMobSprite(int mobId)
         {
             string imgKey = _defaultMobImageKey;
 
@@ -81,11 +108,14 @@ namespace KouCoCoa
                 imgKey = _defaultMobImageKey;
             }
             mobSpritePictureBox.Image = _images[imgKey];
-            return;
+            return imgKey;
         }
 
 #if DEBUG
-        private void ShowMobSpriteDebug(int mobId)
+        /// <summary>
+        /// Load from directory instead of zip
+        /// </summary>
+        private string ShowMobSpriteDebug(int mobId)
         {
             string imgKey = string.Empty;
             Image image;
@@ -104,9 +134,14 @@ namespace KouCoCoa
                 image = mobSpritePictureBox.ErrorImage;
             }
             mobSpritePictureBox.Image = image;
+            return imgKey;
         }
 #endif
 
+        /// <summary>
+        /// Some sprites have names that don't match the image database, catching and resolving them 
+        /// manually here because lazy
+        /// </summary>
         private static string RemapSprite(string inputKey)
         {
             string outputKey = string.Empty;
@@ -120,7 +155,53 @@ namespace KouCoCoa
             }
             return outputKey;
         }
-#endregion
+
+        /// <summary>
+        /// Populate the Info TablePanelLayout of a mob
+        /// </summary>
+        private void ShowBasicMobInfo(Mob mob, string spriteId)
+        {
+            // Basic info
+            mobFriendlyNameTextBox.Text = mob.Name;
+            mobAegisNameTextBox.Text = mob.AegisName;
+            mobJpNameTextBox.Text = mob.JapaneseName;
+            mobIdTextBox.Text = mob.Id.ToString();
+            mobSpriteIdTextBox.Text = spriteId;
+            SetComboBoxIndex(mobClassComboBox, mob.Class.ToString());
+            SetComboBoxIndex(mobRaceComboBox, mob.Race.ToString());
+            SetComboBoxIndex(mobSizeComboBox, mob.Size.ToString());
+            SetComboBoxIndex(mobElementComboBox, mob.Element.ToString());
+            SetComboBoxIndex(mobEleLvlComboBox, mob.ElementLevel.ToString());
+            mobBaseStatsStrTextBox.Text = mob.Str.ToString();
+            mobBaseStatsIntTextBox.Text = mob.Int.ToString();
+            mobBaseStatsAgiTextBox.Text = mob.Agi.ToString();
+            mobBaseStatsDexTextBox.Text = mob.Dex.ToString();
+            mobBaseStatsVitTextBox.Text = mob.Vit.ToString();
+            mobBaseStatsLukTextBox.Text = mob.Luk.ToString();
+            mobStatsHpTextBox.Text = mob.Hp.ToString();
+            mobStatsLevelTextBox.Text = mob.Level.ToString();
+            mobStatsAtkTextBox.Text = mob.Attack.ToString();
+            mobStatsAtk2TextBox.Text = mob.Attack2.ToString();
+            mobStatsDefTextBox.Text = mob.Defense.ToString();
+            mobStatsMdefTextBox.Text = mob.MagicDefense.ToString();
+            mobStatsAtkRangeTextBox.Text = mob.AttackRange.ToString();
+            mobStatsSkillRangeTextBox.Text = mob.SkillRange.ToString();
+            mobStatsChaseRangeTextbox.Text = mob.ChaseRange.ToString();
+            mobStatsWalkSpeedTextBox.Text = mob.WalkSpeed.ToString();
+            mobStatsAtkDelayTextBox.Text = mob.AttackDelay.ToString();
+            mobStatsAtkMotionTextBox.Text = mob.AttackMotion.ToString();
+            mobStatsDmgMotionTextBox.Text = mob.DamageMotion.ToString();
+
+        }
+
+        private void SetComboBoxIndex(ComboBox comboBox, string entry)
+        {
+            if (comboBox.Items.Contains(entry)) {
+                int index = comboBox.Items.IndexOf(entry);
+                comboBox.SelectedIndex = index;
+            }
+        }
+        #endregion
 
         #region Event Handlers
         private void mobFilterBox_TextChanged(object sender, EventArgs e)
@@ -153,12 +234,13 @@ namespace KouCoCoa
                     mob = entry;
                 }
             }
-
+            string spriteId;
 #if DEBUG
-            ShowMobSpriteDebug(mob.Id);
+            spriteId = ShowMobSpriteDebug(mob.Id);
 #else
-            ShowMobSprite(mob.Id);
+            spriteId = ShowMobSprite(mob.Id);
 #endif
+            ShowBasicMobInfo(mob, spriteId);
 
             // Populate the Skill List
             mobSkillList.BeginUpdate();
@@ -168,6 +250,6 @@ namespace KouCoCoa
             }
             mobSkillList.EndUpdate();
         }
-#endregion
+        #endregion
     }
 }

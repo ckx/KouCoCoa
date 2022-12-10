@@ -135,4 +135,49 @@
         hiding,
         sight
     }
+
+    internal enum MobClass
+    {
+        Normal,
+        Boss,
+        Guardian,
+        Battlefield,
+        Event
+    }
+
+    internal enum MobRace
+    {
+        Formless,
+        Undead,
+        Brute,
+        Plant,
+        Insect,
+        Fish,
+        Demon,
+        Demihuman,
+        Angel,
+        Dragon,
+        None
+    }
+
+    internal enum MobSize
+    {
+        Small,
+        Medium,
+        Large
+    }
+
+    internal enum MobElement
+    {
+        Neutral,
+        Water,
+        Earth,
+        Fire,
+        Wind,
+        Poison,
+        Holy,
+        Dark,
+        Ghost,
+        Undead
+    }
 }

@@ -27,16 +27,16 @@ namespace KouCoCoa
             AttackRange = 0;
             SkillRange = 0;
             ChaseRange = 0;
-            Size = "Small";
-            Race = "Formless";
-            Element = "Neutral";
+            Size = MobSize.Medium;
+            Race = MobRace.Formless;
+            Element = MobElement.Neutral;
             ElementLevel = 1;
             WalkSpeed = 125;
             AttackDelay = 0;
             AttackMotion = 0;
             DamageMotion = 0;
             Ai = 06.ToString("00");
-            Class = "Normal";
+            Class = MobClass.Normal;
             Modes = new();
             Drops = new();
             Skills = new();
@@ -97,16 +97,16 @@ namespace KouCoCoa
         public int AttackRange { get; set; }
         public int SkillRange { get; set; }
         public int ChaseRange { get; set; }
-        public string Size { get; set; }
-        public string Race { get; set; }
-        public string Element { get; set; }
+        public MobSize Size { get; set; }
+        public MobRace Race { get; set; }
+        public MobElement Element { get; set; }
         public int ElementLevel { get; set; }
         public int WalkSpeed { get; set; }
         public int AttackDelay { get; set; }
         public int AttackMotion { get; set; }
         public int DamageMotion { get; set; }
         public string Ai { get; set; }
-        public string Class { get; set; }
+        public MobClass Class { get; set; }
         public MobModes Modes { get; set; }
         public List<MobDrop> Drops { get; set; }
         public List<MobSkill> Skills { get; set; }
