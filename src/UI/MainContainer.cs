@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace KouCoCoa
 {
     internal partial class MainContainer : Form
     {
         #region Constructors
-        public MainContainer(Dictionary<RAthenaDbType, List<IDatabase>> databases)
+        public MainContainer(Dictionary<RAthenaDbType, List<IDatabase>> databases, 
+            Dictionary<string, Image> images)
         {
             _databases = new(databases);
+            _images = new(images);
             InitializeComponent();
             KouCoCoaInitialization();
         }
@@ -18,6 +22,7 @@ namespace KouCoCoa
 
         #region Private fields
         private readonly Dictionary<RAthenaDbType, List<IDatabase>> _databases = new();
+        private readonly Dictionary<string, Image> _images = new();
         private readonly ContextMenuStrip _mobDbsCMS = new();
         #endregion
 
@@ -68,7 +73,7 @@ namespace KouCoCoa
                     // ditto the above...
                     npcIdDb = (NpcIdentityDatabase)_databases[RAthenaDbType.NPC_IDENTITY][0];
                 }
-                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb, npcIdDb);
+                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
                 mde.MdiParent = this;
                 mde.Show();
             }

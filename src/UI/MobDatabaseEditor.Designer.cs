@@ -74,7 +74,7 @@
             // 
             this.mobFilterBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobFilterBox.Location = new System.Drawing.Point(3, 3);
-            this.mobFilterBox.MaximumSize = new System.Drawing.Size(244, 23);
+            this.mobFilterBox.MaximumSize = new System.Drawing.Size(244, 27);
             this.mobFilterBox.Name = "mobFilterBox";
             this.mobFilterBox.Size = new System.Drawing.Size(244, 23);
             this.mobFilterBox.TabIndex = 1;
@@ -135,9 +135,9 @@
             this.mobNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobNameLabel.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.mobNameLabel.Location = new System.Drawing.Point(3, 0);
-            this.mobNameLabel.MaximumSize = new System.Drawing.Size(10000, 23);
+            this.mobNameLabel.MaximumSize = new System.Drawing.Size(10000, 27);
             this.mobNameLabel.Name = "mobNameLabel";
-            this.mobNameLabel.Size = new System.Drawing.Size(402, 23);
+            this.mobNameLabel.Size = new System.Drawing.Size(402, 27);
             this.mobNameLabel.TabIndex = 0;
             this.mobNameLabel.Text = "Mob name";
             // 
@@ -158,6 +158,7 @@
             // 
             // mobSpritePictureBox
             // 
+            this.mobSpritePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mobSpritePictureBox.Location = new System.Drawing.Point(3, 3);
             this.mobSpritePictureBox.Name = "mobSpritePictureBox";
             this.mobSpritePictureBox.Size = new System.Drawing.Size(145, 170);

@@ -14,11 +14,13 @@ namespace KouCoCoa
     internal partial class MobDatabaseEditor : Form
     {
         #region Constructor
-        public MobDatabaseEditor(MobDatabase mobDb, MobSkillDatabase mobSkillDb, NpcIdentityDatabase npcIdDb)
+        public MobDatabaseEditor(MobDatabase mobDb, MobSkillDatabase mobSkillDb, 
+            NpcIdentityDatabase npcIdDb, Dictionary<string, Image> images)
         {
             _mobDb = new(mobDb);
             _mobSkillDb = new(mobSkillDb);
             _npcIdDb = new(npcIdDb);
+            _images = images;
             InitializeComponent();
             KouCoCoaInitialization();
         }
@@ -28,6 +30,7 @@ namespace KouCoCoa
         private readonly MobDatabase _mobDb = new();
         private readonly MobSkillDatabase _mobSkillDb = new();
         private readonly NpcIdentityDatabase _npcIdDb = new();
+        private readonly Dictionary<string, Image> _images = new();
         private readonly List<string> _mobNames = new();
         #endregion
 
@@ -98,15 +101,13 @@ namespace KouCoCoa
             }
 
             // Show mob's sprite
-            string imageLocation = "data/koucocoa_transparent.png";
+            string imageKey = "koucocoa_transparent.png";
             if (_npcIdDb.Identities.ContainsKey(mobId)) {
-                imageLocation = $"data/spritedata/{_npcIdDb.Identities[mobId]}.gif";
+                imageKey = $"{_npcIdDb.Identities[mobId]}.gif";
             }
-            if (!File.Exists(imageLocation)) {
-                Logger.WriteLine($"No file found at {imageLocation}.");
-                imageLocation = "data/koucocoa_transparent.png";
-            }
-            mobSpritePictureBox.ImageLocation = imageLocation;
+            // todo: error handling, set koucocoa transparent here
+            mobSpritePictureBox.Size = _images[imageKey].Size;
+            mobSpritePictureBox.Image = _images[imageKey];
 
             // Populate the Skill List
             mobSkillList.BeginUpdate();

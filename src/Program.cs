@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 
 namespace KouCoCoa {
     class Program {
@@ -19,15 +22,31 @@ namespace KouCoCoa {
             Dictionary<RAthenaDbType, List<IDatabase>> startupDatabases = 
                 await DatabaseLoader.LoadDatabasesFromConfig(Globals.RunConfig);
 
-            ApplicationConfiguration.Initialize();
+            Dictionary<string, Image> images = LoadImages();
+
+            ApplicationConfiguration.Initialize();            
 
             // Run the winforms logic on an STAThread
-            Thread uiThread = new(() => Application.Run(new MainContainer(startupDatabases))); 
+            Thread uiThread = new(() => Application.Run(new MainContainer(startupDatabases, images))); 
             uiThread.SetApartmentState(ApartmentState.STA); 
             uiThread.Start();
         }
 
         #region Private Methods
+        private static Dictionary<string, Image> LoadImages()
+        {
+            Dictionary<string, Image> retDict = new();
+
+            using (ZipArchive zip = ZipFile.Open("data/spritedata.zip", ZipArchiveMode.Read)) {
+                foreach (ZipArchiveEntry entry in zip.Entries) {
+                    Stream stream = entry.Open();
+                    Image img = Image.FromStream(stream);
+                    retDict.Add(entry.FullName, img);
+                }
+            }
+            return retDict;
+        }
+
         private static string GetVersionTagline() {
             List<string> taglines = new() {
                 "Girls need Tao cards, too!",
