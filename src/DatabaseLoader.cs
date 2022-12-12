@@ -183,8 +183,10 @@ namespace KouCoCoa
                         string yamlString = await File.ReadAllTextAsync(filePath);
                         await Logger.WriteLineAsync($"{filePath}: Identified as a YAML file, attempting deserialization into ExpandoObject.", LogLevel.DebugVerbose);
                         yamlDb = yamlDeserializer.Deserialize<ExpandoObject>(yamlString);
-                    } catch (Exception) {
-                        throw;
+                    } catch (Exception ex) {
+                        await Logger.WriteLineAsync($"{filePath}: Database deserialization failed. Likely malformed YAML or missing the Header/Body structure." +
+                            $" Exception was thrown and loading will be skipped. Exception: {ex.Message}", LogLevel.Error);
+                        return retDb;
                     }
 
                     retDb = ParseDatabase(yamlDb);
