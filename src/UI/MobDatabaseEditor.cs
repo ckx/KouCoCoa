@@ -32,7 +32,10 @@ namespace KouCoCoa
         private readonly NpcIdentityDatabase _npcIdDb = new();
         private readonly Dictionary<string, Image> _images = new();
         private readonly List<string> _mobNames = new();
+        private readonly List<CheckBox> _mobModeCheckBoxes = new();
+        private readonly Dictionary<string, string> _aegisAiModes = new();
         private readonly string _defaultMobImageKey = "koucocoa_transparent.png";
+        private Mob _selectedMob;
         #endregion
 
         #region Private methods
@@ -56,8 +59,12 @@ namespace KouCoCoa
             mobListBox.Items.AddRange(mobListBoxCollection);
 
             InitializeComboBoxValues();
+            InitializeCheckBoxes();
         }
 
+        /// <summary>
+        /// Set all possible values for comboboxes
+        /// </summary>
         private void InitializeComboBoxValues()
         {
             foreach (MobClass mobClass in Enum.GetValues(typeof(MobClass))) {
@@ -75,6 +82,62 @@ namespace KouCoCoa
             for (int i = 1; i < 5; i++) {
                 mobEleLvlComboBox.Items.Add(i.ToString());
             }
+
+            _aegisAiModes.Add("01", "Passive");
+            _aegisAiModes.Add("02", "Passive | Looter");
+            _aegisAiModes.Add("03", "Passive | Assist | Change target Melee");
+            _aegisAiModes.Add("04", "Angry | Change target melee | Change target chase");
+            _aegisAiModes.Add("05", "Aggressive | Change target chase");
+            _aegisAiModes.Add("06", "Passive | Immobile | Can't Attack");
+            _aegisAiModes.Add("07", "Passive | Looter | Assist | Change target Melee");
+            _aegisAiModes.Add("08", "Aggressive | Change target melee | Change target chase | Target weak");
+            _aegisAiModes.Add("09", "Aggressive | Change target melee | Change target chase | Cast sense idle");
+            _aegisAiModes.Add("10", "Aggressive | Immobile");
+            _aegisAiModes.Add("11", "Aggressive | Immobile [Guardian]");
+            _aegisAiModes.Add("12", "Aggressive | Charge target chase");
+            _aegisAiModes.Add("13", "Aggressive Change target melee | Change target chase | Assist");
+            _aegisAiModes.Add("17", "Passive | Case sensor idle");
+            _aegisAiModes.Add("19", "Aggressive | Change target melee | Change target chase | Cast sense idle");
+            _aegisAiModes.Add("20", "Aggressive | Change target melee | Change target chase | Cast sense idle | Cast sense chase");
+            _aegisAiModes.Add("21", "Aggressive | Change target melee+chase | Cast sense idle | Cast sense chase | Chase change target");
+            _aegisAiModes.Add("24", "Passive | No random walk");
+            _aegisAiModes.Add("25", "Passive | Can't attack");
+            _aegisAiModes.Add("26", "Aggressive | Change target melee | Change target chase | Case sense idle | Cast sense chase | Change chase target | Random target");
+            _aegisAiModes.Add("27", "Aggressive | Immobile | Random target");
+
+            foreach (KeyValuePair<string, string> aegisModes in _aegisAiModes) {
+                mobAegisAiComboBox.Items.Add($"{aegisModes.Key} - {aegisModes.Value}");
+            }
+        }
+
+        /// <summary>
+        /// Adds all checkboxes to _mobModeCheckBoxes for usage in the AI Summary
+        /// </summary>
+        private void InitializeCheckBoxes()
+        {
+            _mobModeCheckBoxes.Add(mobModesCanMoveCheckBox);
+            _mobModeCheckBoxes.Add(mobModesCanAttackCheckBox);
+            _mobModeCheckBoxes.Add(mobModesNoRandomWalkCheckBox);
+            _mobModeCheckBoxes.Add(mobModesNoCastCheckBox);
+            _mobModeCheckBoxes.Add(mobModesDetectorCheckBox);
+            _mobModeCheckBoxes.Add(mobModesLooterCheckBox);
+            _mobModeCheckBoxes.Add(mobModesAggressiveCheckBox);
+            _mobModeCheckBoxes.Add(mobModesAssistAggroCheckBox);
+            _mobModeCheckBoxes.Add(mobModesCastSensorIdleCheckBox);
+            _mobModeCheckBoxes.Add(mobModesCastSensorChaseCheckBox);
+            _mobModeCheckBoxes.Add(mobModesRandomTargetCheckBox);
+            _mobModeCheckBoxes.Add(mobModesTargetWeakCheckBox);
+            _mobModeCheckBoxes.Add(mobModesAngryCheckBox);
+            _mobModeCheckBoxes.Add(mobModesMvpCheckBox);
+            _mobModeCheckBoxes.Add(mobModesIgnoreMeleeCheckBox);
+            _mobModeCheckBoxes.Add(mobModesIgnoreRangedCheckBox);
+            _mobModeCheckBoxes.Add(mobModesIgnoreMagicCheckBox);
+            _mobModeCheckBoxes.Add(mobModesStatusImmuneCheckBox);
+            _mobModeCheckBoxes.Add(mobModesSkillImmuneCheckBox);
+            _mobModeCheckBoxes.Add(mobModesKnockbackImmuneCheckBox);
+            _mobModeCheckBoxes.Add(mobModesFixedItemDropCheckBox);
+            _mobModeCheckBoxes.Add(mobModesIgnoreMiscCheckBox);
+            _mobModeCheckBoxes.Add(mobModesTeleportBlockCheckBox);
         }
 
         /// <summary>
@@ -167,6 +230,7 @@ namespace KouCoCoa
             mobJpNameTextBox.Text = mob.JapaneseName;
             mobIdTextBox.Text = mob.Id.ToString();
             mobSpriteIdTextBox.Text = spriteId;
+            SetComboBoxIndex(mobAegisAiComboBox, mob.Ai.ToString());
             SetComboBoxIndex(mobClassComboBox, mob.Class.ToString());
             SetComboBoxIndex(mobRaceComboBox, mob.Race.ToString());
             SetComboBoxIndex(mobSizeComboBox, mob.Size.ToString());
@@ -192,15 +256,76 @@ namespace KouCoCoa
             mobStatsAtkMotionTextBox.Text = mob.AttackMotion.ToString();
             mobStatsDmgMotionTextBox.Text = mob.DamageMotion.ToString();
 
+            // rA Mode Checkboxes
+            mobModesCanMoveCheckBox.Checked = mob.Modes.CanMove;
+            mobModesCanAttackCheckBox.Checked = mob.Modes.CanAttack;
+            mobModesNoRandomWalkCheckBox.Checked = mob.Modes.NoRandomWalk;
+            mobModesNoCastCheckBox.Checked = mob.Modes.NoCast;
+            mobModesDetectorCheckBox.Checked = mob.Modes.Detector;
+            mobModesLooterCheckBox.Checked = mob.Modes.Looter;
+            mobModesAggressiveCheckBox.Checked = mob.Modes.Aggressive;
+            mobModesAssistAggroCheckBox.Checked = mob.Modes.Assist;
+            mobModesCastSensorIdleCheckBox.Checked = mob.Modes.CastSensorIdle;
+            mobModesCastSensorChaseCheckBox.Checked = mob.Modes.CastSensorChase;
+            mobModesChangeTargetMelee.Checked = mob.Modes.ChangeTargetMelee;
+            mobModesChangeTargetChase.Checked = mob.Modes.ChangeTargetChase;
+            mobModesRandomTargetCheckBox.Checked = mob.Modes.RandomTarget;
+            mobModesTargetWeakCheckBox.Checked = mob.Modes.TargetWeak;
+            mobModesAngryCheckBox.Checked = mob.Modes.Angry;
+            mobModesMvpCheckBox.Checked = mob.Modes.Mvp;
+            mobModesIgnoreMeleeCheckBox.Checked = mob.Modes.IgnoreMelee;
+            mobModesIgnoreRangedCheckBox.Checked = mob.Modes.IgnoreRanged;
+            mobModesIgnoreMagicCheckBox.Checked = mob.Modes.IgnoreMagic;
+            mobModesStatusImmuneCheckBox.Checked = mob.Modes.StatusImmune;
+            mobModesSkillImmuneCheckBox.Checked = mob.Modes.SkillImmune;
+            mobModesKnockbackImmuneCheckBox.Checked = mob.Modes.KnockbackImmune;
+            mobModesFixedItemDropCheckBox.Checked = mob.Modes.FixedItemDrop;
+            mobModesIgnoreMiscCheckBox.Checked = mob.Modes.IgnoreMisc;
+            mobModesTeleportBlockCheckBox.Checked = mob.Modes.TeleportBlock;
+
+            PrintAiSummary(mob);
         }
 
         private void SetComboBoxIndex(ComboBox comboBox, string entry)
         {
+            // Simple combo boxes
             if (comboBox.Items.Contains(entry)) {
                 int index = comboBox.Items.IndexOf(entry);
                 comboBox.SelectedIndex = index;
+                return;
+            }
+
+            // Aegis AI combo boxes
+            if (_aegisAiModes.ContainsKey(entry)) {
+                string fullEntry = $"{entry} - {_aegisAiModes[entry]}";
+                if (comboBox.Items.Contains(fullEntry)) {
+                    int index = comboBox.Items.IndexOf(fullEntry);
+                    comboBox.SelectedIndex = index;
+                    return;
+                }
             }
         }
+
+        private void PrintAiSummary(Mob mob)
+        {
+            // AI Summary
+            mobModesEnabledTextBox.Text = string.Empty;
+            mobModesEnabledTextBox.AppendText("Aegis AI Modes" + Environment.NewLine + "-------" + Environment.NewLine);
+            string aegisModesTrimmed = _aegisAiModes[mob.Ai].Trim();
+            string[] aegisModes = aegisModesTrimmed.Split("|");
+            foreach (string mode in aegisModes) {
+                mobModesEnabledTextBox.AppendText($" * {mode}" + Environment.NewLine);
+            }
+            mobModesEnabledTextBox.AppendText(Environment.NewLine + "rA AI Modes" + Environment.NewLine + "-------" + Environment.NewLine);
+            foreach (CheckBox checkBox in _mobModeCheckBoxes) {
+                if (checkBox.Checked) {
+                    mobModesEnabledTextBox.AppendText($" * {checkBox.Text}" + Environment.NewLine);
+                }
+            }
+            mobModesEnabledTextBox.SelectionStart = 0;
+            mobModesEnabledTextBox.ScrollToCaret();
+        }
+
         #endregion
 
         #region Event Handlers
@@ -227,29 +352,120 @@ namespace KouCoCoa
             mobNameLabel.Text = selectedItem;
 
             // Find the mob we've selected
-            Mob mob = new();
             int mobId = int.Parse(Utilities.StringSplit(selectedItem, '[', ']'));
             foreach (Mob entry in _mobDb.Mobs) {
                 if (entry.Id == mobId) {
-                    mob = entry;
+                    _selectedMob = entry;
                 }
             }
             string spriteId;
 #if DEBUG
-            spriteId = ShowMobSpriteDebug(mob.Id);
+            spriteId = ShowMobSpriteDebug(_selectedMob.Id);
 #else
             spriteId = ShowMobSprite(mob.Id);
 #endif
-            ShowBasicMobInfo(mob, spriteId);
+            ShowBasicMobInfo(_selectedMob, spriteId); ;
 
             // Populate the Skill List
             mobSkillList.BeginUpdate();
             mobSkillList.Items.Clear();
-            foreach (MobSkill skill in mob.Skills) {
+            foreach (MobSkill skill in _selectedMob.Skills) {
                 mobSkillList.Items.Add($"[{skill.SkillId}] {skill.SkillName} (Lv. {skill.SkillLv})");
             }
             mobSkillList.EndUpdate();
+
+            // Populate the Drop list
+            mobDropsListBox.BeginUpdate();
+            mobDropsListBox.Items.Clear();
+            foreach (MobDrop drop in _selectedMob.Drops) {
+                mobDropsListBox.Items.Add($"{drop.Item} ({drop.Rate})");
+            }
+            mobDropsListBox.EndUpdate();
         }
         #endregion
+
+        private void mobBaseStatsStrTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mobFriendlyNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mobSaveChangesButton_Click(object sender, EventArgs e)
+        {
+            _selectedMob.Name = mobFriendlyNameTextBox.Text;
+            _selectedMob.AegisName = mobAegisNameTextBox.Text;
+            _selectedMob.JapaneseName = mobJpNameTextBox.Text;
+            _selectedMob.Id = Utilities.GetIntFromControl(mobIdTextBox);
+            //TODO: sprite selector
+            string aegisAiModeFullString = mobAegisAiComboBox.SelectedItem.ToString();
+            string[] aegisAiSplitString = aegisAiModeFullString.Split(" ");
+            _selectedMob.Ai = aegisAiSplitString[0];
+            _selectedMob.Class = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mobClass) 
+                ? mobClass : _selectedMob.Class;
+            _selectedMob.Size = Enum.TryParse(mobSizeComboBox.SelectedItem.ToString(), out MobSize mobSize)
+                ? mobSize : _selectedMob.Size;
+            _selectedMob.Race = Enum.TryParse(mobRaceComboBox.SelectedItem.ToString(), out MobRace mobRace)
+                ? mobRace : _selectedMob.Race;
+            _selectedMob.Element = Enum.TryParse(mobElementComboBox.SelectedItem.ToString(), out MobElement mobElement)
+                ? mobElement : _selectedMob.Element;
+            _selectedMob.ElementLevel = Utilities.GetIntFromControl(mobEleLvlComboBox);
+            _selectedMob.Str = Utilities.GetIntFromControl(mobBaseStatsStrTextBox);
+            _selectedMob.Int = Utilities.GetIntFromControl(mobBaseStatsIntTextBox);
+            _selectedMob.Agi = Utilities.GetIntFromControl(mobBaseStatsAgiTextBox);
+            _selectedMob.Dex = Utilities.GetIntFromControl(mobBaseStatsDexTextBox);
+            _selectedMob.Vit = Utilities.GetIntFromControl(mobBaseStatsVitTextBox);
+            _selectedMob.Luk = Utilities.GetIntFromControl(mobBaseStatsLukTextBox);
+            _selectedMob.Hp = Utilities.GetIntFromControl(mobStatsHpTextBox);
+            _selectedMob.Level = Utilities.GetIntFromControl(mobStatsLevelTextBox);
+            _selectedMob.Attack = Utilities.GetIntFromControl(mobStatsAtkTextBox);
+            _selectedMob.Attack2 = Utilities.GetIntFromControl(mobStatsAtk2TextBox);
+            _selectedMob.Defense = Utilities.GetIntFromControl(mobStatsDefTextBox);
+            _selectedMob.MagicDefense = Utilities.GetIntFromControl(mobStatsMdefTextBox);
+            _selectedMob.AttackRange = Utilities.GetIntFromControl(mobStatsAtkRangeTextBox);
+            _selectedMob.SkillRange = Utilities.GetIntFromControl(mobStatsSkillRangeTextBox);
+            _selectedMob.ChaseRange = Utilities.GetIntFromControl(mobStatsChaseRangeTextbox);
+            _selectedMob.WalkSpeed = Utilities.GetIntFromControl(mobStatsWalkSpeedTextBox);
+            _selectedMob.AttackDelay = Utilities.GetIntFromControl(mobStatsAtkDelayTextBox);
+            _selectedMob.AttackMotion = Utilities.GetIntFromControl(mobStatsAtkMotionTextBox);
+            _selectedMob.DamageMotion = Utilities.GetIntFromControl(mobStatsDmgMotionTextBox);
+
+            _selectedMob.Modes.CanMove = mobModesCanMoveCheckBox.Checked;
+            _selectedMob.Modes.CanAttack = mobModesCanAttackCheckBox.Checked;
+            _selectedMob.Modes.NoRandomWalk = mobModesNoRandomWalkCheckBox.Checked;
+            _selectedMob.Modes.NoCast = mobModesNoCastCheckBox.Checked;
+            _selectedMob.Modes.Detector = mobModesDetectorCheckBox.Checked;
+            _selectedMob.Modes.Looter = mobModesLooterCheckBox.Checked;
+            _selectedMob.Modes.Aggressive = mobModesAggressiveCheckBox.Checked;
+            _selectedMob.Modes.Assist = mobModesAssistAggroCheckBox.Checked;
+            _selectedMob.Modes.CastSensorIdle = mobModesCastSensorIdleCheckBox.Checked;
+            _selectedMob.Modes.CastSensorChase = mobModesCastSensorChaseCheckBox.Checked;
+            _selectedMob.Modes.ChangeTargetMelee = mobModesChangeTargetMelee.Checked;
+            _selectedMob.Modes.ChangeTargetChase = mobModesChangeTargetChase.Checked;
+            _selectedMob.Modes.RandomTarget = mobModesRandomTargetCheckBox.Checked;
+            _selectedMob.Modes.TargetWeak = mobModesTargetWeakCheckBox.Checked;
+            _selectedMob.Modes.Angry = mobModesAngryCheckBox.Checked;
+            _selectedMob.Modes.Mvp = mobModesMvpCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMelee = mobModesIgnoreMeleeCheckBox.Checked;
+            _selectedMob.Modes.IgnoreRanged = mobModesIgnoreRangedCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMagic = mobModesIgnoreMagicCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMisc = mobModesIgnoreMiscCheckBox.Checked;
+            _selectedMob.Modes.SkillImmune = mobModesSkillImmuneCheckBox.Checked;
+            _selectedMob.Modes.StatusImmune = mobModesStatusImmuneCheckBox.Checked;
+            _selectedMob.Modes.KnockbackImmune = mobModesFixedItemDropCheckBox.Checked;
+            _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
+            _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
+
+            
+            Task saveTask = Task.Run(() => { DatabaseSaver.SerializeDatabase(_mobDb); });
+        }
+
+        private void MobDatabaseEditor_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

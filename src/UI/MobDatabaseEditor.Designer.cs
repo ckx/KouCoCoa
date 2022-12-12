@@ -30,9 +30,11 @@
             this.mobListBox = new System.Windows.Forms.ListBox();
             this.leftDockTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobFilterBox = new System.Windows.Forms.TextBox();
-            this.mobSkillTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.mobInfoRightDockTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobSkillList = new System.Windows.Forms.ListBox();
             this.mobSkillsColumnLabel = new System.Windows.Forms.Label();
+            this.mobDropListLabel = new System.Windows.Forms.Label();
+            this.mobDropsListBox = new System.Windows.Forms.ListBox();
             this.mobInfoTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobSpritePictureBox = new System.Windows.Forms.PictureBox();
             this.mobNameInfoTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -45,9 +47,9 @@
             this.mobSpriteIdLabel = new System.Windows.Forms.Label();
             this.mobJpNameLabel = new System.Windows.Forms.Label();
             this.mobJpNameTextBox = new System.Windows.Forms.TextBox();
+            this.mobAegisAiComboBox = new System.Windows.Forms.ComboBox();
+            this.mobAiLabel = new System.Windows.Forms.Label();
             this.mobSpriteIdTextBox = new System.Windows.Forms.TextBox();
-            this.mobClassLabel = new System.Windows.Forms.Label();
-            this.mobClassComboBox = new System.Windows.Forms.ComboBox();
             this.mobBaseStatsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobBaseStatsStrLabel = new System.Windows.Forms.Label();
             this.mobBaseStatsAgiLabel = new System.Windows.Forms.Label();
@@ -89,24 +91,56 @@
             this.mobStatsDmgMotionLabel = new System.Windows.Forms.Label();
             this.mobStatsDmgMotionTextBox = new System.Windows.Forms.TextBox();
             this.mobMainAttributesTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.mobRaceLabel = new System.Windows.Forms.Label();
-            this.mobRaceComboBox = new System.Windows.Forms.ComboBox();
             this.mobSizeLabel = new System.Windows.Forms.Label();
             this.mobSizeComboBox = new System.Windows.Forms.ComboBox();
             this.mobElementLabel = new System.Windows.Forms.Label();
             this.mobElementComboBox = new System.Windows.Forms.ComboBox();
+            this.mobRaceComboBox = new System.Windows.Forms.ComboBox();
+            this.mobRaceLabel = new System.Windows.Forms.Label();
+            this.mobClassLabel = new System.Windows.Forms.Label();
+            this.mobClassComboBox = new System.Windows.Forms.ComboBox();
             this.mobEleLevelLabel = new System.Windows.Forms.Label();
             this.mobEleLvlComboBox = new System.Windows.Forms.ComboBox();
+            this.mobModesTablePanelLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.mobModesEnabledTextBox = new System.Windows.Forms.TextBox();
+            this.mobSaveChangesButton = new System.Windows.Forms.Button();
+            this.mobModesCanAttackCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesNoCastCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesLooterCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesAssistAggroCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesCastSensorChaseCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesChangeTargetChase = new System.Windows.Forms.CheckBox();
+            this.mobModesTargetWeakCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesMvpCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesIgnoreRangedCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesCanMoveCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesNoRandomWalkCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesDetectorCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesAggressiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesCastSensorIdleCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesChangeTargetMelee = new System.Windows.Forms.CheckBox();
+            this.mobModesRandomTargetCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesAngryCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesIgnoreMeleeCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesIgnoreMagicCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesSkillImmuneCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobRaMobModesLabel = new System.Windows.Forms.Label();
+            this.mobModesTeleportBlockCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesIgnoreMiscCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesFixedItemDropCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesStatusImmuneCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobModesKnockbackImmuneCheckBox = new System.Windows.Forms.CheckBox();
             this.mobNameLabel = new System.Windows.Forms.Label();
             this.mobStatsMainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.leftDockTableLayoutPanel.SuspendLayout();
-            this.mobSkillTableLayoutPanel.SuspendLayout();
+            this.mobInfoRightDockTableLayoutPanel.SuspendLayout();
             this.mobInfoTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mobSpritePictureBox)).BeginInit();
             this.mobNameInfoTableLayoutPanel.SuspendLayout();
             this.mobBaseStatsTableLayoutPanel.SuspendLayout();
             this.mobCompoundStatsTableLayout.SuspendLayout();
             this.mobMainAttributesTableLayoutPanel.SuspendLayout();
+            this.mobModesTablePanelLayout.SuspendLayout();
             this.mobStatsMainTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,7 +152,7 @@
             this.mobListBox.Location = new System.Drawing.Point(1, 30);
             this.mobListBox.Margin = new System.Windows.Forms.Padding(1);
             this.mobListBox.Name = "mobListBox";
-            this.mobListBox.Size = new System.Drawing.Size(248, 680);
+            this.mobListBox.Size = new System.Drawing.Size(248, 735);
             this.mobListBox.TabIndex = 0;
             // 
             // leftDockTableLayoutPanel
@@ -133,7 +167,7 @@
             this.leftDockTableLayoutPanel.RowCount = 2;
             this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.leftDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.leftDockTableLayoutPanel.Size = new System.Drawing.Size(250, 711);
+            this.leftDockTableLayoutPanel.Size = new System.Drawing.Size(250, 766);
             this.leftDockTableLayoutPanel.TabIndex = 1;
             // 
             // mobFilterBox
@@ -145,29 +179,32 @@
             this.mobFilterBox.Size = new System.Drawing.Size(244, 23);
             this.mobFilterBox.TabIndex = 1;
             // 
-            // mobSkillTableLayoutPanel
+            // mobInfoRightDockTableLayoutPanel
             // 
-            this.mobSkillTableLayoutPanel.ColumnCount = 1;
-            this.mobSkillTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mobSkillTableLayoutPanel.Controls.Add(this.mobSkillList, 0, 1);
-            this.mobSkillTableLayoutPanel.Controls.Add(this.mobSkillsColumnLabel, 0, 0);
-            this.mobSkillTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.mobSkillTableLayoutPanel.Location = new System.Drawing.Point(712, 0);
-            this.mobSkillTableLayoutPanel.Name = "mobSkillTableLayoutPanel";
-            this.mobSkillTableLayoutPanel.RowCount = 2;
-            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mobSkillTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mobSkillTableLayoutPanel.Size = new System.Drawing.Size(200, 711);
-            this.mobSkillTableLayoutPanel.TabIndex = 2;
+            this.mobInfoRightDockTableLayoutPanel.ColumnCount = 1;
+            this.mobInfoRightDockTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mobInfoRightDockTableLayoutPanel.Controls.Add(this.mobSkillList, 0, 1);
+            this.mobInfoRightDockTableLayoutPanel.Controls.Add(this.mobSkillsColumnLabel, 0, 0);
+            this.mobInfoRightDockTableLayoutPanel.Controls.Add(this.mobDropListLabel, 0, 2);
+            this.mobInfoRightDockTableLayoutPanel.Controls.Add(this.mobDropsListBox, 0, 3);
+            this.mobInfoRightDockTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.mobInfoRightDockTableLayoutPanel.Location = new System.Drawing.Point(712, 0);
+            this.mobInfoRightDockTableLayoutPanel.Name = "mobInfoRightDockTableLayoutPanel";
+            this.mobInfoRightDockTableLayoutPanel.RowCount = 4;
+            this.mobInfoRightDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobInfoRightDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobInfoRightDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.mobInfoRightDockTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mobInfoRightDockTableLayoutPanel.Size = new System.Drawing.Size(200, 766);
+            this.mobInfoRightDockTableLayoutPanel.TabIndex = 2;
             // 
             // mobSkillList
             // 
-            this.mobSkillList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSkillList.FormattingEnabled = true;
             this.mobSkillList.ItemHeight = 15;
             this.mobSkillList.Location = new System.Drawing.Point(3, 26);
             this.mobSkillList.Name = "mobSkillList";
-            this.mobSkillList.Size = new System.Drawing.Size(194, 682);
+            this.mobSkillList.Size = new System.Drawing.Size(194, 364);
             this.mobSkillList.TabIndex = 1;
             // 
             // mobSkillsColumnLabel
@@ -181,6 +218,27 @@
             this.mobSkillsColumnLabel.TabIndex = 0;
             this.mobSkillsColumnLabel.Text = "Skill list";
             // 
+            // mobDropListLabel
+            // 
+            this.mobDropListLabel.AutoSize = true;
+            this.mobDropListLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobDropListLabel.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.mobDropListLabel.Location = new System.Drawing.Point(3, 393);
+            this.mobDropListLabel.Name = "mobDropListLabel";
+            this.mobDropListLabel.Size = new System.Drawing.Size(194, 26);
+            this.mobDropListLabel.TabIndex = 2;
+            this.mobDropListLabel.Text = "Drop list";
+            // 
+            // mobDropsListBox
+            // 
+            this.mobDropsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobDropsListBox.FormattingEnabled = true;
+            this.mobDropsListBox.ItemHeight = 15;
+            this.mobDropsListBox.Location = new System.Drawing.Point(3, 422);
+            this.mobDropsListBox.Name = "mobDropsListBox";
+            this.mobDropsListBox.Size = new System.Drawing.Size(194, 341);
+            this.mobDropsListBox.TabIndex = 3;
+            // 
             // mobInfoTableLayoutPanel
             // 
             this.mobInfoTableLayoutPanel.ColumnCount = 2;
@@ -191,14 +249,15 @@
             this.mobInfoTableLayoutPanel.Controls.Add(this.mobBaseStatsTableLayoutPanel, 0, 1);
             this.mobInfoTableLayoutPanel.Controls.Add(this.mobCompoundStatsTableLayout, 0, 2);
             this.mobInfoTableLayoutPanel.Controls.Add(this.mobMainAttributesTableLayoutPanel, 1, 1);
+            this.mobInfoTableLayoutPanel.Controls.Add(this.mobModesTablePanelLayout, 1, 2);
             this.mobInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobInfoTableLayoutPanel.Location = new System.Drawing.Point(3, 34);
+            this.mobInfoTableLayoutPanel.Location = new System.Drawing.Point(3, 36);
             this.mobInfoTableLayoutPanel.Name = "mobInfoTableLayoutPanel";
             this.mobInfoTableLayoutPanel.RowCount = 3;
             this.mobInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mobInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.mobInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mobInfoTableLayoutPanel.Size = new System.Drawing.Size(456, 674);
+            this.mobInfoTableLayoutPanel.Size = new System.Drawing.Size(456, 727);
             this.mobInfoTableLayoutPanel.TabIndex = 1;
             // 
             // mobSpritePictureBox
@@ -207,7 +266,7 @@
             this.mobSpritePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSpritePictureBox.Location = new System.Drawing.Point(3, 3);
             this.mobSpritePictureBox.Name = "mobSpritePictureBox";
-            this.mobSpritePictureBox.Size = new System.Drawing.Size(144, 174);
+            this.mobSpritePictureBox.Size = new System.Drawing.Size(144, 175);
             this.mobSpritePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.mobSpritePictureBox.TabIndex = 0;
             this.mobSpritePictureBox.TabStop = false;
@@ -227,9 +286,9 @@
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobSpriteIdLabel, 0, 4);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobJpNameLabel, 0, 2);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobJpNameTextBox, 1, 2);
+            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAegisAiComboBox, 1, 6);
+            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAiLabel, 0, 6);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobSpriteIdTextBox, 1, 4);
-            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobClassLabel, 0, 6);
-            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobClassComboBox, 1, 6);
             this.mobNameInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobNameInfoTableLayoutPanel.Location = new System.Drawing.Point(153, 3);
             this.mobNameInfoTableLayoutPanel.Name = "mobNameInfoTableLayoutPanel";
@@ -241,7 +300,7 @@
             this.mobNameInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mobNameInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mobNameInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mobNameInfoTableLayoutPanel.Size = new System.Drawing.Size(300, 174);
+            this.mobNameInfoTableLayoutPanel.Size = new System.Drawing.Size(300, 175);
             this.mobNameInfoTableLayoutPanel.TabIndex = 3;
             // 
             // mobFriendlyNameTextBox
@@ -251,6 +310,7 @@
             this.mobFriendlyNameTextBox.Name = "mobFriendlyNameTextBox";
             this.mobFriendlyNameTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobFriendlyNameTextBox.TabIndex = 2;
+            this.mobFriendlyNameTextBox.TextChanged += new System.EventHandler(this.mobFriendlyNameTextBox_TextChanged);
             // 
             // mobFriendlyNameLabel
             // 
@@ -331,6 +391,26 @@
             this.mobJpNameTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobJpNameTextBox.TabIndex = 11;
             // 
+            // mobAegisAiComboBox
+            // 
+            this.mobAegisAiComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobAegisAiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mobAegisAiComboBox.FormattingEnabled = true;
+            this.mobAegisAiComboBox.Location = new System.Drawing.Point(79, 148);
+            this.mobAegisAiComboBox.Name = "mobAegisAiComboBox";
+            this.mobAegisAiComboBox.Size = new System.Drawing.Size(218, 23);
+            this.mobAegisAiComboBox.TabIndex = 28;
+            // 
+            // mobAiLabel
+            // 
+            this.mobAiLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobAiLabel.Location = new System.Drawing.Point(3, 145);
+            this.mobAiLabel.Name = "mobAiLabel";
+            this.mobAiLabel.Size = new System.Drawing.Size(70, 30);
+            this.mobAiLabel.TabIndex = 26;
+            this.mobAiLabel.Text = "Aegis AI";
+            this.mobAiLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // mobSpriteIdTextBox
             // 
             this.mobSpriteIdTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -338,27 +418,6 @@
             this.mobSpriteIdTextBox.Name = "mobSpriteIdTextBox";
             this.mobSpriteIdTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobSpriteIdTextBox.TabIndex = 12;
-            // 
-            // mobClassLabel
-            // 
-            this.mobClassLabel.AutoSize = true;
-            this.mobClassLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobClassLabel.Location = new System.Drawing.Point(3, 145);
-            this.mobClassLabel.Name = "mobClassLabel";
-            this.mobClassLabel.Size = new System.Drawing.Size(70, 29);
-            this.mobClassLabel.TabIndex = 13;
-            this.mobClassLabel.Text = "Class";
-            this.mobClassLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobClassComboBox
-            // 
-            this.mobClassComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobClassComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mobClassComboBox.FormattingEnabled = true;
-            this.mobClassComboBox.Location = new System.Drawing.Point(79, 148);
-            this.mobClassComboBox.Name = "mobClassComboBox";
-            this.mobClassComboBox.Size = new System.Drawing.Size(218, 23);
-            this.mobClassComboBox.TabIndex = 14;
             // 
             // mobBaseStatsTableLayoutPanel
             // 
@@ -380,7 +439,7 @@
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsLukLabel, 2, 2);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsLukTextBox, 3, 2);
             this.mobBaseStatsTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsTableLayoutPanel.Location = new System.Drawing.Point(3, 183);
+            this.mobBaseStatsTableLayoutPanel.Location = new System.Drawing.Point(3, 184);
             this.mobBaseStatsTableLayoutPanel.Name = "mobBaseStatsTableLayoutPanel";
             this.mobBaseStatsTableLayoutPanel.RowCount = 3;
             this.mobBaseStatsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -417,6 +476,7 @@
             this.mobBaseStatsStrTextBox.Name = "mobBaseStatsStrTextBox";
             this.mobBaseStatsStrTextBox.Size = new System.Drawing.Size(34, 23);
             this.mobBaseStatsStrTextBox.TabIndex = 2;
+            this.mobBaseStatsStrTextBox.TextChanged += new System.EventHandler(this.mobBaseStatsStrTextBox_TextChanged);
             // 
             // mobBaseStatsAgiTextBox
             // 
@@ -531,7 +591,7 @@
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDmgMotionLabel, 0, 12);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDmgMotionTextBox, 1, 12);
             this.mobCompoundStatsTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobCompoundStatsTableLayout.Location = new System.Drawing.Point(3, 283);
+            this.mobCompoundStatsTableLayout.Location = new System.Drawing.Point(3, 284);
             this.mobCompoundStatsTableLayout.Name = "mobCompoundStatsTableLayout";
             this.mobCompoundStatsTableLayout.RowCount = 14;
             this.mobCompoundStatsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -548,7 +608,7 @@
             this.mobCompoundStatsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mobCompoundStatsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mobCompoundStatsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mobCompoundStatsTableLayout.Size = new System.Drawing.Size(144, 388);
+            this.mobCompoundStatsTableLayout.Size = new System.Drawing.Size(144, 440);
             this.mobCompoundStatsTableLayout.TabIndex = 5;
             // 
             // mobStatsHpLabel
@@ -804,20 +864,22 @@
             // mobMainAttributesTableLayoutPanel
             // 
             this.mobMainAttributesTableLayoutPanel.ColumnCount = 4;
-            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.53659F));
-            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.46342F));
-            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobRaceLabel, 0, 0);
-            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobRaceComboBox, 1, 0);
-            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobSizeLabel, 0, 1);
-            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobSizeComboBox, 1, 1);
+            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61F));
+            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mobMainAttributesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39F));
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobSizeLabel, 2, 0);
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobSizeComboBox, 3, 0);
             this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobElementLabel, 0, 2);
             this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobElementComboBox, 1, 2);
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobRaceComboBox, 1, 1);
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobRaceLabel, 0, 1);
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobClassLabel, 0, 0);
+            this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobClassComboBox, 1, 0);
             this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobEleLevelLabel, 2, 2);
             this.mobMainAttributesTableLayoutPanel.Controls.Add(this.mobEleLvlComboBox, 3, 2);
             this.mobMainAttributesTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobMainAttributesTableLayoutPanel.Location = new System.Drawing.Point(153, 183);
+            this.mobMainAttributesTableLayoutPanel.Location = new System.Drawing.Point(153, 184);
             this.mobMainAttributesTableLayoutPanel.Name = "mobMainAttributesTableLayoutPanel";
             this.mobMainAttributesTableLayoutPanel.RowCount = 3;
             this.mobMainAttributesTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -826,34 +888,13 @@
             this.mobMainAttributesTableLayoutPanel.Size = new System.Drawing.Size(300, 94);
             this.mobMainAttributesTableLayoutPanel.TabIndex = 6;
             // 
-            // mobRaceLabel
-            // 
-            this.mobRaceLabel.AutoSize = true;
-            this.mobRaceLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobRaceLabel.Location = new System.Drawing.Point(3, 0);
-            this.mobRaceLabel.Name = "mobRaceLabel";
-            this.mobRaceLabel.Size = new System.Drawing.Size(61, 32);
-            this.mobRaceLabel.TabIndex = 0;
-            this.mobRaceLabel.Text = "Race";
-            this.mobRaceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobRaceComboBox
-            // 
-            this.mobRaceComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobRaceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mobRaceComboBox.FormattingEnabled = true;
-            this.mobRaceComboBox.Location = new System.Drawing.Point(70, 3);
-            this.mobRaceComboBox.Name = "mobRaceComboBox";
-            this.mobRaceComboBox.Size = new System.Drawing.Size(127, 23);
-            this.mobRaceComboBox.TabIndex = 1;
-            // 
             // mobSizeLabel
             // 
             this.mobSizeLabel.AutoSize = true;
             this.mobSizeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobSizeLabel.Location = new System.Drawing.Point(3, 32);
+            this.mobSizeLabel.Location = new System.Drawing.Point(184, 0);
             this.mobSizeLabel.Name = "mobSizeLabel";
-            this.mobSizeLabel.Size = new System.Drawing.Size(61, 32);
+            this.mobSizeLabel.Size = new System.Drawing.Size(34, 32);
             this.mobSizeLabel.TabIndex = 2;
             this.mobSizeLabel.Text = "Size";
             this.mobSizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -863,9 +904,9 @@
             this.mobSizeComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mobSizeComboBox.FormattingEnabled = true;
-            this.mobSizeComboBox.Location = new System.Drawing.Point(70, 35);
+            this.mobSizeComboBox.Location = new System.Drawing.Point(224, 3);
             this.mobSizeComboBox.Name = "mobSizeComboBox";
-            this.mobSizeComboBox.Size = new System.Drawing.Size(127, 23);
+            this.mobSizeComboBox.Size = new System.Drawing.Size(73, 23);
             this.mobSizeComboBox.TabIndex = 3;
             // 
             // mobElementLabel
@@ -874,7 +915,7 @@
             this.mobElementLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobElementLabel.Location = new System.Drawing.Point(3, 64);
             this.mobElementLabel.Name = "mobElementLabel";
-            this.mobElementLabel.Size = new System.Drawing.Size(61, 30);
+            this.mobElementLabel.Size = new System.Drawing.Size(52, 30);
             this.mobElementLabel.TabIndex = 4;
             this.mobElementLabel.Text = "Property";
             this.mobElementLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -884,18 +925,60 @@
             this.mobElementComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobElementComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mobElementComboBox.FormattingEnabled = true;
-            this.mobElementComboBox.Location = new System.Drawing.Point(70, 67);
+            this.mobElementComboBox.Location = new System.Drawing.Point(61, 67);
             this.mobElementComboBox.Name = "mobElementComboBox";
-            this.mobElementComboBox.Size = new System.Drawing.Size(127, 23);
+            this.mobElementComboBox.Size = new System.Drawing.Size(117, 23);
             this.mobElementComboBox.TabIndex = 5;
+            // 
+            // mobRaceComboBox
+            // 
+            this.mobRaceComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobRaceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mobRaceComboBox.FormattingEnabled = true;
+            this.mobRaceComboBox.Location = new System.Drawing.Point(61, 35);
+            this.mobRaceComboBox.Name = "mobRaceComboBox";
+            this.mobRaceComboBox.Size = new System.Drawing.Size(117, 23);
+            this.mobRaceComboBox.TabIndex = 1;
+            // 
+            // mobRaceLabel
+            // 
+            this.mobRaceLabel.AutoSize = true;
+            this.mobRaceLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobRaceLabel.Location = new System.Drawing.Point(3, 32);
+            this.mobRaceLabel.Name = "mobRaceLabel";
+            this.mobRaceLabel.Size = new System.Drawing.Size(52, 32);
+            this.mobRaceLabel.TabIndex = 0;
+            this.mobRaceLabel.Text = "Race";
+            this.mobRaceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // mobClassLabel
+            // 
+            this.mobClassLabel.AutoSize = true;
+            this.mobClassLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobClassLabel.Location = new System.Drawing.Point(3, 0);
+            this.mobClassLabel.Name = "mobClassLabel";
+            this.mobClassLabel.Size = new System.Drawing.Size(52, 32);
+            this.mobClassLabel.TabIndex = 13;
+            this.mobClassLabel.Text = "Class";
+            this.mobClassLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // mobClassComboBox
+            // 
+            this.mobClassComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobClassComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mobClassComboBox.FormattingEnabled = true;
+            this.mobClassComboBox.Location = new System.Drawing.Point(61, 3);
+            this.mobClassComboBox.Name = "mobClassComboBox";
+            this.mobClassComboBox.Size = new System.Drawing.Size(117, 23);
+            this.mobClassComboBox.TabIndex = 14;
             // 
             // mobEleLevelLabel
             // 
             this.mobEleLevelLabel.AutoSize = true;
             this.mobEleLevelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobEleLevelLabel.Location = new System.Drawing.Point(203, 64);
+            this.mobEleLevelLabel.Location = new System.Drawing.Point(184, 64);
             this.mobEleLevelLabel.Name = "mobEleLevelLabel";
-            this.mobEleLevelLabel.Size = new System.Drawing.Size(36, 30);
+            this.mobEleLevelLabel.Size = new System.Drawing.Size(34, 30);
             this.mobEleLevelLabel.TabIndex = 6;
             this.mobEleLevelLabel.Text = "Level";
             this.mobEleLevelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -905,10 +988,347 @@
             this.mobEleLvlComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobEleLvlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mobEleLvlComboBox.FormattingEnabled = true;
-            this.mobEleLvlComboBox.Location = new System.Drawing.Point(245, 67);
+            this.mobEleLvlComboBox.Location = new System.Drawing.Point(224, 67);
             this.mobEleLvlComboBox.Name = "mobEleLvlComboBox";
-            this.mobEleLvlComboBox.Size = new System.Drawing.Size(52, 23);
+            this.mobEleLvlComboBox.Size = new System.Drawing.Size(73, 23);
             this.mobEleLvlComboBox.TabIndex = 7;
+            // 
+            // mobModesTablePanelLayout
+            // 
+            this.mobModesTablePanelLayout.ColumnCount = 2;
+            this.mobModesTablePanelLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mobModesTablePanelLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesEnabledTextBox, 0, 13);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobSaveChangesButton, 1, 13);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesCanAttackCheckBox, 1, 0);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesNoCastCheckBox, 1, 1);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesLooterCheckBox, 1, 2);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesAssistAggroCheckBox, 1, 3);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesCastSensorChaseCheckBox, 1, 4);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesChangeTargetChase, 1, 5);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesTargetWeakCheckBox, 1, 6);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesMvpCheckBox, 1, 7);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesIgnoreRangedCheckBox, 1, 8);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesCanMoveCheckBox, 0, 0);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesNoRandomWalkCheckBox, 0, 1);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesDetectorCheckBox, 0, 2);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesAggressiveCheckBox, 0, 3);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesCastSensorIdleCheckBox, 0, 4);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesChangeTargetMelee, 0, 5);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesRandomTargetCheckBox, 0, 6);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesAngryCheckBox, 0, 7);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesIgnoreMeleeCheckBox, 0, 8);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesIgnoreMagicCheckBox, 0, 9);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesSkillImmuneCheckBox, 0, 10);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobRaMobModesLabel, 0, 12);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesTeleportBlockCheckBox, 1, 12);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesIgnoreMiscCheckBox, 1, 9);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesFixedItemDropCheckBox, 1, 11);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesStatusImmuneCheckBox, 1, 10);
+            this.mobModesTablePanelLayout.Controls.Add(this.mobModesKnockbackImmuneCheckBox, 0, 11);
+            this.mobModesTablePanelLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobModesTablePanelLayout.Location = new System.Drawing.Point(153, 284);
+            this.mobModesTablePanelLayout.Name = "mobModesTablePanelLayout";
+            this.mobModesTablePanelLayout.RowCount = 14;
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mobModesTablePanelLayout.Size = new System.Drawing.Size(300, 440);
+            this.mobModesTablePanelLayout.TabIndex = 7;
+            // 
+            // mobModesEnabledTextBox
+            // 
+            this.mobModesEnabledTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobModesEnabledTextBox.Location = new System.Drawing.Point(3, 328);
+            this.mobModesEnabledTextBox.Multiline = true;
+            this.mobModesEnabledTextBox.Name = "mobModesEnabledTextBox";
+            this.mobModesEnabledTextBox.ReadOnly = true;
+            this.mobModesEnabledTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.mobModesEnabledTextBox.Size = new System.Drawing.Size(152, 109);
+            this.mobModesEnabledTextBox.TabIndex = 24;
+            // 
+            // mobSaveChangesButton
+            // 
+            this.mobSaveChangesButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobSaveChangesButton.Location = new System.Drawing.Point(161, 328);
+            this.mobSaveChangesButton.Name = "mobSaveChangesButton";
+            this.mobSaveChangesButton.Size = new System.Drawing.Size(136, 109);
+            this.mobSaveChangesButton.TabIndex = 26;
+            this.mobSaveChangesButton.Text = "Save";
+            this.mobSaveChangesButton.UseVisualStyleBackColor = true;
+            this.mobSaveChangesButton.Click += new System.EventHandler(this.mobSaveChangesButton_Click);
+            // 
+            // mobModesCanAttackCheckBox
+            // 
+            this.mobModesCanAttackCheckBox.AutoSize = true;
+            this.mobModesCanAttackCheckBox.Location = new System.Drawing.Point(161, 3);
+            this.mobModesCanAttackCheckBox.Name = "mobModesCanAttackCheckBox";
+            this.mobModesCanAttackCheckBox.Size = new System.Drawing.Size(83, 19);
+            this.mobModesCanAttackCheckBox.TabIndex = 1;
+            this.mobModesCanAttackCheckBox.Text = "Can Attack";
+            this.mobModesCanAttackCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesNoCastCheckBox
+            // 
+            this.mobModesNoCastCheckBox.AutoSize = true;
+            this.mobModesNoCastCheckBox.Location = new System.Drawing.Point(161, 28);
+            this.mobModesNoCastCheckBox.Name = "mobModesNoCastCheckBox";
+            this.mobModesNoCastCheckBox.Size = new System.Drawing.Size(67, 19);
+            this.mobModesNoCastCheckBox.TabIndex = 3;
+            this.mobModesNoCastCheckBox.Text = "No Cast";
+            this.mobModesNoCastCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesLooterCheckBox
+            // 
+            this.mobModesLooterCheckBox.AutoSize = true;
+            this.mobModesLooterCheckBox.Location = new System.Drawing.Point(161, 53);
+            this.mobModesLooterCheckBox.Name = "mobModesLooterCheckBox";
+            this.mobModesLooterCheckBox.Size = new System.Drawing.Size(60, 19);
+            this.mobModesLooterCheckBox.TabIndex = 5;
+            this.mobModesLooterCheckBox.Text = "Looter";
+            this.mobModesLooterCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesAssistAggroCheckBox
+            // 
+            this.mobModesAssistAggroCheckBox.AutoSize = true;
+            this.mobModesAssistAggroCheckBox.Location = new System.Drawing.Point(161, 78);
+            this.mobModesAssistAggroCheckBox.Name = "mobModesAssistAggroCheckBox";
+            this.mobModesAssistAggroCheckBox.Size = new System.Drawing.Size(92, 19);
+            this.mobModesAssistAggroCheckBox.TabIndex = 7;
+            this.mobModesAssistAggroCheckBox.Text = "Assist Aggro";
+            this.mobModesAssistAggroCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesCastSensorChaseCheckBox
+            // 
+            this.mobModesCastSensorChaseCheckBox.AutoSize = true;
+            this.mobModesCastSensorChaseCheckBox.Location = new System.Drawing.Point(161, 103);
+            this.mobModesCastSensorChaseCheckBox.Name = "mobModesCastSensorChaseCheckBox";
+            this.mobModesCastSensorChaseCheckBox.Size = new System.Drawing.Size(120, 19);
+            this.mobModesCastSensorChaseCheckBox.TabIndex = 9;
+            this.mobModesCastSensorChaseCheckBox.Text = "Cast Sensor Chase";
+            this.mobModesCastSensorChaseCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesChangeTargetChase
+            // 
+            this.mobModesChangeTargetChase.AutoSize = true;
+            this.mobModesChangeTargetChase.Location = new System.Drawing.Point(161, 128);
+            this.mobModesChangeTargetChase.Name = "mobModesChangeTargetChase";
+            this.mobModesChangeTargetChase.Size = new System.Drawing.Size(135, 19);
+            this.mobModesChangeTargetChase.TabIndex = 11;
+            this.mobModesChangeTargetChase.Text = "Change Target Chase";
+            this.mobModesChangeTargetChase.UseVisualStyleBackColor = true;
+            // 
+            // mobModesTargetWeakCheckBox
+            // 
+            this.mobModesTargetWeakCheckBox.AutoSize = true;
+            this.mobModesTargetWeakCheckBox.Location = new System.Drawing.Point(161, 153);
+            this.mobModesTargetWeakCheckBox.Name = "mobModesTargetWeakCheckBox";
+            this.mobModesTargetWeakCheckBox.Size = new System.Drawing.Size(90, 19);
+            this.mobModesTargetWeakCheckBox.TabIndex = 13;
+            this.mobModesTargetWeakCheckBox.Text = "Target Weak";
+            this.mobModesTargetWeakCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesMvpCheckBox
+            // 
+            this.mobModesMvpCheckBox.AutoSize = true;
+            this.mobModesMvpCheckBox.Location = new System.Drawing.Point(161, 178);
+            this.mobModesMvpCheckBox.Name = "mobModesMvpCheckBox";
+            this.mobModesMvpCheckBox.Size = new System.Drawing.Size(51, 19);
+            this.mobModesMvpCheckBox.TabIndex = 15;
+            this.mobModesMvpCheckBox.Text = "MVP";
+            this.mobModesMvpCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesIgnoreRangedCheckBox
+            // 
+            this.mobModesIgnoreRangedCheckBox.AutoSize = true;
+            this.mobModesIgnoreRangedCheckBox.Location = new System.Drawing.Point(161, 203);
+            this.mobModesIgnoreRangedCheckBox.Name = "mobModesIgnoreRangedCheckBox";
+            this.mobModesIgnoreRangedCheckBox.Size = new System.Drawing.Size(103, 19);
+            this.mobModesIgnoreRangedCheckBox.TabIndex = 17;
+            this.mobModesIgnoreRangedCheckBox.Text = "Ignore Ranged";
+            this.mobModesIgnoreRangedCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesCanMoveCheckBox
+            // 
+            this.mobModesCanMoveCheckBox.AutoSize = true;
+            this.mobModesCanMoveCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.mobModesCanMoveCheckBox.Name = "mobModesCanMoveCheckBox";
+            this.mobModesCanMoveCheckBox.Size = new System.Drawing.Size(79, 19);
+            this.mobModesCanMoveCheckBox.TabIndex = 0;
+            this.mobModesCanMoveCheckBox.Text = "Can Move";
+            this.mobModesCanMoveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesNoRandomWalkCheckBox
+            // 
+            this.mobModesNoRandomWalkCheckBox.AutoSize = true;
+            this.mobModesNoRandomWalkCheckBox.Location = new System.Drawing.Point(3, 28);
+            this.mobModesNoRandomWalkCheckBox.Name = "mobModesNoRandomWalkCheckBox";
+            this.mobModesNoRandomWalkCheckBox.Size = new System.Drawing.Size(118, 19);
+            this.mobModesNoRandomWalkCheckBox.TabIndex = 2;
+            this.mobModesNoRandomWalkCheckBox.Text = "No Random Walk";
+            this.mobModesNoRandomWalkCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesDetectorCheckBox
+            // 
+            this.mobModesDetectorCheckBox.AutoSize = true;
+            this.mobModesDetectorCheckBox.Location = new System.Drawing.Point(3, 53);
+            this.mobModesDetectorCheckBox.Name = "mobModesDetectorCheckBox";
+            this.mobModesDetectorCheckBox.Size = new System.Drawing.Size(71, 19);
+            this.mobModesDetectorCheckBox.TabIndex = 4;
+            this.mobModesDetectorCheckBox.Text = "Detector";
+            this.mobModesDetectorCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesAggressiveCheckBox
+            // 
+            this.mobModesAggressiveCheckBox.AutoSize = true;
+            this.mobModesAggressiveCheckBox.Location = new System.Drawing.Point(3, 78);
+            this.mobModesAggressiveCheckBox.Name = "mobModesAggressiveCheckBox";
+            this.mobModesAggressiveCheckBox.Size = new System.Drawing.Size(83, 19);
+            this.mobModesAggressiveCheckBox.TabIndex = 6;
+            this.mobModesAggressiveCheckBox.Text = "Aggressive";
+            this.mobModesAggressiveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesCastSensorIdleCheckBox
+            // 
+            this.mobModesCastSensorIdleCheckBox.AutoSize = true;
+            this.mobModesCastSensorIdleCheckBox.Location = new System.Drawing.Point(3, 103);
+            this.mobModesCastSensorIdleCheckBox.Name = "mobModesCastSensorIdleCheckBox";
+            this.mobModesCastSensorIdleCheckBox.Size = new System.Drawing.Size(108, 19);
+            this.mobModesCastSensorIdleCheckBox.TabIndex = 8;
+            this.mobModesCastSensorIdleCheckBox.Text = "Cast Sensor Idle";
+            this.mobModesCastSensorIdleCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesChangeTargetMelee
+            // 
+            this.mobModesChangeTargetMelee.AutoSize = true;
+            this.mobModesChangeTargetMelee.Location = new System.Drawing.Point(3, 128);
+            this.mobModesChangeTargetMelee.Name = "mobModesChangeTargetMelee";
+            this.mobModesChangeTargetMelee.Size = new System.Drawing.Size(136, 19);
+            this.mobModesChangeTargetMelee.TabIndex = 10;
+            this.mobModesChangeTargetMelee.Text = "Change Target Melee";
+            this.mobModesChangeTargetMelee.UseVisualStyleBackColor = true;
+            // 
+            // mobModesRandomTargetCheckBox
+            // 
+            this.mobModesRandomTargetCheckBox.AutoSize = true;
+            this.mobModesRandomTargetCheckBox.Location = new System.Drawing.Point(3, 153);
+            this.mobModesRandomTargetCheckBox.Name = "mobModesRandomTargetCheckBox";
+            this.mobModesRandomTargetCheckBox.Size = new System.Drawing.Size(105, 19);
+            this.mobModesRandomTargetCheckBox.TabIndex = 12;
+            this.mobModesRandomTargetCheckBox.Text = "Random Target";
+            this.mobModesRandomTargetCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesAngryCheckBox
+            // 
+            this.mobModesAngryCheckBox.AutoSize = true;
+            this.mobModesAngryCheckBox.Location = new System.Drawing.Point(3, 178);
+            this.mobModesAngryCheckBox.Name = "mobModesAngryCheckBox";
+            this.mobModesAngryCheckBox.Size = new System.Drawing.Size(58, 19);
+            this.mobModesAngryCheckBox.TabIndex = 14;
+            this.mobModesAngryCheckBox.Text = "Angry";
+            this.mobModesAngryCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesIgnoreMeleeCheckBox
+            // 
+            this.mobModesIgnoreMeleeCheckBox.AutoSize = true;
+            this.mobModesIgnoreMeleeCheckBox.Location = new System.Drawing.Point(3, 203);
+            this.mobModesIgnoreMeleeCheckBox.Name = "mobModesIgnoreMeleeCheckBox";
+            this.mobModesIgnoreMeleeCheckBox.Size = new System.Drawing.Size(95, 19);
+            this.mobModesIgnoreMeleeCheckBox.TabIndex = 16;
+            this.mobModesIgnoreMeleeCheckBox.Text = "Ignore Melee";
+            this.mobModesIgnoreMeleeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesIgnoreMagicCheckBox
+            // 
+            this.mobModesIgnoreMagicCheckBox.AutoSize = true;
+            this.mobModesIgnoreMagicCheckBox.Location = new System.Drawing.Point(3, 228);
+            this.mobModesIgnoreMagicCheckBox.Name = "mobModesIgnoreMagicCheckBox";
+            this.mobModesIgnoreMagicCheckBox.Size = new System.Drawing.Size(96, 19);
+            this.mobModesIgnoreMagicCheckBox.TabIndex = 18;
+            this.mobModesIgnoreMagicCheckBox.Text = "Ignore Magic";
+            this.mobModesIgnoreMagicCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesSkillImmuneCheckBox
+            // 
+            this.mobModesSkillImmuneCheckBox.AutoSize = true;
+            this.mobModesSkillImmuneCheckBox.Location = new System.Drawing.Point(3, 253);
+            this.mobModesSkillImmuneCheckBox.Name = "mobModesSkillImmuneCheckBox";
+            this.mobModesSkillImmuneCheckBox.Size = new System.Drawing.Size(93, 19);
+            this.mobModesSkillImmuneCheckBox.TabIndex = 20;
+            this.mobModesSkillImmuneCheckBox.Text = "Skill Immune";
+            this.mobModesSkillImmuneCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobRaMobModesLabel
+            // 
+            this.mobRaMobModesLabel.AutoSize = true;
+            this.mobRaMobModesLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobRaMobModesLabel.Location = new System.Drawing.Point(3, 300);
+            this.mobRaMobModesLabel.Name = "mobRaMobModesLabel";
+            this.mobRaMobModesLabel.Size = new System.Drawing.Size(152, 25);
+            this.mobRaMobModesLabel.TabIndex = 28;
+            this.mobRaMobModesLabel.Text = "AI Summary:";
+            this.mobRaMobModesLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // mobModesTeleportBlockCheckBox
+            // 
+            this.mobModesTeleportBlockCheckBox.AutoSize = true;
+            this.mobModesTeleportBlockCheckBox.Location = new System.Drawing.Point(161, 303);
+            this.mobModesTeleportBlockCheckBox.Name = "mobModesTeleportBlockCheckBox";
+            this.mobModesTeleportBlockCheckBox.Size = new System.Drawing.Size(100, 19);
+            this.mobModesTeleportBlockCheckBox.TabIndex = 29;
+            this.mobModesTeleportBlockCheckBox.Text = "Teleport Block";
+            this.mobModesTeleportBlockCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesIgnoreMiscCheckBox
+            // 
+            this.mobModesIgnoreMiscCheckBox.AutoSize = true;
+            this.mobModesIgnoreMiscCheckBox.Location = new System.Drawing.Point(161, 228);
+            this.mobModesIgnoreMiscCheckBox.Name = "mobModesIgnoreMiscCheckBox";
+            this.mobModesIgnoreMiscCheckBox.Size = new System.Drawing.Size(88, 19);
+            this.mobModesIgnoreMiscCheckBox.TabIndex = 23;
+            this.mobModesIgnoreMiscCheckBox.Text = "Ignore Misc";
+            this.mobModesIgnoreMiscCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesFixedItemDropCheckBox
+            // 
+            this.mobModesFixedItemDropCheckBox.AutoSize = true;
+            this.mobModesFixedItemDropCheckBox.Location = new System.Drawing.Point(161, 278);
+            this.mobModesFixedItemDropCheckBox.Name = "mobModesFixedItemDropCheckBox";
+            this.mobModesFixedItemDropCheckBox.Size = new System.Drawing.Size(109, 19);
+            this.mobModesFixedItemDropCheckBox.TabIndex = 22;
+            this.mobModesFixedItemDropCheckBox.Text = "Fixed Item Drop";
+            this.mobModesFixedItemDropCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesStatusImmuneCheckBox
+            // 
+            this.mobModesStatusImmuneCheckBox.AutoSize = true;
+            this.mobModesStatusImmuneCheckBox.Location = new System.Drawing.Point(161, 253);
+            this.mobModesStatusImmuneCheckBox.Name = "mobModesStatusImmuneCheckBox";
+            this.mobModesStatusImmuneCheckBox.Size = new System.Drawing.Size(104, 19);
+            this.mobModesStatusImmuneCheckBox.TabIndex = 19;
+            this.mobModesStatusImmuneCheckBox.Text = "Status Immune";
+            this.mobModesStatusImmuneCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobModesKnockbackImmuneCheckBox
+            // 
+            this.mobModesKnockbackImmuneCheckBox.AutoSize = true;
+            this.mobModesKnockbackImmuneCheckBox.Location = new System.Drawing.Point(3, 278);
+            this.mobModesKnockbackImmuneCheckBox.Name = "mobModesKnockbackImmuneCheckBox";
+            this.mobModesKnockbackImmuneCheckBox.Size = new System.Drawing.Size(130, 19);
+            this.mobModesKnockbackImmuneCheckBox.TabIndex = 21;
+            this.mobModesKnockbackImmuneCheckBox.Text = "Knockback Immune";
+            this.mobModesKnockbackImmuneCheckBox.UseVisualStyleBackColor = true;
             // 
             // mobNameLabel
             // 
@@ -933,22 +1353,23 @@
             this.mobStatsMainTableLayoutPanel.RowCount = 2;
             this.mobStatsMainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.388715F));
             this.mobStatsMainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.61128F));
-            this.mobStatsMainTableLayoutPanel.Size = new System.Drawing.Size(462, 711);
+            this.mobStatsMainTableLayoutPanel.Size = new System.Drawing.Size(462, 766);
             this.mobStatsMainTableLayoutPanel.TabIndex = 3;
             // 
             // MobDatabaseEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 711);
+            this.ClientSize = new System.Drawing.Size(912, 766);
             this.Controls.Add(this.mobStatsMainTableLayoutPanel);
-            this.Controls.Add(this.mobSkillTableLayoutPanel);
+            this.Controls.Add(this.mobInfoRightDockTableLayoutPanel);
             this.Controls.Add(this.leftDockTableLayoutPanel);
             this.Name = "MobDatabaseEditor";
-            this.Text = "MobDatabaseEditor";
+            this.Load += new System.EventHandler(this.MobDatabaseEditor_Load);
             this.leftDockTableLayoutPanel.ResumeLayout(false);
             this.leftDockTableLayoutPanel.PerformLayout();
-            this.mobSkillTableLayoutPanel.ResumeLayout(false);
+            this.mobInfoRightDockTableLayoutPanel.ResumeLayout(false);
+            this.mobInfoRightDockTableLayoutPanel.PerformLayout();
             this.mobInfoTableLayoutPanel.ResumeLayout(false);
             this.mobInfoTableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mobSpritePictureBox)).EndInit();
@@ -960,6 +1381,8 @@
             this.mobCompoundStatsTableLayout.PerformLayout();
             this.mobMainAttributesTableLayoutPanel.ResumeLayout(false);
             this.mobMainAttributesTableLayoutPanel.PerformLayout();
+            this.mobModesTablePanelLayout.ResumeLayout(false);
+            this.mobModesTablePanelLayout.PerformLayout();
             this.mobStatsMainTableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -970,7 +1393,7 @@
         private System.Windows.Forms.ListBox mobListBox;
         private System.Windows.Forms.TableLayoutPanel leftDockTableLayoutPanel;
         private System.Windows.Forms.TextBox mobFilterBox;
-        private System.Windows.Forms.TableLayoutPanel mobSkillTableLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel mobInfoRightDockTableLayoutPanel;
         private System.Windows.Forms.Label mobSkillsColumnLabel;
         private System.Windows.Forms.ListBox mobSkillList;
         private System.Windows.Forms.TableLayoutPanel mobInfoTableLayoutPanel;
@@ -1039,5 +1462,38 @@
         private System.Windows.Forms.ComboBox mobElementComboBox;
         private System.Windows.Forms.Label mobEleLevelLabel;
         private System.Windows.Forms.ComboBox mobEleLvlComboBox;
+        private System.Windows.Forms.TableLayoutPanel mobModesTablePanelLayout;
+        private System.Windows.Forms.CheckBox mobModesCanMoveCheckBox;
+        private System.Windows.Forms.CheckBox mobModesCanAttackCheckBox;
+        private System.Windows.Forms.CheckBox mobModesNoRandomWalkCheckBox;
+        private System.Windows.Forms.CheckBox mobModesNoCastCheckBox;
+        private System.Windows.Forms.CheckBox mobModesDetectorCheckBox;
+        private System.Windows.Forms.CheckBox mobModesLooterCheckBox;
+        private System.Windows.Forms.CheckBox mobModesAggressiveCheckBox;
+        private System.Windows.Forms.CheckBox mobModesAssistAggroCheckBox;
+        private System.Windows.Forms.CheckBox mobModesCastSensorIdleCheckBox;
+        private System.Windows.Forms.CheckBox mobModesCastSensorChaseCheckBox;
+        private System.Windows.Forms.CheckBox mobModesChangeTargetMelee;
+        private System.Windows.Forms.CheckBox mobModesChangeTargetChase;
+        private System.Windows.Forms.CheckBox mobModesRandomTargetCheckBox;
+        private System.Windows.Forms.CheckBox mobModesTargetWeakCheckBox;
+        private System.Windows.Forms.CheckBox mobModesAngryCheckBox;
+        private System.Windows.Forms.CheckBox mobModesMvpCheckBox;
+        private System.Windows.Forms.CheckBox mobModesIgnoreMeleeCheckBox;
+        private System.Windows.Forms.CheckBox mobModesIgnoreRangedCheckBox;
+        private System.Windows.Forms.CheckBox mobModesIgnoreMagicCheckBox;
+        private System.Windows.Forms.CheckBox mobModesStatusImmuneCheckBox;
+        private System.Windows.Forms.CheckBox mobModesSkillImmuneCheckBox;
+        private System.Windows.Forms.CheckBox mobModesKnockbackImmuneCheckBox;
+        private System.Windows.Forms.CheckBox mobModesFixedItemDropCheckBox;
+        private System.Windows.Forms.CheckBox mobModesIgnoreMiscCheckBox;
+        private System.Windows.Forms.Label mobDropListLabel;
+        private System.Windows.Forms.ListBox mobDropsListBox;
+        private System.Windows.Forms.TextBox mobModesEnabledTextBox;
+        private System.Windows.Forms.Button mobSaveChangesButton;
+        private System.Windows.Forms.Label mobRaMobModesLabel;
+        private System.Windows.Forms.CheckBox mobModesTeleportBlockCheckBox;
+        private System.Windows.Forms.Label mobAiLabel;
+        private System.Windows.Forms.ComboBox mobAegisAiComboBox;
     }
 }

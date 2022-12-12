@@ -24,6 +24,7 @@ namespace KouCoCoa {
         public string YamlDbDirectoryPath { get; set; }
         public List<string> AdditionalDbPaths { get; set; }
         public string NpcIdentityLub { get; set; }
+        public bool AutoBackupDatabases { get; set; }
         public bool SilenceLogger;
 
         /// <summary>

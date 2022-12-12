@@ -1,5 +1,7 @@
 ﻿using System.CodeDom;
+using System.ComponentModel;
 using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace KouCoCoa
 {
@@ -107,8 +109,11 @@ namespace KouCoCoa
         public int DamageMotion { get; set; }
         public string Ai { get; set; }
         public MobClass Class { get; set; }
+        [YamlMember(DefaultValuesHandling = DefaultValuesHandling.OmitEmptyCollections)]
         public MobModes Modes { get; set; }
+        [YamlMember(DefaultValuesHandling = DefaultValuesHandling.OmitEmptyCollections)]
         public List<MobDrop> Drops { get; set; }
+        [YamlDotNet.Serialization.YamlIgnore]
         public List<MobSkill> Skills { get; set; }
         #endregion
     }
