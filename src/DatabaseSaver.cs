@@ -30,14 +30,17 @@ namespace KouCoCoa
             }
 
             string yamlString = string.Empty;
+            RAthenaYamlDatabase yamlDb = new(db.DatabaseType);
 
             switch (db.DatabaseType) {
                 case RAthenaDbType.UNSUPPORTED:
                     break;
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = (MobDatabase)db;
+                    
+                    yamlDb.Body = mobDb.Mobs;
                     try {
-                        yamlString = yamlSerializer.Serialize(mobDb.Mobs);
+                        yamlString = yamlSerializer.Serialize(yamlDb);
                     } catch (Exception) {
                         throw;
                     }
@@ -80,4 +83,29 @@ namespace KouCoCoa
         }
         #endregion
     }
+
+    #region Header/Body
+    internal class RAthenaYamlDatabase
+    {
+        public RAthenaYamlDatabase(RAthenaDbType innerDbType)
+        {
+            Header = new();
+            Header.Type = innerDbType;
+        }
+
+        public YamlHeader Header { get; set; }
+        public dynamic Body { get; set; }
+    }
+
+    internal class YamlHeader
+    {
+        public YamlHeader()
+        {
+            Type = RAthenaDbType.UNSUPPORTED;
+            Version = 3;
+        }
+        public RAthenaDbType Type { get; set; }
+        public int Version { get; set; }
+    }
+    #endregion
 }
