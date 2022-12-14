@@ -33,6 +33,7 @@ namespace KouCoCoa
         private readonly Dictionary<string, Image> _images = new();
         private readonly List<CheckBox> _mobModeCheckBoxes = new();
         private readonly Dictionary<string, string> _aegisAiModes = new();
+        private readonly List<SkillEditor> _openSkillEditors = new();
         private readonly string _defaultMobImageKey = "koucocoa_transparent.png";
         private Mob _selectedMob;
         private readonly ContextMenuStrip mobListContextMenuStrip = new();
@@ -223,10 +224,23 @@ namespace KouCoCoa
         private void mobSkillList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int skillIndex = mobSkillList.SelectedIndex;
+            if (skillIndex > _selectedMob.Skills.Count || skillIndex == -1) {
+                return;
+            }
             MobSkill skill = _selectedMob.Skills[skillIndex];
+            string skillLine = $"{skill.MobName} :: [{skill.State}] {skill.SkillName} {skill.SkillLv}";
+            foreach (SkillEditor openSkillEditor in _openSkillEditors) {
+                if (openSkillEditor.Text.Contains(skillLine)) {
+                    openSkillEditor.Focus();
+                    return;
+                }
+            }
+
             SkillEditor skillEditor = new(skill);
             skillEditor.TopLevel = false;
-            skillEditor.MdiParent = this.MdiParent;
+            skillEditor.MdiParent = MdiParent;
+            skillEditor.FormClosed += skillEditor_Closed;
+            _openSkillEditors.Add(skillEditor);
             skillEditor.Show();
         }
 
@@ -588,11 +602,17 @@ namespace KouCoCoa
             _selectedMob.Modes.KnockbackImmune = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
-
-
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DatabaseSaver.SerializeDatabase(_mobDb);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        private void skillEditor_Closed(object sender, FormClosedEventArgs e)
+        {
+            SkillEditor editor = (SkillEditor)sender;
+            if (_openSkillEditors.Contains(editor)) {
+                _openSkillEditors.Remove((SkillEditor)sender);
+            }
         }
     }
 }

@@ -123,7 +123,7 @@ namespace KouCoCoa
                 mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
                 mde.MdiParent = this;
                 _openDbForms.Add(mde);
-                mde.FormClosed += childFormClosed;
+                mde.FormClosed += childForm_Closed;
                 mde.Show();
             }
         }
@@ -136,7 +136,7 @@ namespace KouCoCoa
             dbOranizer.Show();
         }
 
-        private void childFormClosed(object sender, FormClosedEventArgs e)
+        private void childForm_Closed(object sender, FormClosedEventArgs e)
         {
             Form form = (Form)sender;
             if (_openDbForms.Contains(form)) {
