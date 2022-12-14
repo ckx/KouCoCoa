@@ -310,7 +310,6 @@
             this.mobFriendlyNameTextBox.Name = "mobFriendlyNameTextBox";
             this.mobFriendlyNameTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobFriendlyNameTextBox.TabIndex = 2;
-            this.mobFriendlyNameTextBox.TextChanged += new System.EventHandler(this.mobFriendlyNameTextBox_TextChanged);
             // 
             // mobFriendlyNameLabel
             // 
@@ -476,7 +475,6 @@
             this.mobBaseStatsStrTextBox.Name = "mobBaseStatsStrTextBox";
             this.mobBaseStatsStrTextBox.Size = new System.Drawing.Size(34, 23);
             this.mobBaseStatsStrTextBox.TabIndex = 2;
-            this.mobBaseStatsStrTextBox.TextChanged += new System.EventHandler(this.mobBaseStatsStrTextBox_TextChanged);
             // 
             // mobBaseStatsAgiTextBox
             // 
@@ -1365,7 +1363,6 @@
             this.Controls.Add(this.mobInfoRightDockTableLayoutPanel);
             this.Controls.Add(this.leftDockTableLayoutPanel);
             this.Name = "MobDatabaseEditor";
-            this.Load += new System.EventHandler(this.MobDatabaseEditor_Load);
             this.leftDockTableLayoutPanel.ResumeLayout(false);
             this.leftDockTableLayoutPanel.PerformLayout();
             this.mobInfoRightDockTableLayoutPanel.ResumeLayout(false);

@@ -24,6 +24,7 @@ namespace KouCoCoa
         private readonly Dictionary<RAthenaDbType, List<IDatabase>> _databases = new();
         private readonly Dictionary<string, Image> _images = new();
         private readonly ContextMenuStrip _mobDbsCMS = new();
+        private readonly List<Form> _openDbForms = new();
         #endregion
 
         #region Private methods
@@ -66,6 +67,20 @@ namespace KouCoCoa
             int index = rand.Next(taglines.Count);
             return taglines[index];
         }
+
+        /// <summary>
+        /// Checks if an existing DB form exists (based on name). Sets focus to existing window if it exists.
+        /// </summary>
+        private bool CheckExistingDbForm(IDatabase dbName)
+        {
+            foreach (Form form in _openDbForms) {
+                if (form.Text == $"{dbName.Name} :: {form.Name}") {
+                    form.Focus();
+                    return true;
+                }
+            }
+            return false;
+        }
         #endregion
 
 
@@ -89,7 +104,11 @@ namespace KouCoCoa
         /// </summary>
         private void mobDbs_Selection(object sender, EventArgs e, MobDatabase senderMobDb) 
         {
+            if (CheckExistingDbForm(senderMobDb)) {
+                return;
+            }
             if (_databases[RAthenaDbType.MOB_DB].Contains(senderMobDb)) {
+                MobDatabaseEditor mde;
                 MobSkillDatabase mobSkillDb = new();
                 if (_databases.ContainsKey(RAthenaDbType.MOB_SKILL_DB)) {
                     // TODO: Is there any point to all this? We will probably only ever have 1 mob skill db...
@@ -101,8 +120,10 @@ namespace KouCoCoa
                     // ditto the above...
                     npcIdDb = (NpcIdentityDatabase)_databases[RAthenaDbType.NPC_IDENTITY][0];
                 }
-                MobDatabaseEditor mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
+                mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
                 mde.MdiParent = this;
+                _openDbForms.Add(mde);
+                mde.FormClosed += childFormClosed;
                 mde.Show();
             }
         }
@@ -113,6 +134,14 @@ namespace KouCoCoa
             DatabaseOrganizer dbOranizer = new(_databases);
             dbOranizer.Parent = this;
             dbOranizer.Show();
+        }
+
+        private void childFormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form form = (Form)sender;
+            if (_openDbForms.Contains(form)) {
+                _openDbForms.Remove((Form)sender);
+            }
         }
     }
 }

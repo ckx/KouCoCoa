@@ -31,18 +31,17 @@ namespace KouCoCoa
         private readonly MobSkillDatabase _mobSkillDb = new();
         private readonly NpcIdentityDatabase _npcIdDb = new();
         private readonly Dictionary<string, Image> _images = new();
-        private readonly List<string> _mobNames = new();
         private readonly List<CheckBox> _mobModeCheckBoxes = new();
         private readonly Dictionary<string, string> _aegisAiModes = new();
         private readonly string _defaultMobImageKey = "koucocoa_transparent.png";
         private Mob _selectedMob;
+        private readonly ContextMenuStrip mobListContextMenuStrip = new();
         #endregion
 
         #region Private methods
         private void KouCoCoaInitialization()
         {
-            Text = $"{_mobDb.Name} :: Mob Database Editor";
-
+            Text = $"{_mobDb.Name} :: {Name}";
             // Event subscriptions
             mobListBox.SelectedValueChanged += mobListBox_SelectedValueChanged;
             mobFilterBox.TextChanged += mobFilterBox_TextChanged;
@@ -51,15 +50,39 @@ namespace KouCoCoa
 
             // Populate the left-docked mobList 
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
+            List<string> mobNames = new();
             foreach (Mob mob in _mobDb.Mobs) {
-                string mobName = $"[{mob.Id}] {mob.Name} ({mob.AegisName})";
-                _mobNames.Add(mobName);
+                mobNames.Add(MobToListEntry(mob));
             }
-            mobListBoxCollection.AddRange(_mobNames.Cast<object>().ToArray());
+            mobListBoxCollection.AddRange(mobNames.Cast<object>().ToArray());
             mobListBox.Items.AddRange(mobListBoxCollection);
-
+            mobListBox.MouseDown += mobListBox_MouseDown;
+            InitializeMobListContextMenuStrip();
             InitializeComboBoxValues();
             InitializeCheckBoxes();
+        }
+
+        private static void InitializeMobListContextMenuStrip() {
+        }
+
+        private void mobListBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) {
+                mobListContextMenuStrip.Items.Clear();
+                mobListBox.SelectedIndex = mobListBox.IndexFromPoint(e.Location);
+                if (mobListBox.SelectedIndex != -1) {
+                    ToolStripMenuItem addMob = new("Add new mob...");
+                    addMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, null); };
+                    ToolStripMenuItem duplicateMob = new($"Duplicate '{_selectedMob.Name}...'");
+                    duplicateMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, _selectedMob); };
+                    ToolStripMenuItem deleteMob = new($"Delete '{_selectedMob.Name}...'");
+                    deleteMob.Click += delegate (object sender, EventArgs e) { DeleteMob_Event(sender, e); };
+                    mobListContextMenuStrip.Items.Add(addMob);
+                    mobListContextMenuStrip.Items.Add(duplicateMob);
+                    mobListContextMenuStrip.Items.Add(deleteMob);
+                    mobListContextMenuStrip.Show(Cursor.Position);
+                }
+            }
         }
 
         /// <summary>
@@ -326,12 +349,86 @@ namespace KouCoCoa
             mobModesEnabledTextBox.ScrollToCaret();
         }
 
+        private static string MobToListEntry(Mob inputMob)
+        {
+            return $"[{inputMob.Id}] {inputMob.Name} ({inputMob.AegisName})";
+        }
+
+        private void SetSelectedMob(string selectedText)
+        {
+            // Find the mob we've selected
+            Mob selectedMob = new();
+            int mobId = int.Parse(Utilities.StringSplit(selectedText, '[', ']'));
+            foreach (Mob entry in _mobDb.Mobs) {
+                if (entry.Id == mobId) {
+                    _selectedMob = entry;
+                    break;
+                }
+            }
+        }
         #endregion
 
         #region Event Handlers
+        private void AddNewMob_Event(object sender, EventArgs e, Mob baseMob)
+        {
+            Mob mob = new();
+            string identity = string.Empty;
+            if (baseMob != null) {
+                mob = new(baseMob);
+                if (_npcIdDb.Identities.ContainsKey(baseMob.Id)) {
+                    identity = _npcIdDb.Identities[baseMob.Id];
+                }
+            }
+            // set new mob ID, increment by 1 of whatever max is on current db
+            List<int> allIds = new();
+            foreach (Mob existingMob in _mobDb.Mobs) {
+                allIds.Add(existingMob.Id);
+            }
+            int maxId = allIds.Max();
+            mob.Id = maxId+1;
+            
+            // set the selected mob to the newly created mob
+            _selectedMob = mob;
+
+            // Catch empty identities and change them to some default
+            if (identity == string.Empty) {
+                identity = "PORING";
+            }
+            // Catch existing keys in the id db, just remove them
+            if (_npcIdDb.Identities.ContainsKey(mob.Id)) {
+                _npcIdDb.Identities.Remove(mob.Id);
+            }
+            _npcIdDb.Identities.Add(mob.Id, identity);
+            _mobDb.Mobs.Add(mob);
+            string mobEntry = MobToListEntry(mob);
+            mobListBox.Items.Add(mobEntry);
+        }
+
+        private void DeleteMob_Event(object sender, EventArgs e)
+        {
+            _mobDb.Mobs.Remove(_selectedMob);
+            if (_npcIdDb.Identities.ContainsKey(_selectedMob.Id)) {
+                _npcIdDb.Identities.Remove(_selectedMob.Id);
+            }
+            object mobToRemove = mobListBox.SelectedItem;
+            int newIndex = mobListBox.SelectedIndex+1;
+            if (mobListBox.Items.Count <= newIndex) {
+                newIndex = mobListBox.SelectedIndex - 1;
+            }
+            if (mobListBox.Items.Count == 1) {
+                mobListBox.SelectedIndex = -1;
+            } else {
+                mobListBox.SelectedIndex = newIndex;
+            }
+            mobListBox.Items.Remove(mobToRemove);
+        }
+
         private void mobFilterBox_TextChanged(object sender, EventArgs e)
         {
-            List<string> mobFilterResults = new(_mobNames);
+            List<string> mobFilterResults = new();
+            foreach (Mob mob in _mobDb.Mobs) {
+                mobFilterResults.Add(MobToListEntry(mob));
+            }
             mobListBox.BeginUpdate();
             mobListBox.Items.Clear();
             if (!string.IsNullOrEmpty(mobFilterBox.Text)) {
@@ -348,16 +445,14 @@ namespace KouCoCoa
 
         private void mobListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (mobListBox.SelectedItem == null) {
+                return;
+            }
             string selectedItem = mobListBox.SelectedItem.ToString();
             mobNameLabel.Text = selectedItem;
 
-            // Find the mob we've selected
-            int mobId = int.Parse(Utilities.StringSplit(selectedItem, '[', ']'));
-            foreach (Mob entry in _mobDb.Mobs) {
-                if (entry.Id == mobId) {
-                    _selectedMob = entry;
-                }
-            }
+            SetSelectedMob(selectedItem);
+
             string spriteId;
 #if DEBUG
             spriteId = ShowMobSpriteDebug(_selectedMob.Id);
@@ -383,16 +478,6 @@ namespace KouCoCoa
             mobDropsListBox.EndUpdate();
         }
         #endregion
-
-        private void mobBaseStatsStrTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mobFriendlyNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void mobSaveChangesButton_Click(object sender, EventArgs e)
         {
@@ -459,13 +544,10 @@ namespace KouCoCoa
             _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
 
-            
-            Task saveTask = Task.Run(() => { DatabaseSaver.SerializeDatabase(_mobDb); });
-        }
 
-        private void MobDatabaseEditor_Load(object sender, EventArgs e)
-        {
-
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            DatabaseSaver.SerializeDatabase(_mobDb);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
     }
 }
