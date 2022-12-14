@@ -37,7 +37,6 @@ namespace KouCoCoa
                     break;
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = (MobDatabase)db;
-                    
                     yamlDb.Body = mobDb.Mobs;
                     try {
                         yamlString = yamlSerializer.Serialize(yamlDb);
@@ -60,7 +59,6 @@ namespace KouCoCoa
             try {
                 await File.WriteAllTextAsync(db.FilePath, yamlString);
             } catch (Exception) {
-
                 throw;
             }
         }
@@ -84,7 +82,6 @@ namespace KouCoCoa
         #endregion
     }
 
-    #region Header/Body
     internal class RAthenaYamlDatabase
     {
         public RAthenaYamlDatabase(RAthenaDbType innerDbType)
@@ -107,5 +104,4 @@ namespace KouCoCoa
         public RAthenaDbType Type { get; set; }
         public int Version { get; set; }
     }
-    #endregion
 }

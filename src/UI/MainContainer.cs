@@ -30,9 +30,6 @@ namespace KouCoCoa
         private void KouCoCoaInitialization()
         {
             this.Text = $"{Program.ProgramName} ～ {GetVersionTagline()}";
-            foreach (KeyValuePair<RAthenaDbType, List<IDatabase>> dbEntries in _databases) {
-                mainMenuStrip.Items.Add(dbEntries.Key.ToString());
-            }
 
             // MobDBs menu
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
@@ -110,5 +107,12 @@ namespace KouCoCoa
             }
         }
         #endregion
+
+        private void databaseOrganizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DatabaseOrganizer dbOranizer = new(_databases);
+            dbOranizer.Parent = this;
+            dbOranizer.Show();
+        }
     }
 }

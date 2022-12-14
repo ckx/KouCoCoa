@@ -33,6 +33,7 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mobDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseOrganizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
+            this.databaseOrganizerToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -61,13 +63,13 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             // 
             // windowToolStripMenuItem
@@ -81,6 +83,13 @@
             this.mobDBToolStripMenuItem.Name = "mobDBToolStripMenuItem";
             this.mobDBToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.mobDBToolStripMenuItem.Text = "&MobDBs";
+            // 
+            // databaseOrganizerToolStripMenuItem
+            // 
+            this.databaseOrganizerToolStripMenuItem.Name = "databaseOrganizerToolStripMenuItem";
+            this.databaseOrganizerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.databaseOrganizerToolStripMenuItem.Text = "&Database Organizer";
+            this.databaseOrganizerToolStripMenuItem.Click += new System.EventHandler(this.databaseOrganizerToolStripMenuItem_Click);
             // 
             // MainContainer
             // 
@@ -105,5 +114,6 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mobDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseOrganizerToolStripMenuItem;
     }
 }

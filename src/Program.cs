@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
+using System.Globalization;
 
 namespace KouCoCoa {
     class Program {
@@ -24,11 +25,15 @@ namespace KouCoCoa {
 
             Dictionary<string, Image> images = LoadImages();
 
-            ApplicationConfiguration.Initialize();            
-
+            ApplicationConfiguration.Initialize();
             // Run the winforms logic on an STAThread
-            Thread uiThread = new(() => Application.Run(new MainContainer(startupDatabases, images))); 
-            uiThread.SetApartmentState(ApartmentState.STA); 
+            Thread uiThread = new(() => Application.Run(new MainContainer(startupDatabases, images)));
+            uiThread.SetApartmentState(ApartmentState.STA);
+            // Set culture to force English exception messages...
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+            uiThread.CurrentCulture = culture;
+            uiThread.CurrentUICulture = culture;
+            // Start the main winforms thread
             uiThread.Start();
         }
 
