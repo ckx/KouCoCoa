@@ -37,6 +37,7 @@ namespace KouCoCoa
         private readonly string _defaultMobImageKey = "koucocoa_transparent.png";
         private Mob _selectedMob;
         private readonly ContextMenuStrip mobListContextMenuStrip = new();
+        private readonly ContextMenuStrip skillListContextMenuStrip = new();
         #endregion
 
         #region Private methods
@@ -49,6 +50,7 @@ namespace KouCoCoa
 
             AssignMobSkillsToMobs();
             mobSkillList.MouseDoubleClick += mobSkillList_MouseDoubleClick;
+            mobSkillList.MouseDown += mobSkillList_MouseDown;
 
             // Populate the left-docked mobList 
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
@@ -60,12 +62,8 @@ namespace KouCoCoa
             mobListBox.Items.AddRange(mobListBoxCollection);
             mobListBox.MouseDown += mobListBox_MouseDown;
             InitializeUpDownControls();
-            InitializeMobListContextMenuStrip();
             InitializeComboBoxValues();
             InitializeCheckBoxes();
-        }
-
-        private static void InitializeMobListContextMenuStrip() {
         }
 
         private void mobListBox_MouseDown(object sender, MouseEventArgs e)
@@ -76,15 +74,33 @@ namespace KouCoCoa
                 if (mobListBox.SelectedIndex != -1) {
                     ToolStripMenuItem addMob = new("Add new mob...");
                     addMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, null); };
-                    ToolStripMenuItem duplicateMob = new($"Duplicate '{_selectedMob.Name}...'");
+                    ToolStripMenuItem duplicateMob = new($"Duplicate '{_selectedMob.AegisName}...'");
                     duplicateMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, _selectedMob); };
-                    ToolStripMenuItem deleteMob = new($"Delete '{_selectedMob.Name}...'");
+                    ToolStripMenuItem deleteMob = new($"Delete '{_selectedMob.AegisName}...'");
                     deleteMob.Click += delegate (object sender, EventArgs e) { DeleteMob_Event(sender, e); };
                     mobListContextMenuStrip.Items.Add(addMob);
                     mobListContextMenuStrip.Items.Add(duplicateMob);
                     mobListContextMenuStrip.Items.Add(deleteMob);
                     mobListContextMenuStrip.Show(Cursor.Position);
                 }
+            }
+        }
+
+        private void mobSkillList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) {
+                skillListContextMenuStrip.Items.Clear();
+                mobSkillList.SelectedIndex = mobSkillList.IndexFromPoint(e.Location);
+                ToolStripMenuItem addSkill = new("Add new skill...");
+                addSkill.Click += delegate (object sender, EventArgs e) { AddNewSkill_Event(sender, e); };
+                skillListContextMenuStrip.Items.Add(addSkill);
+                if (mobSkillList.SelectedIndex != -1) {
+                    ToolStripMenuItem duplicateSkill = new($"Duplicate '{mobSkillList.SelectedItem}'...");
+                    ToolStripMenuItem deleteSkill = new($"Delete '{mobSkillList.SelectedItem}'...");
+                    skillListContextMenuStrip.Items.Add(duplicateSkill);
+                    skillListContextMenuStrip.Items.Add(deleteSkill);
+                }
+                skillListContextMenuStrip.Show(Cursor.Position);
             }
         }
 
@@ -439,6 +455,7 @@ namespace KouCoCoa
             string identity = string.Empty;
             if (baseMob != null) {
                 mob = new(baseMob);
+                mob.AegisName += "_";
                 if (_npcIdDb.Identities.ContainsKey(baseMob.Id)) {
                     identity = _npcIdDb.Identities[baseMob.Id];
                 }
@@ -464,8 +481,17 @@ namespace KouCoCoa
             }
             _npcIdDb.Identities.Add(mob.Id, identity);
             _mobDb.Mobs.Add(mob);
-            string mobEntry = MobToListEntry(mob);
-            mobListBox.Items.Add(mobEntry);
+            mobListBox.Items.Add(MobToListEntry(mob));
+        }
+
+
+        private void AddNewSkill_Event(object sender, EventArgs e)
+        {
+            MobSkill skill = new();
+            skill.MobId = _selectedMob.Id;
+            skill.MobName = _selectedMob.Name;
+            _selectedMob.Skills.Add(skill);
+            mobSkillList.Items.Add(SkillToListEntry(skill));
         }
 
         private void DeleteMob_Event(object sender, EventArgs e)
