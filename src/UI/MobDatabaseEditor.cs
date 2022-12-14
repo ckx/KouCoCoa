@@ -71,18 +71,18 @@ namespace KouCoCoa
             if (e.Button == MouseButtons.Right) {
                 mobListContextMenuStrip.Items.Clear();
                 mobListBox.SelectedIndex = mobListBox.IndexFromPoint(e.Location);
+                ToolStripMenuItem addMob = new("Add new mob...");
+                addMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, null); };
+                mobListContextMenuStrip.Items.Add(addMob);
                 if (mobListBox.SelectedIndex != -1) {
-                    ToolStripMenuItem addMob = new("Add new mob...");
-                    addMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, null); };
                     ToolStripMenuItem duplicateMob = new($"Duplicate '{_selectedMob.AegisName}...'");
                     duplicateMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, _selectedMob); };
                     ToolStripMenuItem deleteMob = new($"Delete '{_selectedMob.AegisName}...'");
                     deleteMob.Click += delegate (object sender, EventArgs e) { DeleteMob_Event(sender, e); };
-                    mobListContextMenuStrip.Items.Add(addMob);
                     mobListContextMenuStrip.Items.Add(duplicateMob);
                     mobListContextMenuStrip.Items.Add(deleteMob);
-                    mobListContextMenuStrip.Show(Cursor.Position);
                 }
+                mobListContextMenuStrip.Show(Cursor.Position);
             }
         }
 
@@ -131,6 +131,7 @@ namespace KouCoCoa
             foreach (NumericUpDown upDown in upDowns) {
                 upDown.Minimum = 0;
                 upDown.Maximum = int.MaxValue;
+                upDown.MouseWheel += upDown_MouseWheel;
             }
         }
 
@@ -562,7 +563,16 @@ namespace KouCoCoa
             }
             mobDropsListBox.EndUpdate();
         }
-        #endregion
+
+        /// <summary>
+        /// Disable mouse wheel in numeric upDowns
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void upDown_MouseWheel(object sender, MouseEventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
+        }
 
         private void mobSaveChangesButton_Click(object sender, EventArgs e)
         {
@@ -574,7 +584,7 @@ namespace KouCoCoa
             string aegisAiModeFullString = mobAegisAiComboBox.SelectedItem.ToString();
             string[] aegisAiSplitString = aegisAiModeFullString.Split(" ");
             _selectedMob.Ai = aegisAiSplitString[0];
-            _selectedMob.Class = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mobClass) 
+            _selectedMob.Class = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mobClass)
                 ? mobClass : _selectedMob.Class;
             _selectedMob.Size = Enum.TryParse(mobSizeComboBox.SelectedItem.ToString(), out MobSize mobSize)
                 ? mobSize : _selectedMob.Size;
@@ -640,5 +650,6 @@ namespace KouCoCoa
                 _openSkillEditors.Remove((SkillEditor)sender);
             }
         }
+        #endregion
     }
 }

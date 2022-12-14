@@ -500,7 +500,7 @@
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(120, 49);
             this.saveButton.TabIndex = 44;
-            this.saveButton.Text = "Save";
+            this.saveButton.Text = "Apply";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 

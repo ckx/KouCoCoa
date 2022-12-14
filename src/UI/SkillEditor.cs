@@ -63,6 +63,7 @@ namespace KouCoCoa
             foreach (NumericUpDown upDown in upDowns) {
                 upDown.Minimum = 0;
                 upDown.Maximum = int.MaxValue;
+                upDown.MouseWheel += upDown_MouseWheel;
             }
         }
 
@@ -124,6 +125,14 @@ namespace KouCoCoa
             _skill.Val4 = val4TextBox.Text;
             _skill.Val5 = val5TextBox.Text;
             _skill.Chat = chatTextBox.Text;
+        }
+
+        /// <summary>
+        /// Disable MouseWheel in NumericUpDown
+        /// </summary>
+        private void upDown_MouseWheel(object sender, MouseEventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
         }
     }
 }
