@@ -47,6 +47,7 @@ namespace KouCoCoa
             mobFilterBox.TextChanged += mobFilterBox_TextChanged;
 
             AssignMobSkillsToMobs();
+            mobSkillList.MouseDoubleClick += mobSkillList_MouseDoubleClick;
 
             // Populate the left-docked mobList 
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
@@ -57,6 +58,7 @@ namespace KouCoCoa
             mobListBoxCollection.AddRange(mobNames.Cast<object>().ToArray());
             mobListBox.Items.AddRange(mobListBoxCollection);
             mobListBox.MouseDown += mobListBox_MouseDown;
+            InitializeUpDownControls();
             InitializeMobListContextMenuStrip();
             InitializeComboBoxValues();
             InitializeCheckBoxes();
@@ -82,6 +84,36 @@ namespace KouCoCoa
                     mobListContextMenuStrip.Items.Add(deleteMob);
                     mobListContextMenuStrip.Show(Cursor.Position);
                 }
+            }
+        }
+
+        private void InitializeUpDownControls()
+        {
+            List<NumericUpDown> upDowns = new() {
+                mobBaseStatsStrUpDown,
+                mobBaseStatsIntUpDown,
+                mobBaseStatsAgiUpDown,
+                mobBaseStatsDexUpDown,
+                mobBaseStatsVitUpDown,
+                mobBaseStatsLukUpDown,
+                mobIdNumericUpDown,
+                mobStatsHpUpDown,
+                mobStatsLevelUpDown,
+                mobStatsAttackUpDown,
+                mobStatsAttack2UpDown,
+                mobStatsDefenseUpDown,
+                mobStatsMdefUpDown,
+                mobStatsAtkRangeUpDown,
+                mobStatsSkillRangeUpDown,
+                mobStatsChaseRangeUpDown,
+                mobStatsMoveSpeedUpDown,
+                mobStatsAtkDelayUpDown,
+                mobStatsAtkMotionUpDown,
+                mobStatsDmgMotionUpDown
+            };
+            foreach (NumericUpDown upDown in upDowns) {
+                upDown.Minimum = 0;
+                upDown.Maximum = int.MaxValue;
             }
         }
 
@@ -178,6 +210,26 @@ namespace KouCoCoa
             }
         }
 
+        private void PopulateSkills()
+        {
+            mobSkillList.BeginUpdate();
+            mobSkillList.Items.Clear();
+            foreach (MobSkill skill in _selectedMob.Skills) {
+                mobSkillList.Items.Add(SkillToListEntry(skill));
+            }
+            mobSkillList.EndUpdate();
+        }
+
+        private void mobSkillList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int skillIndex = mobSkillList.SelectedIndex;
+            MobSkill skill = _selectedMob.Skills[skillIndex];
+            SkillEditor skillEditor = new(skill);
+            skillEditor.TopLevel = false;
+            skillEditor.MdiParent = this.MdiParent;
+            skillEditor.Show();
+        }
+
         /// <summary>
         /// Load sprite image from the image list DB
         /// </summary>
@@ -251,33 +303,33 @@ namespace KouCoCoa
             mobFriendlyNameTextBox.Text = mob.Name;
             mobAegisNameTextBox.Text = mob.AegisName;
             mobJpNameTextBox.Text = mob.JapaneseName;
-            mobIdTextBox.Text = mob.Id.ToString();
+            mobIdNumericUpDown.Value = mob.Id;
             mobSpriteIdTextBox.Text = spriteId;
-            SetComboBoxIndex(mobAegisAiComboBox, mob.Ai.ToString());
-            SetComboBoxIndex(mobClassComboBox, mob.Class.ToString());
-            SetComboBoxIndex(mobRaceComboBox, mob.Race.ToString());
-            SetComboBoxIndex(mobSizeComboBox, mob.Size.ToString());
-            SetComboBoxIndex(mobElementComboBox, mob.Element.ToString());
-            SetComboBoxIndex(mobEleLvlComboBox, mob.ElementLevel.ToString());
-            mobBaseStatsStrTextBox.Text = mob.Str.ToString();
-            mobBaseStatsIntTextBox.Text = mob.Int.ToString();
-            mobBaseStatsAgiTextBox.Text = mob.Agi.ToString();
-            mobBaseStatsDexTextBox.Text = mob.Dex.ToString();
-            mobBaseStatsVitTextBox.Text = mob.Vit.ToString();
-            mobBaseStatsLukTextBox.Text = mob.Luk.ToString();
-            mobStatsHpTextBox.Text = mob.Hp.ToString();
-            mobStatsLevelTextBox.Text = mob.Level.ToString();
-            mobStatsAtkTextBox.Text = mob.Attack.ToString();
-            mobStatsAtk2TextBox.Text = mob.Attack2.ToString();
-            mobStatsDefTextBox.Text = mob.Defense.ToString();
-            mobStatsMdefTextBox.Text = mob.MagicDefense.ToString();
-            mobStatsAtkRangeTextBox.Text = mob.AttackRange.ToString();
-            mobStatsSkillRangeTextBox.Text = mob.SkillRange.ToString();
-            mobStatsChaseRangeTextbox.Text = mob.ChaseRange.ToString();
-            mobStatsWalkSpeedTextBox.Text = mob.WalkSpeed.ToString();
-            mobStatsAtkDelayTextBox.Text = mob.AttackDelay.ToString();
-            mobStatsAtkMotionTextBox.Text = mob.AttackMotion.ToString();
-            mobStatsDmgMotionTextBox.Text = mob.DamageMotion.ToString();
+            SetAiComboBoxIndex(mobAegisAiComboBox, mob.Ai.ToString());
+            Utilities.SetComboBoxIndex(mobClassComboBox, mob.Class.ToString());
+            Utilities.SetComboBoxIndex(mobRaceComboBox, mob.Race.ToString());
+            Utilities.SetComboBoxIndex(mobSizeComboBox, mob.Size.ToString());
+            Utilities.SetComboBoxIndex(mobElementComboBox, mob.Element.ToString());
+            Utilities.SetComboBoxIndex(mobEleLvlComboBox, mob.ElementLevel.ToString());
+            mobBaseStatsStrUpDown.Value = mob.Str;
+            mobBaseStatsIntUpDown.Value = mob.Int;
+            mobBaseStatsAgiUpDown.Value = mob.Agi;
+            mobBaseStatsDexUpDown.Value = mob.Dex;
+            mobBaseStatsVitUpDown.Value = mob.Vit;
+            mobBaseStatsLukUpDown.Value = mob.Luk;
+            mobStatsHpUpDown.Value = mob.Hp;
+            mobStatsLevelUpDown.Value = mob.Level;
+            mobStatsAttackUpDown.Value = mob.Attack;
+            mobStatsAttack2UpDown.Value = mob.Attack2;
+            mobStatsDefenseUpDown.Value = mob.Defense;
+            mobStatsMdefUpDown.Value = mob.MagicDefense;
+            mobStatsAtkRangeUpDown.Value = mob.AttackRange;
+            mobStatsSkillRangeUpDown.Value = mob.SkillRange;
+            mobStatsChaseRangeUpDown.Value = mob.ChaseRange;
+            mobStatsMoveSpeedUpDown.Value = mob.WalkSpeed;
+            mobStatsAtkDelayUpDown.Value = mob.AttackDelay;
+            mobStatsAtkMotionUpDown.Value = mob.AttackMotion;
+            mobStatsDmgMotionUpDown.Value = mob.DamageMotion;
 
             // rA Mode Checkboxes
             mobModesCanMoveCheckBox.Checked = mob.Modes.CanMove;
@@ -309,15 +361,8 @@ namespace KouCoCoa
             PrintAiSummary(mob);
         }
 
-        private void SetComboBoxIndex(ComboBox comboBox, string entry)
+        private void SetAiComboBoxIndex(ComboBox comboBox, string entry)
         {
-            // Simple combo boxes
-            if (comboBox.Items.Contains(entry)) {
-                int index = comboBox.Items.IndexOf(entry);
-                comboBox.SelectedIndex = index;
-                return;
-            }
-
             // Aegis AI combo boxes
             if (_aegisAiModes.ContainsKey(entry)) {
                 string fullEntry = $"{entry} - {_aegisAiModes[entry]}";
@@ -349,9 +394,14 @@ namespace KouCoCoa
             mobModesEnabledTextBox.ScrollToCaret();
         }
 
-        private static string MobToListEntry(Mob inputMob)
+        private static string MobToListEntry(Mob mob)
         {
-            return $"[{inputMob.Id}] {inputMob.Name} ({inputMob.AegisName})";
+            return $"[{mob.Id}] {mob.Name} ({mob.AegisName})";
+        }
+
+        private static string SkillToListEntry(MobSkill skill)
+        {
+            return $"[{skill.State}] {skill.SkillName} (Lv. {skill.SkillLv})";
         }
 
         private void SetSelectedMob(string selectedText)
@@ -462,12 +512,7 @@ namespace KouCoCoa
             ShowBasicMobInfo(_selectedMob, spriteId); ;
 
             // Populate the Skill List
-            mobSkillList.BeginUpdate();
-            mobSkillList.Items.Clear();
-            foreach (MobSkill skill in _selectedMob.Skills) {
-                mobSkillList.Items.Add($"[{skill.SkillId}] {skill.SkillName} (Lv. {skill.SkillLv})");
-            }
-            mobSkillList.EndUpdate();
+            PopulateSkills();
 
             // Populate the Drop list
             mobDropsListBox.BeginUpdate();
@@ -484,7 +529,7 @@ namespace KouCoCoa
             _selectedMob.Name = mobFriendlyNameTextBox.Text;
             _selectedMob.AegisName = mobAegisNameTextBox.Text;
             _selectedMob.JapaneseName = mobJpNameTextBox.Text;
-            _selectedMob.Id = Utilities.GetIntFromControl(mobIdTextBox);
+            _selectedMob.Id = (int)mobIdNumericUpDown.Value;
             //TODO: sprite selector
             string aegisAiModeFullString = mobAegisAiComboBox.SelectedItem.ToString();
             string[] aegisAiSplitString = aegisAiModeFullString.Split(" ");
@@ -498,25 +543,25 @@ namespace KouCoCoa
             _selectedMob.Element = Enum.TryParse(mobElementComboBox.SelectedItem.ToString(), out MobElement mobElement)
                 ? mobElement : _selectedMob.Element;
             _selectedMob.ElementLevel = Utilities.GetIntFromControl(mobEleLvlComboBox);
-            _selectedMob.Str = Utilities.GetIntFromControl(mobBaseStatsStrTextBox);
-            _selectedMob.Int = Utilities.GetIntFromControl(mobBaseStatsIntTextBox);
-            _selectedMob.Agi = Utilities.GetIntFromControl(mobBaseStatsAgiTextBox);
-            _selectedMob.Dex = Utilities.GetIntFromControl(mobBaseStatsDexTextBox);
-            _selectedMob.Vit = Utilities.GetIntFromControl(mobBaseStatsVitTextBox);
-            _selectedMob.Luk = Utilities.GetIntFromControl(mobBaseStatsLukTextBox);
-            _selectedMob.Hp = Utilities.GetIntFromControl(mobStatsHpTextBox);
-            _selectedMob.Level = Utilities.GetIntFromControl(mobStatsLevelTextBox);
-            _selectedMob.Attack = Utilities.GetIntFromControl(mobStatsAtkTextBox);
-            _selectedMob.Attack2 = Utilities.GetIntFromControl(mobStatsAtk2TextBox);
-            _selectedMob.Defense = Utilities.GetIntFromControl(mobStatsDefTextBox);
-            _selectedMob.MagicDefense = Utilities.GetIntFromControl(mobStatsMdefTextBox);
-            _selectedMob.AttackRange = Utilities.GetIntFromControl(mobStatsAtkRangeTextBox);
-            _selectedMob.SkillRange = Utilities.GetIntFromControl(mobStatsSkillRangeTextBox);
-            _selectedMob.ChaseRange = Utilities.GetIntFromControl(mobStatsChaseRangeTextbox);
-            _selectedMob.WalkSpeed = Utilities.GetIntFromControl(mobStatsWalkSpeedTextBox);
-            _selectedMob.AttackDelay = Utilities.GetIntFromControl(mobStatsAtkDelayTextBox);
-            _selectedMob.AttackMotion = Utilities.GetIntFromControl(mobStatsAtkMotionTextBox);
-            _selectedMob.DamageMotion = Utilities.GetIntFromControl(mobStatsDmgMotionTextBox);
+            _selectedMob.Str = (int)mobBaseStatsStrUpDown.Value;
+            _selectedMob.Int = (int)mobBaseStatsIntUpDown.Value;
+            _selectedMob.Agi = (int)mobBaseStatsAgiUpDown.Value;
+            _selectedMob.Dex = (int)mobBaseStatsDexUpDown.Value;
+            _selectedMob.Vit = (int)mobBaseStatsVitUpDown.Value;
+            _selectedMob.Luk = (int)mobBaseStatsLukUpDown.Value;
+            _selectedMob.Hp = (int)mobStatsHpUpDown.Value;
+            _selectedMob.Level = (int)mobStatsLevelUpDown.Value;
+            _selectedMob.Attack = (int)mobStatsAttackUpDown.Value;
+            _selectedMob.Attack2 = (int)mobStatsAttack2UpDown.Value;
+            _selectedMob.Defense = (int)mobStatsDefenseUpDown.Value;
+            _selectedMob.MagicDefense = (int)mobStatsMdefUpDown.Value;
+            _selectedMob.AttackRange = (int)mobStatsAtkRangeUpDown.Value;
+            _selectedMob.SkillRange = (int)mobStatsSkillRangeUpDown.Value;
+            _selectedMob.ChaseRange = (int)mobStatsChaseRangeUpDown.Value;
+            _selectedMob.WalkSpeed = (int)mobStatsAtkDelayUpDown.Value;
+            _selectedMob.AttackDelay = (int)mobStatsAtkDelayUpDown.Value;
+            _selectedMob.AttackMotion = (int)mobStatsDmgMotionUpDown.Value;
+            _selectedMob.DamageMotion = (int)mobStatsDmgMotionUpDown.Value;
 
             _selectedMob.Modes.CanMove = mobModesCanMoveCheckBox.Checked;
             _selectedMob.Modes.CanAttack = mobModesCanAttackCheckBox.Checked;

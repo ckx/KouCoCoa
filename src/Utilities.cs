@@ -22,6 +22,15 @@ namespace KouCoCoa
             return output;
         }
 
+        internal static void SetComboBoxIndex(ComboBox comboBox, string entry)
+        {
+            if (comboBox.Items.Contains(entry)) {
+                int index = comboBox.Items.IndexOf(entry);
+                comboBox.SelectedIndex = index;
+                return;
+            }
+        }
+
         /// <summary>
         /// Yes, I'm lazy enough to be making a wrapper for TryParse.
         /// </summary>

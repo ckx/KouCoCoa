@@ -42,7 +42,6 @@
             this.mobFriendlyNameLabel = new System.Windows.Forms.Label();
             this.mobAegisNameLabel = new System.Windows.Forms.Label();
             this.mobAegisNameTextBox = new System.Windows.Forms.TextBox();
-            this.mobIdTextBox = new System.Windows.Forms.TextBox();
             this.mobIdLabel = new System.Windows.Forms.Label();
             this.mobSpriteIdLabel = new System.Windows.Forms.Label();
             this.mobJpNameLabel = new System.Windows.Forms.Label();
@@ -50,46 +49,47 @@
             this.mobAegisAiComboBox = new System.Windows.Forms.ComboBox();
             this.mobAiLabel = new System.Windows.Forms.Label();
             this.mobSpriteIdTextBox = new System.Windows.Forms.TextBox();
+            this.mobIdNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.mobBaseStatsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobBaseStatsStrLabel = new System.Windows.Forms.Label();
             this.mobBaseStatsAgiLabel = new System.Windows.Forms.Label();
-            this.mobBaseStatsStrTextBox = new System.Windows.Forms.TextBox();
-            this.mobBaseStatsAgiTextBox = new System.Windows.Forms.TextBox();
             this.mobBaseStatsIntLabel = new System.Windows.Forms.Label();
-            this.mobBaseStatsIntTextBox = new System.Windows.Forms.TextBox();
             this.mobBaseStatsDexLabel = new System.Windows.Forms.Label();
-            this.mobBaseStatsDexTextBox = new System.Windows.Forms.TextBox();
-            this.mobBaseStatsVitTextBox = new System.Windows.Forms.TextBox();
             this.mobBaseStatsVitLabel = new System.Windows.Forms.Label();
             this.mobBaseStatsLukLabel = new System.Windows.Forms.Label();
-            this.mobBaseStatsLukTextBox = new System.Windows.Forms.TextBox();
+            this.mobBaseStatsStrUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobBaseStatsAgiUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobBaseStatsVitUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobBaseStatsIntUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobBaseStatsDexUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobBaseStatsLukUpDown = new System.Windows.Forms.NumericUpDown();
             this.mobCompoundStatsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.mobStatsHpLabel = new System.Windows.Forms.Label();
-            this.mobStatsHpTextBox = new System.Windows.Forms.TextBox();
-            this.mobStatsLvlLabel = new System.Windows.Forms.Label();
-            this.mobStatsLevelTextBox = new System.Windows.Forms.TextBox();
-            this.mobStatsAtkTextBox = new System.Windows.Forms.TextBox();
-            this.mobStatsAtkLabel = new System.Windows.Forms.Label();
-            this.mobStatsAtk2Label = new System.Windows.Forms.Label();
-            this.mobStatsAtk2TextBox = new System.Windows.Forms.TextBox();
+            this.mobStatsLevelLabel = new System.Windows.Forms.Label();
+            this.mobStatsAttackLabel = new System.Windows.Forms.Label();
+            this.mobStatsAttack2Label = new System.Windows.Forms.Label();
             this.mobStatsDefLabel = new System.Windows.Forms.Label();
-            this.mobStatsDefTextBox = new System.Windows.Forms.TextBox();
-            this.mobStatsMdefTextBox = new System.Windows.Forms.TextBox();
             this.mobStatsMdefLabel = new System.Windows.Forms.Label();
             this.mobStatsAtkRangeLabel = new System.Windows.Forms.Label();
             this.mobStatsSkillRangeLabel = new System.Windows.Forms.Label();
-            this.mobStatsAtkRangeTextBox = new System.Windows.Forms.TextBox();
-            this.mobStatsSkillRangeTextBox = new System.Windows.Forms.TextBox();
             this.mobStatsChaseRangeLabel = new System.Windows.Forms.Label();
-            this.mobStatsChaseRangeTextbox = new System.Windows.Forms.TextBox();
-            this.mobStatsWalkSpeedLabel = new System.Windows.Forms.Label();
-            this.mobStatsWalkSpeedTextBox = new System.Windows.Forms.TextBox();
+            this.mobStatsMoveSpeedLabel = new System.Windows.Forms.Label();
             this.mobStatsAtkDelayLabel = new System.Windows.Forms.Label();
-            this.mobStatsAtkDelayTextBox = new System.Windows.Forms.TextBox();
             this.mobStatsAtkMotionLabel = new System.Windows.Forms.Label();
-            this.mobStatsAtkMotionTextBox = new System.Windows.Forms.TextBox();
             this.mobStatsDmgMotionLabel = new System.Windows.Forms.Label();
-            this.mobStatsDmgMotionTextBox = new System.Windows.Forms.TextBox();
+            this.mobStatsHpUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsLevelUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsAttackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsAttack2UpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsDefenseUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsMdefUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsAtkRangeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsSkillRangeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsChaseRangeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsMoveSpeedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsAtkDelayUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsAtkMotionUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mobStatsDmgMotionUpDown = new System.Windows.Forms.NumericUpDown();
             this.mobMainAttributesTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mobSizeLabel = new System.Windows.Forms.Label();
             this.mobSizeComboBox = new System.Windows.Forms.ComboBox();
@@ -137,8 +137,28 @@
             this.mobInfoTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mobSpritePictureBox)).BeginInit();
             this.mobNameInfoTableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobIdNumericUpDown)).BeginInit();
             this.mobBaseStatsTableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsStrUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsAgiUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsVitUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsIntUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsDexUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsLukUpDown)).BeginInit();
             this.mobCompoundStatsTableLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsHpUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsLevelUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAttackUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAttack2UpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsDefenseUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsMdefUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkRangeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsSkillRangeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsChaseRangeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsMoveSpeedUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkDelayUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkMotionUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsDmgMotionUpDown)).BeginInit();
             this.mobMainAttributesTableLayoutPanel.SuspendLayout();
             this.mobModesTablePanelLayout.SuspendLayout();
             this.mobStatsMainTableLayoutPanel.SuspendLayout();
@@ -281,7 +301,6 @@
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobFriendlyNameLabel, 0, 0);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAegisNameLabel, 0, 1);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAegisNameTextBox, 1, 1);
-            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobIdTextBox, 1, 3);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobIdLabel, 0, 3);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobSpriteIdLabel, 0, 4);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobJpNameLabel, 0, 2);
@@ -289,6 +308,7 @@
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAegisAiComboBox, 1, 6);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobAiLabel, 0, 6);
             this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobSpriteIdTextBox, 1, 4);
+            this.mobNameInfoTableLayoutPanel.Controls.Add(this.mobIdNumericUpDown, 1, 3);
             this.mobNameInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobNameInfoTableLayoutPanel.Location = new System.Drawing.Point(153, 3);
             this.mobNameInfoTableLayoutPanel.Name = "mobNameInfoTableLayoutPanel";
@@ -340,14 +360,6 @@
             this.mobAegisNameTextBox.Name = "mobAegisNameTextBox";
             this.mobAegisNameTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobAegisNameTextBox.TabIndex = 5;
-            // 
-            // mobIdTextBox
-            // 
-            this.mobIdTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobIdTextBox.Location = new System.Drawing.Point(79, 90);
-            this.mobIdTextBox.Name = "mobIdTextBox";
-            this.mobIdTextBox.Size = new System.Drawing.Size(218, 23);
-            this.mobIdTextBox.TabIndex = 6;
             // 
             // mobIdLabel
             // 
@@ -418,6 +430,14 @@
             this.mobSpriteIdTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobSpriteIdTextBox.TabIndex = 12;
             // 
+            // mobIdNumericUpDown
+            // 
+            this.mobIdNumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobIdNumericUpDown.Location = new System.Drawing.Point(79, 90);
+            this.mobIdNumericUpDown.Name = "mobIdNumericUpDown";
+            this.mobIdNumericUpDown.Size = new System.Drawing.Size(218, 23);
+            this.mobIdNumericUpDown.TabIndex = 29;
+            // 
             // mobBaseStatsTableLayoutPanel
             // 
             this.mobBaseStatsTableLayoutPanel.ColumnCount = 4;
@@ -427,16 +447,16 @@
             this.mobBaseStatsTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsStrLabel, 0, 0);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsAgiLabel, 0, 1);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsStrTextBox, 1, 0);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsAgiTextBox, 1, 1);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsIntLabel, 2, 0);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsIntTextBox, 3, 0);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsDexLabel, 2, 1);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsDexTextBox, 3, 1);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsVitTextBox, 1, 2);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsVitLabel, 0, 2);
             this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsLukLabel, 2, 2);
-            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsLukTextBox, 3, 2);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsStrUpDown, 1, 0);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsAgiUpDown, 1, 1);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsVitUpDown, 1, 2);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsIntUpDown, 3, 0);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsDexUpDown, 3, 1);
+            this.mobBaseStatsTableLayoutPanel.Controls.Add(this.mobBaseStatsLukUpDown, 3, 2);
             this.mobBaseStatsTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobBaseStatsTableLayoutPanel.Location = new System.Drawing.Point(3, 184);
             this.mobBaseStatsTableLayoutPanel.Name = "mobBaseStatsTableLayoutPanel";
@@ -451,7 +471,8 @@
             // 
             this.mobBaseStatsStrLabel.AutoSize = true;
             this.mobBaseStatsStrLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsStrLabel.Location = new System.Drawing.Point(3, 0);
+            this.mobBaseStatsStrLabel.Location = new System.Drawing.Point(0, 0);
+            this.mobBaseStatsStrLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsStrLabel.Name = "mobBaseStatsStrLabel";
             this.mobBaseStatsStrLabel.Size = new System.Drawing.Size(26, 29);
             this.mobBaseStatsStrLabel.TabIndex = 0;
@@ -462,77 +483,44 @@
             // 
             this.mobBaseStatsAgiLabel.AutoSize = true;
             this.mobBaseStatsAgiLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsAgiLabel.Location = new System.Drawing.Point(3, 29);
+            this.mobBaseStatsAgiLabel.Location = new System.Drawing.Point(0, 29);
+            this.mobBaseStatsAgiLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsAgiLabel.Name = "mobBaseStatsAgiLabel";
             this.mobBaseStatsAgiLabel.Size = new System.Drawing.Size(26, 29);
             this.mobBaseStatsAgiLabel.TabIndex = 1;
             this.mobBaseStatsAgiLabel.Text = "AGI";
             this.mobBaseStatsAgiLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobBaseStatsStrTextBox
-            // 
-            this.mobBaseStatsStrTextBox.Location = new System.Drawing.Point(35, 3);
-            this.mobBaseStatsStrTextBox.Name = "mobBaseStatsStrTextBox";
-            this.mobBaseStatsStrTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsStrTextBox.TabIndex = 2;
-            // 
-            // mobBaseStatsAgiTextBox
-            // 
-            this.mobBaseStatsAgiTextBox.Location = new System.Drawing.Point(35, 32);
-            this.mobBaseStatsAgiTextBox.Name = "mobBaseStatsAgiTextBox";
-            this.mobBaseStatsAgiTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsAgiTextBox.TabIndex = 3;
-            // 
             // mobBaseStatsIntLabel
             // 
             this.mobBaseStatsIntLabel.AutoSize = true;
             this.mobBaseStatsIntLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsIntLabel.Location = new System.Drawing.Point(75, 0);
+            this.mobBaseStatsIntLabel.Location = new System.Drawing.Point(71, 0);
+            this.mobBaseStatsIntLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsIntLabel.Name = "mobBaseStatsIntLabel";
             this.mobBaseStatsIntLabel.Size = new System.Drawing.Size(28, 29);
             this.mobBaseStatsIntLabel.TabIndex = 4;
             this.mobBaseStatsIntLabel.Text = "INT";
             this.mobBaseStatsIntLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobBaseStatsIntTextBox
-            // 
-            this.mobBaseStatsIntTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsIntTextBox.Location = new System.Drawing.Point(109, 3);
-            this.mobBaseStatsIntTextBox.Name = "mobBaseStatsIntTextBox";
-            this.mobBaseStatsIntTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsIntTextBox.TabIndex = 5;
-            // 
             // mobBaseStatsDexLabel
             // 
             this.mobBaseStatsDexLabel.AutoSize = true;
             this.mobBaseStatsDexLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsDexLabel.Location = new System.Drawing.Point(75, 29);
+            this.mobBaseStatsDexLabel.Location = new System.Drawing.Point(71, 29);
+            this.mobBaseStatsDexLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsDexLabel.Name = "mobBaseStatsDexLabel";
             this.mobBaseStatsDexLabel.Size = new System.Drawing.Size(28, 29);
             this.mobBaseStatsDexLabel.TabIndex = 6;
             this.mobBaseStatsDexLabel.Text = "DEX";
             this.mobBaseStatsDexLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobBaseStatsDexTextBox
-            // 
-            this.mobBaseStatsDexTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsDexTextBox.Location = new System.Drawing.Point(109, 32);
-            this.mobBaseStatsDexTextBox.Name = "mobBaseStatsDexTextBox";
-            this.mobBaseStatsDexTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsDexTextBox.TabIndex = 7;
-            // 
-            // mobBaseStatsVitTextBox
-            // 
-            this.mobBaseStatsVitTextBox.Location = new System.Drawing.Point(35, 61);
-            this.mobBaseStatsVitTextBox.Name = "mobBaseStatsVitTextBox";
-            this.mobBaseStatsVitTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsVitTextBox.TabIndex = 8;
-            // 
             // mobBaseStatsVitLabel
             // 
             this.mobBaseStatsVitLabel.AutoSize = true;
             this.mobBaseStatsVitLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsVitLabel.Location = new System.Drawing.Point(3, 58);
+            this.mobBaseStatsVitLabel.Location = new System.Drawing.Point(0, 58);
+            this.mobBaseStatsVitLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsVitLabel.Name = "mobBaseStatsVitLabel";
             this.mobBaseStatsVitLabel.Size = new System.Drawing.Size(26, 36);
             this.mobBaseStatsVitLabel.TabIndex = 10;
@@ -543,19 +531,61 @@
             // 
             this.mobBaseStatsLukLabel.AutoSize = true;
             this.mobBaseStatsLukLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobBaseStatsLukLabel.Location = new System.Drawing.Point(75, 58);
+            this.mobBaseStatsLukLabel.Location = new System.Drawing.Point(71, 58);
+            this.mobBaseStatsLukLabel.Margin = new System.Windows.Forms.Padding(0);
             this.mobBaseStatsLukLabel.Name = "mobBaseStatsLukLabel";
             this.mobBaseStatsLukLabel.Size = new System.Drawing.Size(28, 36);
             this.mobBaseStatsLukLabel.TabIndex = 11;
             this.mobBaseStatsLukLabel.Text = "LUK";
             this.mobBaseStatsLukLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobBaseStatsLukTextBox
+            // mobBaseStatsStrUpDown
             // 
-            this.mobBaseStatsLukTextBox.Location = new System.Drawing.Point(109, 61);
-            this.mobBaseStatsLukTextBox.Name = "mobBaseStatsLukTextBox";
-            this.mobBaseStatsLukTextBox.Size = new System.Drawing.Size(34, 23);
-            this.mobBaseStatsLukTextBox.TabIndex = 9;
+            this.mobBaseStatsStrUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsStrUpDown.Location = new System.Drawing.Point(29, 3);
+            this.mobBaseStatsStrUpDown.Name = "mobBaseStatsStrUpDown";
+            this.mobBaseStatsStrUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsStrUpDown.TabIndex = 12;
+            // 
+            // mobBaseStatsAgiUpDown
+            // 
+            this.mobBaseStatsAgiUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsAgiUpDown.Location = new System.Drawing.Point(29, 32);
+            this.mobBaseStatsAgiUpDown.Name = "mobBaseStatsAgiUpDown";
+            this.mobBaseStatsAgiUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsAgiUpDown.TabIndex = 13;
+            // 
+            // mobBaseStatsVitUpDown
+            // 
+            this.mobBaseStatsVitUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsVitUpDown.Location = new System.Drawing.Point(29, 61);
+            this.mobBaseStatsVitUpDown.Name = "mobBaseStatsVitUpDown";
+            this.mobBaseStatsVitUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsVitUpDown.TabIndex = 14;
+            // 
+            // mobBaseStatsIntUpDown
+            // 
+            this.mobBaseStatsIntUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsIntUpDown.Location = new System.Drawing.Point(102, 3);
+            this.mobBaseStatsIntUpDown.Name = "mobBaseStatsIntUpDown";
+            this.mobBaseStatsIntUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsIntUpDown.TabIndex = 15;
+            // 
+            // mobBaseStatsDexUpDown
+            // 
+            this.mobBaseStatsDexUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsDexUpDown.Location = new System.Drawing.Point(102, 32);
+            this.mobBaseStatsDexUpDown.Name = "mobBaseStatsDexUpDown";
+            this.mobBaseStatsDexUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsDexUpDown.TabIndex = 16;
+            // 
+            // mobBaseStatsLukUpDown
+            // 
+            this.mobBaseStatsLukUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobBaseStatsLukUpDown.Location = new System.Drawing.Point(102, 61);
+            this.mobBaseStatsLukUpDown.Name = "mobBaseStatsLukUpDown";
+            this.mobBaseStatsLukUpDown.Size = new System.Drawing.Size(39, 23);
+            this.mobBaseStatsLukUpDown.TabIndex = 17;
             // 
             // mobCompoundStatsTableLayout
             // 
@@ -563,31 +593,31 @@
             this.mobCompoundStatsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.08333F));
             this.mobCompoundStatsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.91667F));
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsHpLabel, 0, 0);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsHpTextBox, 1, 0);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsLvlLabel, 0, 1);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsLevelTextBox, 1, 1);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkTextBox, 1, 2);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkLabel, 0, 2);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtk2Label, 0, 3);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtk2TextBox, 1, 3);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsLevelLabel, 0, 1);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAttackLabel, 0, 2);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAttack2Label, 0, 3);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDefLabel, 0, 4);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDefTextBox, 1, 4);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsMdefTextBox, 1, 5);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsMdefLabel, 0, 5);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkRangeLabel, 0, 6);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsSkillRangeLabel, 0, 7);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkRangeTextBox, 1, 6);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsSkillRangeTextBox, 1, 7);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsChaseRangeLabel, 0, 8);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsChaseRangeTextbox, 1, 8);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsWalkSpeedLabel, 0, 9);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsWalkSpeedTextBox, 1, 9);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsMoveSpeedLabel, 0, 9);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkDelayLabel, 0, 10);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkDelayTextBox, 1, 10);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkMotionLabel, 0, 11);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkMotionTextBox, 1, 11);
             this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDmgMotionLabel, 0, 12);
-            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDmgMotionTextBox, 1, 12);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsHpUpDown, 1, 0);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsLevelUpDown, 1, 1);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAttackUpDown, 1, 2);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAttack2UpDown, 1, 3);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDefenseUpDown, 1, 4);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsMdefUpDown, 1, 5);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkRangeUpDown, 1, 6);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsSkillRangeUpDown, 1, 7);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsChaseRangeUpDown, 1, 8);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsMoveSpeedUpDown, 1, 9);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkDelayUpDown, 1, 10);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsAtkMotionUpDown, 1, 11);
+            this.mobCompoundStatsTableLayout.Controls.Add(this.mobStatsDmgMotionUpDown, 1, 12);
             this.mobCompoundStatsTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobCompoundStatsTableLayout.Location = new System.Drawing.Point(3, 284);
             this.mobCompoundStatsTableLayout.Name = "mobCompoundStatsTableLayout";
@@ -621,70 +651,38 @@
             this.mobStatsHpLabel.Text = "HP";
             this.mobStatsHpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsHpTextBox
+            // mobStatsLevelLabel
             // 
-            this.mobStatsHpTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsHpTextBox.Location = new System.Drawing.Point(77, 3);
-            this.mobStatsHpTextBox.Name = "mobStatsHpTextBox";
-            this.mobStatsHpTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsHpTextBox.TabIndex = 1;
+            this.mobStatsLevelLabel.AutoSize = true;
+            this.mobStatsLevelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsLevelLabel.Location = new System.Drawing.Point(3, 29);
+            this.mobStatsLevelLabel.Name = "mobStatsLevelLabel";
+            this.mobStatsLevelLabel.Size = new System.Drawing.Size(68, 29);
+            this.mobStatsLevelLabel.TabIndex = 2;
+            this.mobStatsLevelLabel.Text = "Level";
+            this.mobStatsLevelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsLvlLabel
+            // mobStatsAttackLabel
             // 
-            this.mobStatsLvlLabel.AutoSize = true;
-            this.mobStatsLvlLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsLvlLabel.Location = new System.Drawing.Point(3, 29);
-            this.mobStatsLvlLabel.Name = "mobStatsLvlLabel";
-            this.mobStatsLvlLabel.Size = new System.Drawing.Size(68, 29);
-            this.mobStatsLvlLabel.TabIndex = 2;
-            this.mobStatsLvlLabel.Text = "Level";
-            this.mobStatsLvlLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.mobStatsAttackLabel.AutoSize = true;
+            this.mobStatsAttackLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAttackLabel.Location = new System.Drawing.Point(3, 58);
+            this.mobStatsAttackLabel.Name = "mobStatsAttackLabel";
+            this.mobStatsAttackLabel.Size = new System.Drawing.Size(68, 29);
+            this.mobStatsAttackLabel.TabIndex = 5;
+            this.mobStatsAttackLabel.Text = "Attack";
+            this.mobStatsAttackLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsLevelTextBox
+            // mobStatsAttack2Label
             // 
-            this.mobStatsLevelTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsLevelTextBox.Location = new System.Drawing.Point(77, 32);
-            this.mobStatsLevelTextBox.Name = "mobStatsLevelTextBox";
-            this.mobStatsLevelTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsLevelTextBox.TabIndex = 3;
-            // 
-            // mobStatsAtkTextBox
-            // 
-            this.mobStatsAtkTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtkTextBox.Location = new System.Drawing.Point(77, 61);
-            this.mobStatsAtkTextBox.Name = "mobStatsAtkTextBox";
-            this.mobStatsAtkTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsAtkTextBox.TabIndex = 4;
-            // 
-            // mobStatsAtkLabel
-            // 
-            this.mobStatsAtkLabel.AutoSize = true;
-            this.mobStatsAtkLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtkLabel.Location = new System.Drawing.Point(3, 58);
-            this.mobStatsAtkLabel.Name = "mobStatsAtkLabel";
-            this.mobStatsAtkLabel.Size = new System.Drawing.Size(68, 29);
-            this.mobStatsAtkLabel.TabIndex = 5;
-            this.mobStatsAtkLabel.Text = "Attack";
-            this.mobStatsAtkLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobStatsAtk2Label
-            // 
-            this.mobStatsAtk2Label.AutoSize = true;
-            this.mobStatsAtk2Label.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtk2Label.Location = new System.Drawing.Point(3, 87);
-            this.mobStatsAtk2Label.Name = "mobStatsAtk2Label";
-            this.mobStatsAtk2Label.Size = new System.Drawing.Size(68, 29);
-            this.mobStatsAtk2Label.TabIndex = 6;
-            this.mobStatsAtk2Label.Text = "Attack2";
-            this.mobStatsAtk2Label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobStatsAtk2TextBox
-            // 
-            this.mobStatsAtk2TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtk2TextBox.Location = new System.Drawing.Point(77, 90);
-            this.mobStatsAtk2TextBox.Name = "mobStatsAtk2TextBox";
-            this.mobStatsAtk2TextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsAtk2TextBox.TabIndex = 7;
+            this.mobStatsAttack2Label.AutoSize = true;
+            this.mobStatsAttack2Label.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAttack2Label.Location = new System.Drawing.Point(3, 87);
+            this.mobStatsAttack2Label.Name = "mobStatsAttack2Label";
+            this.mobStatsAttack2Label.Size = new System.Drawing.Size(68, 29);
+            this.mobStatsAttack2Label.TabIndex = 6;
+            this.mobStatsAttack2Label.Text = "Attack2";
+            this.mobStatsAttack2Label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mobStatsDefLabel
             // 
@@ -696,22 +694,6 @@
             this.mobStatsDefLabel.TabIndex = 8;
             this.mobStatsDefLabel.Text = "Defense";
             this.mobStatsDefLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobStatsDefTextBox
-            // 
-            this.mobStatsDefTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsDefTextBox.Location = new System.Drawing.Point(77, 119);
-            this.mobStatsDefTextBox.Name = "mobStatsDefTextBox";
-            this.mobStatsDefTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsDefTextBox.TabIndex = 9;
-            // 
-            // mobStatsMdefTextBox
-            // 
-            this.mobStatsMdefTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsMdefTextBox.Location = new System.Drawing.Point(77, 148);
-            this.mobStatsMdefTextBox.Name = "mobStatsMdefTextBox";
-            this.mobStatsMdefTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsMdefTextBox.TabIndex = 10;
             // 
             // mobStatsMdefLabel
             // 
@@ -746,22 +728,6 @@
             this.mobStatsSkillRangeLabel.Text = "SkillRange";
             this.mobStatsSkillRangeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsAtkRangeTextBox
-            // 
-            this.mobStatsAtkRangeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtkRangeTextBox.Location = new System.Drawing.Point(77, 177);
-            this.mobStatsAtkRangeTextBox.Name = "mobStatsAtkRangeTextBox";
-            this.mobStatsAtkRangeTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsAtkRangeTextBox.TabIndex = 14;
-            // 
-            // mobStatsSkillRangeTextBox
-            // 
-            this.mobStatsSkillRangeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsSkillRangeTextBox.Location = new System.Drawing.Point(77, 206);
-            this.mobStatsSkillRangeTextBox.Name = "mobStatsSkillRangeTextBox";
-            this.mobStatsSkillRangeTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsSkillRangeTextBox.TabIndex = 15;
-            // 
             // mobStatsChaseRangeLabel
             // 
             this.mobStatsChaseRangeLabel.AutoSize = true;
@@ -774,32 +740,16 @@
             this.mobStatsChaseRangeLabel.Text = "ChaseRange";
             this.mobStatsChaseRangeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsChaseRangeTextbox
+            // mobStatsMoveSpeedLabel
             // 
-            this.mobStatsChaseRangeTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsChaseRangeTextbox.Location = new System.Drawing.Point(77, 235);
-            this.mobStatsChaseRangeTextbox.Name = "mobStatsChaseRangeTextbox";
-            this.mobStatsChaseRangeTextbox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsChaseRangeTextbox.TabIndex = 17;
-            // 
-            // mobStatsWalkSpeedLabel
-            // 
-            this.mobStatsWalkSpeedLabel.AutoSize = true;
-            this.mobStatsWalkSpeedLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsWalkSpeedLabel.Location = new System.Drawing.Point(3, 261);
-            this.mobStatsWalkSpeedLabel.Name = "mobStatsWalkSpeedLabel";
-            this.mobStatsWalkSpeedLabel.Size = new System.Drawing.Size(68, 29);
-            this.mobStatsWalkSpeedLabel.TabIndex = 18;
-            this.mobStatsWalkSpeedLabel.Text = "MoveSpd";
-            this.mobStatsWalkSpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobStatsWalkSpeedTextBox
-            // 
-            this.mobStatsWalkSpeedTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsWalkSpeedTextBox.Location = new System.Drawing.Point(77, 264);
-            this.mobStatsWalkSpeedTextBox.Name = "mobStatsWalkSpeedTextBox";
-            this.mobStatsWalkSpeedTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsWalkSpeedTextBox.TabIndex = 19;
+            this.mobStatsMoveSpeedLabel.AutoSize = true;
+            this.mobStatsMoveSpeedLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsMoveSpeedLabel.Location = new System.Drawing.Point(3, 261);
+            this.mobStatsMoveSpeedLabel.Name = "mobStatsMoveSpeedLabel";
+            this.mobStatsMoveSpeedLabel.Size = new System.Drawing.Size(68, 29);
+            this.mobStatsMoveSpeedLabel.TabIndex = 18;
+            this.mobStatsMoveSpeedLabel.Text = "MoveSpd";
+            this.mobStatsMoveSpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mobStatsAtkDelayLabel
             // 
@@ -812,14 +762,6 @@
             this.mobStatsAtkDelayLabel.Text = "AtkDelay";
             this.mobStatsAtkDelayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsAtkDelayTextBox
-            // 
-            this.mobStatsAtkDelayTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtkDelayTextBox.Location = new System.Drawing.Point(77, 293);
-            this.mobStatsAtkDelayTextBox.Name = "mobStatsAtkDelayTextBox";
-            this.mobStatsAtkDelayTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsAtkDelayTextBox.TabIndex = 21;
-            // 
             // mobStatsAtkMotionLabel
             // 
             this.mobStatsAtkMotionLabel.AutoSize = true;
@@ -830,14 +772,6 @@
             this.mobStatsAtkMotionLabel.TabIndex = 22;
             this.mobStatsAtkMotionLabel.Text = "AtkMotion";
             this.mobStatsAtkMotionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mobStatsAtkMotionTextBox
-            // 
-            this.mobStatsAtkMotionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsAtkMotionTextBox.Location = new System.Drawing.Point(77, 322);
-            this.mobStatsAtkMotionTextBox.Name = "mobStatsAtkMotionTextBox";
-            this.mobStatsAtkMotionTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsAtkMotionTextBox.TabIndex = 23;
             // 
             // mobStatsDmgMotionLabel
             // 
@@ -851,13 +785,109 @@
             this.mobStatsDmgMotionLabel.Text = "DmgMotion";
             this.mobStatsDmgMotionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mobStatsDmgMotionTextBox
+            // mobStatsHpUpDown
             // 
-            this.mobStatsDmgMotionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mobStatsDmgMotionTextBox.Location = new System.Drawing.Point(77, 351);
-            this.mobStatsDmgMotionTextBox.Name = "mobStatsDmgMotionTextBox";
-            this.mobStatsDmgMotionTextBox.Size = new System.Drawing.Size(64, 23);
-            this.mobStatsDmgMotionTextBox.TabIndex = 25;
+            this.mobStatsHpUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsHpUpDown.Location = new System.Drawing.Point(77, 3);
+            this.mobStatsHpUpDown.Name = "mobStatsHpUpDown";
+            this.mobStatsHpUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsHpUpDown.TabIndex = 26;
+            // 
+            // mobStatsLevelUpDown
+            // 
+            this.mobStatsLevelUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsLevelUpDown.Location = new System.Drawing.Point(77, 32);
+            this.mobStatsLevelUpDown.Name = "mobStatsLevelUpDown";
+            this.mobStatsLevelUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsLevelUpDown.TabIndex = 27;
+            // 
+            // mobStatsAttackUpDown
+            // 
+            this.mobStatsAttackUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAttackUpDown.Location = new System.Drawing.Point(77, 61);
+            this.mobStatsAttackUpDown.Name = "mobStatsAttackUpDown";
+            this.mobStatsAttackUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsAttackUpDown.TabIndex = 28;
+            // 
+            // mobStatsAttack2UpDown
+            // 
+            this.mobStatsAttack2UpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAttack2UpDown.Location = new System.Drawing.Point(77, 90);
+            this.mobStatsAttack2UpDown.Name = "mobStatsAttack2UpDown";
+            this.mobStatsAttack2UpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsAttack2UpDown.TabIndex = 29;
+            // 
+            // mobStatsDefenseUpDown
+            // 
+            this.mobStatsDefenseUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsDefenseUpDown.Location = new System.Drawing.Point(77, 119);
+            this.mobStatsDefenseUpDown.Name = "mobStatsDefenseUpDown";
+            this.mobStatsDefenseUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsDefenseUpDown.TabIndex = 30;
+            // 
+            // mobStatsMdefUpDown
+            // 
+            this.mobStatsMdefUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsMdefUpDown.Location = new System.Drawing.Point(77, 148);
+            this.mobStatsMdefUpDown.Name = "mobStatsMdefUpDown";
+            this.mobStatsMdefUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsMdefUpDown.TabIndex = 31;
+            // 
+            // mobStatsAtkRangeUpDown
+            // 
+            this.mobStatsAtkRangeUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAtkRangeUpDown.Location = new System.Drawing.Point(77, 177);
+            this.mobStatsAtkRangeUpDown.Name = "mobStatsAtkRangeUpDown";
+            this.mobStatsAtkRangeUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsAtkRangeUpDown.TabIndex = 32;
+            // 
+            // mobStatsSkillRangeUpDown
+            // 
+            this.mobStatsSkillRangeUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsSkillRangeUpDown.Location = new System.Drawing.Point(77, 206);
+            this.mobStatsSkillRangeUpDown.Name = "mobStatsSkillRangeUpDown";
+            this.mobStatsSkillRangeUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsSkillRangeUpDown.TabIndex = 33;
+            // 
+            // mobStatsChaseRangeUpDown
+            // 
+            this.mobStatsChaseRangeUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsChaseRangeUpDown.Location = new System.Drawing.Point(77, 235);
+            this.mobStatsChaseRangeUpDown.Name = "mobStatsChaseRangeUpDown";
+            this.mobStatsChaseRangeUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsChaseRangeUpDown.TabIndex = 34;
+            // 
+            // mobStatsMoveSpeedUpDown
+            // 
+            this.mobStatsMoveSpeedUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsMoveSpeedUpDown.Location = new System.Drawing.Point(77, 264);
+            this.mobStatsMoveSpeedUpDown.Name = "mobStatsMoveSpeedUpDown";
+            this.mobStatsMoveSpeedUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsMoveSpeedUpDown.TabIndex = 35;
+            // 
+            // mobStatsAtkDelayUpDown
+            // 
+            this.mobStatsAtkDelayUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAtkDelayUpDown.Location = new System.Drawing.Point(77, 293);
+            this.mobStatsAtkDelayUpDown.Name = "mobStatsAtkDelayUpDown";
+            this.mobStatsAtkDelayUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsAtkDelayUpDown.TabIndex = 36;
+            // 
+            // mobStatsAtkMotionUpDown
+            // 
+            this.mobStatsAtkMotionUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsAtkMotionUpDown.Location = new System.Drawing.Point(77, 322);
+            this.mobStatsAtkMotionUpDown.Name = "mobStatsAtkMotionUpDown";
+            this.mobStatsAtkMotionUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsAtkMotionUpDown.TabIndex = 37;
+            // 
+            // mobStatsDmgMotionUpDown
+            // 
+            this.mobStatsDmgMotionUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mobStatsDmgMotionUpDown.Location = new System.Drawing.Point(77, 351);
+            this.mobStatsDmgMotionUpDown.Name = "mobStatsDmgMotionUpDown";
+            this.mobStatsDmgMotionUpDown.Size = new System.Drawing.Size(64, 23);
+            this.mobStatsDmgMotionUpDown.TabIndex = 38;
             // 
             // mobMainAttributesTableLayoutPanel
             // 
@@ -1372,10 +1402,30 @@
             ((System.ComponentModel.ISupportInitialize)(this.mobSpritePictureBox)).EndInit();
             this.mobNameInfoTableLayoutPanel.ResumeLayout(false);
             this.mobNameInfoTableLayoutPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobIdNumericUpDown)).EndInit();
             this.mobBaseStatsTableLayoutPanel.ResumeLayout(false);
             this.mobBaseStatsTableLayoutPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsStrUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsAgiUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsVitUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsIntUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsDexUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobBaseStatsLukUpDown)).EndInit();
             this.mobCompoundStatsTableLayout.ResumeLayout(false);
             this.mobCompoundStatsTableLayout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsHpUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsLevelUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAttackUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAttack2UpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsDefenseUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsMdefUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkRangeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsSkillRangeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsChaseRangeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsMoveSpeedUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkDelayUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsAtkMotionUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobStatsDmgMotionUpDown)).EndInit();
             this.mobMainAttributesTableLayoutPanel.ResumeLayout(false);
             this.mobMainAttributesTableLayoutPanel.PerformLayout();
             this.mobModesTablePanelLayout.ResumeLayout(false);
@@ -1400,7 +1450,6 @@
         private System.Windows.Forms.Label mobFriendlyNameLabel;
         private System.Windows.Forms.Label mobAegisNameLabel;
         private System.Windows.Forms.TextBox mobAegisNameTextBox;
-        private System.Windows.Forms.TextBox mobIdTextBox;
         private System.Windows.Forms.Label mobIdLabel;
         private System.Windows.Forms.Label mobSpriteIdLabel;
         private System.Windows.Forms.Label mobJpNameLabel;
@@ -1411,45 +1460,26 @@
         private System.Windows.Forms.TableLayoutPanel mobBaseStatsTableLayoutPanel;
         private System.Windows.Forms.Label mobBaseStatsStrLabel;
         private System.Windows.Forms.Label mobBaseStatsAgiLabel;
-        private System.Windows.Forms.TextBox mobBaseStatsStrTextBox;
-        private System.Windows.Forms.TextBox mobBaseStatsAgiTextBox;
         private System.Windows.Forms.Label mobBaseStatsIntLabel;
-        private System.Windows.Forms.TextBox mobBaseStatsIntTextBox;
         private System.Windows.Forms.Label mobBaseStatsDexLabel;
-        private System.Windows.Forms.TextBox mobBaseStatsDexTextBox;
-        private System.Windows.Forms.TextBox mobBaseStatsVitTextBox;
         private System.Windows.Forms.Label mobBaseStatsVitLabel;
         private System.Windows.Forms.Label mobBaseStatsLukLabel;
-        private System.Windows.Forms.TextBox mobBaseStatsLukTextBox;
         private System.Windows.Forms.TableLayoutPanel mobCompoundStatsTableLayout;
         private System.Windows.Forms.Label mobStatsHpLabel;
-        private System.Windows.Forms.Label mobStatsLvlLabel;
-        private System.Windows.Forms.TextBox mobStatsLevelTextBox;
-        private System.Windows.Forms.TextBox mobStatsAtkTextBox;
-        private System.Windows.Forms.Label mobStatsAtkLabel;
-        private System.Windows.Forms.Label mobStatsAtk2Label;
-        private System.Windows.Forms.TextBox mobStatsAtk2TextBox;
+        private System.Windows.Forms.Label mobStatsLevelLabel;
+        private System.Windows.Forms.Label mobStatsAttackLabel;
+        private System.Windows.Forms.Label mobStatsAttack2Label;
         private System.Windows.Forms.Label mobStatsDefLabel;
         private System.Windows.Forms.Label mobNameLabel;
         private System.Windows.Forms.TableLayoutPanel mobStatsMainTableLayoutPanel;
-        private System.Windows.Forms.TextBox mobStatsDefTextBox;
-        private System.Windows.Forms.TextBox mobStatsMdefTextBox;
         private System.Windows.Forms.Label mobStatsMdefLabel;
         private System.Windows.Forms.Label mobStatsAtkRangeLabel;
         private System.Windows.Forms.Label mobStatsSkillRangeLabel;
-        private System.Windows.Forms.TextBox mobStatsAtkRangeTextBox;
-        private System.Windows.Forms.TextBox mobStatsSkillRangeTextBox;
         private System.Windows.Forms.Label mobStatsChaseRangeLabel;
-        private System.Windows.Forms.TextBox mobStatsHpTextBox;
-        private System.Windows.Forms.TextBox mobStatsChaseRangeTextbox;
-        private System.Windows.Forms.Label mobStatsWalkSpeedLabel;
-        private System.Windows.Forms.TextBox mobStatsWalkSpeedTextBox;
+        private System.Windows.Forms.Label mobStatsMoveSpeedLabel;
         private System.Windows.Forms.Label mobStatsAtkDelayLabel;
-        private System.Windows.Forms.TextBox mobStatsAtkDelayTextBox;
         private System.Windows.Forms.Label mobStatsAtkMotionLabel;
-        private System.Windows.Forms.TextBox mobStatsAtkMotionTextBox;
         private System.Windows.Forms.Label mobStatsDmgMotionLabel;
-        private System.Windows.Forms.TextBox mobStatsDmgMotionTextBox;
         private System.Windows.Forms.TableLayoutPanel mobMainAttributesTableLayoutPanel;
         private System.Windows.Forms.Label mobRaceLabel;
         private System.Windows.Forms.ComboBox mobRaceComboBox;
@@ -1492,5 +1522,25 @@
         private System.Windows.Forms.CheckBox mobModesTeleportBlockCheckBox;
         private System.Windows.Forms.Label mobAiLabel;
         private System.Windows.Forms.ComboBox mobAegisAiComboBox;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsStrUpDown;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsAgiUpDown;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsVitUpDown;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsIntUpDown;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsDexUpDown;
+        private System.Windows.Forms.NumericUpDown mobBaseStatsLukUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsHpUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsLevelUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsAttackUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsAttack2UpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsDefenseUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsMdefUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsAtkRangeUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsSkillRangeUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsChaseRangeUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsMoveSpeedUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsAtkDelayUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsAtkMotionUpDown;
+        private System.Windows.Forms.NumericUpDown mobStatsDmgMotionUpDown;
+        private System.Windows.Forms.NumericUpDown mobIdNumericUpDown;
     }
 }
