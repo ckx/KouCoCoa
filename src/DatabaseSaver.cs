@@ -141,6 +141,7 @@ namespace KouCoCoa
         private static List<string> SerializeMobSkillDb(MobSkillDatabase db)
         {
             List<string> serializedDb = new();
+            serializedDb.Add($"// Mob Skill Database");
             foreach (MobSkill skill in db.Skills) {
                 // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,
                 // Target,Condition type,Condition value,val1,val2,val3,val4,val5,Emotion,Chat

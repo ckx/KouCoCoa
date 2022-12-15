@@ -575,7 +575,7 @@ namespace KouCoCoa
 #if DEBUG
             spriteId = ShowMobSpriteDebug(_selectedMob.Id);
 #else
-            spriteId = ShowMobSprite(mob.Id);
+            spriteId = ShowMobSprite(_selectedMob.Id);
 #endif
             ShowBasicMobInfo(_selectedMob, spriteId); ;
 
