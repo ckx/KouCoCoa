@@ -44,13 +44,14 @@ namespace KouCoCoa
         private void KouCoCoaInitialization()
         {
             Text = $"{_mobDb.Name} :: {Name}";
+            // Add skills to mobs
+            AssignMobSkillsToMobs();
             // Event subscriptions
             mobListBox.SelectedValueChanged += mobListBox_SelectedValueChanged;
             mobFilterBox.TextChanged += mobFilterBox_TextChanged;
-
-            AssignMobSkillsToMobs();
             mobSkillList.MouseDoubleClick += mobSkillList_MouseDoubleClick;
             mobSkillList.MouseDown += mobSkillList_MouseDown;
+            mobListBox.MouseDown += mobListBox_MouseDown;
 
             // Populate the left-docked mobList 
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
@@ -60,7 +61,8 @@ namespace KouCoCoa
             }
             mobListBoxCollection.AddRange(mobNames.Cast<object>().ToArray());
             mobListBox.Items.AddRange(mobListBoxCollection);
-            mobListBox.MouseDown += mobListBox_MouseDown;
+
+            // Control-specific Initializations
             InitializeUpDownControls();
             InitializeComboBoxValues();
             InitializeCheckBoxes();
@@ -96,7 +98,9 @@ namespace KouCoCoa
                 skillListContextMenuStrip.Items.Add(addSkill);
                 if (mobSkillList.SelectedIndex != -1) {
                     ToolStripMenuItem duplicateSkill = new($"Duplicate '{mobSkillList.SelectedItem}'...");
+                    duplicateSkill.Click += delegate (object sender, EventArgs e) { AddNewSkill_Event(sender, e, mobSkillList.SelectedIndex); };
                     ToolStripMenuItem deleteSkill = new($"Delete '{mobSkillList.SelectedItem}'...");
+                    deleteSkill.Click += delegate (object sender, EventArgs e) { DeleteSkill_Event(sender, e); };
                     skillListContextMenuStrip.Items.Add(duplicateSkill);
                     skillListContextMenuStrip.Items.Add(deleteSkill);
                 }
@@ -214,7 +218,7 @@ namespace KouCoCoa
         }
 
         /// <summary>
-        /// Correlate mob skills with the mob
+        /// Correlate mob skills to a mob based on the mob's ID
         /// </summary>
         private void AssignMobSkillsToMobs()
         {
@@ -228,7 +232,10 @@ namespace KouCoCoa
             }
         }
 
-        private void PopulateSkills()
+        /// <summary>
+        /// Sets up the mobSkillListBox control for the selected mob
+        /// </summary>
+        private void PopulateMobSkillList()
         {
             mobSkillList.BeginUpdate();
             mobSkillList.Items.Clear();
@@ -236,29 +243,6 @@ namespace KouCoCoa
                 mobSkillList.Items.Add(SkillToListEntry(skill));
             }
             mobSkillList.EndUpdate();
-        }
-
-        private void mobSkillList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            int skillIndex = mobSkillList.SelectedIndex;
-            if (skillIndex > _selectedMob.Skills.Count || skillIndex == -1) {
-                return;
-            }
-            MobSkill skill = _selectedMob.Skills[skillIndex];
-            string skillLine = $"{skill.MobName} :: [{skill.State}] {skill.SkillName} {skill.SkillLv}";
-            foreach (SkillEditor openSkillEditor in _openSkillEditors) {
-                if (openSkillEditor.Text.Contains(skillLine)) {
-                    openSkillEditor.Focus();
-                    return;
-                }
-            }
-
-            SkillEditor skillEditor = new(skill);
-            skillEditor.TopLevel = false;
-            skillEditor.MdiParent = MdiParent;
-            skillEditor.FormClosed += skillEditor_Closed;
-            _openSkillEditors.Add(skillEditor);
-            skillEditor.Show();
         }
 
         /// <summary>
@@ -485,16 +469,6 @@ namespace KouCoCoa
             mobListBox.Items.Add(MobToListEntry(mob));
         }
 
-
-        private void AddNewSkill_Event(object sender, EventArgs e)
-        {
-            MobSkill skill = new();
-            skill.MobId = _selectedMob.Id;
-            skill.MobName = _selectedMob.Name;
-            _selectedMob.Skills.Add(skill);
-            mobSkillList.Items.Add(SkillToListEntry(skill));
-        }
-
         private void DeleteMob_Event(object sender, EventArgs e)
         {
             _mobDb.Mobs.Remove(_selectedMob);
@@ -512,6 +486,30 @@ namespace KouCoCoa
                 mobListBox.SelectedIndex = newIndex;
             }
             mobListBox.Items.Remove(mobToRemove);
+        }
+
+        private void AddNewSkill_Event(object sender, EventArgs e, int skillIndex = -1)
+        {
+            MobSkill skill = new();
+            if (skillIndex != -1 && _selectedMob.Skills.Count >= skillIndex) {
+                skill = new(_selectedMob.Skills[skillIndex]);
+            }
+            skill.MobId = _selectedMob.Id;
+            skill.MobName = _selectedMob.Name;
+            _selectedMob.Skills.Add(skill);
+            mobSkillList.Items.Add(SkillToListEntry(skill));
+        }
+
+        private void DeleteSkill_Event(object sender, EventArgs e)
+        {
+            int skillIndex = mobSkillList.SelectedIndex;
+            if (skillIndex > _selectedMob.Skills.Count || skillIndex == -1) {
+                return;
+            }
+            object skillToRemove = mobSkillList.SelectedItem;
+            _selectedMob.Skills.RemoveAt(skillIndex);
+            mobSkillList.SelectedIndex = -1;
+            mobSkillList.Items.Remove(skillToRemove);
         }
 
         private void mobFilterBox_TextChanged(object sender, EventArgs e)
@@ -534,6 +532,29 @@ namespace KouCoCoa
             mobListBox.EndUpdate();
         }
 
+        private void mobSkillList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int skillIndex = mobSkillList.SelectedIndex;
+            if (skillIndex > _selectedMob.Skills.Count || skillIndex == -1) {
+                return;
+            }
+            MobSkill skill = _selectedMob.Skills[skillIndex];
+            string skillLine = $"{skill.MobName} :: [{skill.State}] {skill.SkillName} {skill.SkillLv}";
+            foreach (SkillEditor openSkillEditor in _openSkillEditors) {
+                if (openSkillEditor.Text.Contains(skillLine)) {
+                    openSkillEditor.Focus();
+                    return;
+                }
+            }
+
+            SkillEditor skillEditor = new(skill);
+            skillEditor.TopLevel = false;
+            skillEditor.MdiParent = MdiParent;
+            skillEditor.FormClosed += skillEditor_Closed;
+            _openSkillEditors.Add(skillEditor);
+            skillEditor.Show();
+        }
+
         private void mobListBox_SelectedValueChanged(object sender, EventArgs e)
         {
             if (mobListBox.SelectedItem == null) {
@@ -553,7 +574,7 @@ namespace KouCoCoa
             ShowBasicMobInfo(_selectedMob, spriteId); ;
 
             // Populate the Skill List
-            PopulateSkills();
+            PopulateMobSkillList();
 
             // Populate the Drop list
             mobDropsListBox.BeginUpdate();
@@ -576,6 +597,7 @@ namespace KouCoCoa
 
         private void mobSaveChangesButton_Click(object sender, EventArgs e)
         {
+            Logger.WriteLine($"Saving mob {_selectedMob.AegisName} to {_mobDb.Name}...", LogLevel.DebugVerbose);
             _selectedMob.Name = mobFriendlyNameTextBox.Text;
             _selectedMob.AegisName = mobAegisNameTextBox.Text;
             _selectedMob.JapaneseName = mobJpNameTextBox.Text;
@@ -638,6 +660,7 @@ namespace KouCoCoa
             _selectedMob.Modes.KnockbackImmune = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
+            Logger.WriteLine($"{_selectedMob.AegisName} successfully saved.", LogLevel.DebugVerbose);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DatabaseSaver.SerializeDatabase(_mobDb);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
