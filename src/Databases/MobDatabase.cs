@@ -11,7 +11,7 @@ namespace KouCoCoa
         public MobDatabase()
         {
             Name = "MobDb";
-            FilePath = "Unknown";
+            FilePath = "";
             DatabaseType = RAthenaDbType.MOB_DB;
             Mobs = new();
         }
@@ -19,8 +19,8 @@ namespace KouCoCoa
         // Copy constructor
         public MobDatabase(MobDatabase baseMobDb)
         {
-            Name = baseMobDb.Name;
-            FilePath = baseMobDb.FilePath;
+            Name = new(baseMobDb.Name);
+            FilePath = new(baseMobDb.FilePath);
             DatabaseType = baseMobDb.DatabaseType;
             Mobs = baseMobDb.Mobs;
         }

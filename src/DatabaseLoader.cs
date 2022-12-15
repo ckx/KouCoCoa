@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Linq;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 
 namespace KouCoCoa
 {
@@ -132,7 +130,11 @@ namespace KouCoCoa
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = new();
                     mobDb.Mobs = ParseMobDb(inputDb);
-                    return new MobDatabase(mobDb);
+                    return mobDb;
+                case RAthenaDbType.SPAWNGROUP_DB:
+                    SpawnGroupDatabase spawnGroupDb = new();
+                    spawnGroupDb.SpawnGroups = ParseSpawnGroupDb(inputDb);
+                    return spawnGroupDb;
                 case RAthenaDbType.ITEM_DB:
                     return new ItemDatabase();
                 default:
@@ -188,7 +190,6 @@ namespace KouCoCoa
                             $" Exception was thrown and loading will be skipped. Exception: {ex.Message}", LogLevel.Error);
                         return retDb;
                     }
-
                     retDb = ParseDatabase(yamlDb);
                     break;
                 case ".lub":
@@ -307,7 +308,7 @@ namespace KouCoCoa
                     if (mobEntry.ContainsKey(propName)) {
                         // val will morph to become our final value for this property
                         var val = mobEntry[propName];
-                        // Parse for different type conversions
+                        // Parse for different type conversions (lol this is so dumb)
                         if (propertyInfo.PropertyType == typeof(int)) {
                             val = Int32.Parse(mobEntry[propName]);
                         }
@@ -379,6 +380,53 @@ namespace KouCoCoa
             }
             Logger.WriteLine($"Found {retList.Count} mobs in this mob database.", LogLevel.DebugVerbose);
             return retList;
+        }
+
+        private static List<SpawnGroup> ParseSpawnGroupDb(dynamic spawnGroupDb)
+        {
+            List<SpawnGroup> spawnGroups = new();
+            if (!((IDictionary<string, object>)spawnGroupDb).ContainsKey("Body")) {
+                Logger.WriteLine($"SpawnGroupDb found, but no Body object is defined for this database. Returning empty SpawnGroups.", LogLevel.Warning);
+                return spawnGroups;
+            }
+
+            List<dynamic> spawnGroupEntries = spawnGroupDb.Body;
+
+            foreach (var spawnGroupEntry in spawnGroupEntries) {
+                SpawnGroup spawnGroup = new();
+                if (spawnGroupEntry.ContainsKey("Id")) {
+                    spawnGroup.Id = int.TryParse(spawnGroupEntry["Id"], out int id) ? id : spawnGroup.Id;
+                }
+                if (spawnGroupEntry.ContainsKey("Name")) {
+                    spawnGroup.Name = spawnGroupEntry["Name"];
+                }
+                if (spawnGroupEntry.ContainsKey("Members")) {
+                    List<SpawnGroupMember> spawnGroupMembers = new();
+                    foreach (var memberEntry in spawnGroupEntry["Members"]) {
+                        SpawnGroupMember spawnGroupMember = new();
+                        if (memberEntry.ContainsKey("Id")) {
+                            spawnGroupMember.Id = 
+                                int.TryParse(memberEntry["Id"], out int id) ? id : spawnGroupMember.Id;
+                        }
+                        if (memberEntry.ContainsKey("Name")) {
+                            spawnGroupMember.Name = memberEntry["Name"];
+                        }
+                        if (memberEntry.ContainsKey("Count")) {
+                            spawnGroupMember.Count = 
+                                int.TryParse(memberEntry["Count"], out int count) ? count : spawnGroupMember.Count;
+                        }
+                        if (memberEntry.ContainsKey("Rewardmod")) {
+                            spawnGroupMember.RewardMod =
+                                int.TryParse(memberEntry["Rewardmod"], out int rewardMod) ? rewardMod : spawnGroupMember.RewardMod;
+                        }
+                        spawnGroupMembers.Add(spawnGroupMember);
+                    }
+                    spawnGroup.Members = new(spawnGroupMembers);
+                }
+                spawnGroups.Add(spawnGroup);
+            }
+
+            return spawnGroups;
         }
 
         private static List<MobSkill> ParseMobSkillDb(List<string> mobSkillDb)

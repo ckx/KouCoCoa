@@ -14,6 +14,7 @@
         UNSUPPORTED,
         MOB_DB,
         MOB_AVAIL_DB,
+        SPAWNGROUP_DB,
         ITEM_DB,
         MOB_SKILL_DB,
         NPC_IDENTITY

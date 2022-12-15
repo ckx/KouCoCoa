@@ -30,12 +30,11 @@ namespace KouCoCoa
         #region Private methods
         private void KouCoCoaInitialization()
         {
-            this.Text = $"{Program.ProgramName} ～ {GetVersionTagline()}";
+            Text = $"{Program.ProgramName} ～ {GetVersionTagline()}";
 
             // MobDBs menu
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
             mobDBToolStripMenuItem.DropDown = _mobDbsCMS;
-            ToolStripMenuItem mobDbMenuItem = new("ROGUENAROK DB", null, null, "ROGUENAROK");
         }
 
         private static string GetVersionTagline()
@@ -43,7 +42,7 @@ namespace KouCoCoa
             List<string> taglines = new() {
                 "Girls need Tao cards, too!",
                 "Onii-chan, look! Another Iron Cain!",
-                "The way to a girl's heart is Grilled Peco!",
+                "The way to a girl's heart is grilled Peco!",
                 "Slow Poison !!",
                 "heal plz",
                 "zeny plz",
@@ -92,6 +91,11 @@ namespace KouCoCoa
         {
             // Clear the old list of entries, re-populate them
             _mobDbsCMS.Items.Clear();
+            if (!_databases.ContainsKey(RAthenaDbType.MOB_DB)) {
+                ToolStripItem noneTsi = _mobDbsCMS.Items.Add("None");
+                noneTsi.Enabled = false;
+                return;
+            }
             foreach (MobDatabase mobDb in _databases[RAthenaDbType.MOB_DB]) {
                 ToolStripItem entryTsi = _mobDbsCMS.Items.Add(mobDb.Name);
                 entryTsi.Click += delegate(object sender, EventArgs e) { mobDbs_Selection(sender, e, mobDb); };
