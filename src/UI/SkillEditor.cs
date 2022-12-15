@@ -125,6 +125,7 @@ namespace KouCoCoa
             _skill.Val4 = val4TextBox.Text;
             _skill.Val5 = val5TextBox.Text;
             _skill.Chat = chatTextBox.Text;
+            this.Close();
         }
 
         /// <summary>

@@ -19,47 +19,35 @@ namespace KouCoCoa
         #region Public Methods
         public static async Task SerializeDatabase(IDatabase db)
         {
-            ISerializer yamlSerializer = new SerializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance)
-                .Build();
-
-            await Logger.WriteLineAsync($"Attempting to save database {db.Name} of type {db.DatabaseType} to " +
-                $"{db.FilePath}. . .", LogLevel.DebugVerbose);
+            if (db.DatabaseType == RAthenaDbType.UNSUPPORTED) {
+                await Logger.WriteLineAsync($"[{db.FilePath}] Attempt to serialize unsupported database. Skipping.", LogLevel.Warning);
+                return;
+            }
             if (File.Exists(db.FilePath) && Globals.RunConfig.AutoBackupDatabases) {
                 await BackupDatabase(db.FilePath);
             }
 
-            string yamlString = string.Empty;
-            RAthenaYamlDatabase yamlDb = new(db.DatabaseType);
+            string fileExt = Path.GetExtension(db.FilePath);
 
-            switch (db.DatabaseType) {
-                case RAthenaDbType.UNSUPPORTED:
+            switch (fileExt) {
+                case ".yml":
+                    await SerializeYamlDatabase(db);
                     break;
-                case RAthenaDbType.MOB_DB:
-                    MobDatabase mobDb = (MobDatabase)db;
-                    yamlDb.Body = mobDb.Mobs;
-                    try {
-                        yamlString = yamlSerializer.Serialize(yamlDb);
-                    } catch (Exception) {
-                        throw;
-                    }
-                    break;
-                case RAthenaDbType.MOB_AVAIL_DB:
-                    break;
-                case RAthenaDbType.ITEM_DB:
-                    break;
-                case RAthenaDbType.MOB_SKILL_DB:
-                    break;
-                case RAthenaDbType.NPC_IDENTITY:
+                case ".txt":
+                    await SerializeTxtDatabase(db);
                     break;
                 default:
                     break;
             }
 
-            try {
-                await File.WriteAllTextAsync(db.FilePath, yamlString);
-            } catch (Exception) {
-                throw;
+            await Logger.WriteLineAsync($"Attempting to save database {db.Name} of type {db.DatabaseType} to " +
+                $"{db.FilePath}. . .", LogLevel.DebugVerbose);
+        }
+
+        public static async Task SerializeDatabase(List<IDatabase> dbList)
+        {
+            foreach (IDatabase db in dbList) {
+                await SerializeDatabase(db);
             }
         }
 
@@ -78,6 +66,95 @@ namespace KouCoCoa
             }
             await Logger.WriteLineAsync($"{backupFilePath}: Successfully backed up.");
             return;
+        }
+        #endregion
+
+        #region Private members
+        private static async Task SerializeYamlDatabase(IDatabase db)
+        {
+            ISerializer yamlSerializer = new SerializerBuilder()
+                .WithNamingConvention(PascalCaseNamingConvention.Instance)
+                .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
+                .Build();
+
+
+            string yamlString = string.Empty;
+            RAthenaYamlDatabase yamlDb = new(db.DatabaseType);
+
+            switch (db.DatabaseType) {
+                case RAthenaDbType.MOB_DB:
+                    MobDatabase mobDb = (MobDatabase)db;
+                    yamlDb.Body = mobDb.Mobs;
+                    try {
+                        yamlString = yamlSerializer.Serialize(yamlDb);
+                    } catch (Exception) {
+                        throw;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            await WriteDatabaseToFile(db.FilePath, yamlString);
+        }
+
+        private static async Task SerializeTxtDatabase(IDatabase db)
+        {
+            List<string> dbString = new();
+
+            switch (db.DatabaseType) {
+                case RAthenaDbType.MOB_SKILL_DB:
+                    dbString = SerializeMobSkillDb((MobSkillDatabase)db);
+                    break;
+                case RAthenaDbType.NPC_IDENTITY:
+                    break;
+                default:
+                    break;
+            }
+            await WriteDatabaseToFile(db.FilePath, dbString);
+        }
+
+        private static async Task WriteDatabaseToFile(string filePath, string fileContents)
+        {
+            try {
+                await File.WriteAllTextAsync(filePath, fileContents);
+            } catch (Exception ex) {
+                await Logger.WriteLineAsync($"[{filePath}] Failed to serialize database. Failure was when trying to write to file. " +
+                    $"Exception was thrown: {ex.Message}.", LogLevel.Error);
+                // TODO: Logger UI element thing, remove throwing the exception
+                throw;
+            }
+        }
+
+        private static async Task WriteDatabaseToFile(string filePath, List<string> fileContents)
+        {
+            try {
+                await File.WriteAllLinesAsync(filePath, fileContents);
+            } catch (Exception ex) {
+                await Logger.WriteLineAsync($"[{filePath}] Failed to serialize database. Failure was when trying to write to file. " +
+                    $"Exception was thrown: {ex.Message}.", LogLevel.Error);
+                // TODO: Logger UI element thing, remove throwing the exception
+                throw;
+            }
+        }
+
+        private static List<string> SerializeMobSkillDb(MobSkillDatabase db)
+        {
+            List<string> serializedDb = new();
+            foreach (MobSkill skill in db.Skills) {
+                // MobID,Dummy value (info only),State,SkillID,SkillLv,Rate,CastTime,Delay,Cancelable,
+                // Target,Condition type,Condition value,val1,val2,val3,val4,val5,Emotion,Chat
+                // 1011,Chonchon@NPC_RUN,attack,354,1,10000,0,3000,no,self,always,0,,0x81,,,,26,
+                string entry =
+                    $"{skill.MobId},{skill.MobName}@{skill.SkillName},{skill.State},{skill.SkillId},{skill.SkillLv}," +
+                    $"{skill.Rate},{skill.CastTime},{skill.Delay},{skill.Cancelable},{skill.Target},{skill.ConditionType}," +
+                    $"{skill.ConditionValue},{skill.Val1},{skill.Val2},{skill.Val3},{skill.Val4},{skill.Val5},{skill.Emotion}," +
+                    $"{skill.Chat}";
+                serializedDb.Add(entry);
+            }
+
+
+            return serializedDb;
         }
         #endregion
     }

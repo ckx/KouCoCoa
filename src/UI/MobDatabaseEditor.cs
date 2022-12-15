@@ -494,8 +494,11 @@ namespace KouCoCoa
             if (skillIndex != -1 && _selectedMob.Skills.Count >= skillIndex) {
                 skill = new(_selectedMob.Skills[skillIndex]);
             }
+
             skill.MobId = _selectedMob.Id;
             skill.MobName = _selectedMob.Name;
+
+            _mobSkillDb.Skills.Add(skill);
             _selectedMob.Skills.Add(skill);
             mobSkillList.Items.Add(SkillToListEntry(skill));
         }
@@ -506,8 +509,11 @@ namespace KouCoCoa
             if (skillIndex > _selectedMob.Skills.Count || skillIndex == -1) {
                 return;
             }
+            MobSkill skill = _selectedMob.Skills[skillIndex];
+            _mobSkillDb.Skills.Remove(skill);
+            _selectedMob.Skills.Remove(skill);
+
             object skillToRemove = mobSkillList.SelectedItem;
-            _selectedMob.Skills.RemoveAt(skillIndex);
             mobSkillList.SelectedIndex = -1;
             mobSkillList.Items.Remove(skillToRemove);
         }
@@ -662,7 +668,11 @@ namespace KouCoCoa
             _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
             Logger.WriteLine($"{_selectedMob.AegisName} successfully saved.", LogLevel.DebugVerbose);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            DatabaseSaver.SerializeDatabase(_mobDb);
+            List<IDatabase> databasesToSave = new() {
+                _mobDb,
+                _mobSkillDb
+            };
+            DatabaseSaver.SerializeDatabase(databasesToSave);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
@@ -672,6 +682,7 @@ namespace KouCoCoa
             if (_openSkillEditors.Contains(editor)) {
                 _openSkillEditors.Remove((SkillEditor)sender);
             }
+            PopulateMobSkillList();
         }
         #endregion
     }

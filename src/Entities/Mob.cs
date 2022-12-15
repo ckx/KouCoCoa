@@ -11,9 +11,9 @@ namespace KouCoCoa
         public Mob()
         {
             Id = 0;
-            AegisName = "UNKNOWN";
-            Name = "Unknown";
-            JapaneseName = Name;
+            AegisName = string.Empty;
+            Name = string.Empty;
+            JapaneseName = string.Empty;
             Level = 1;
             Hp = 1;
             Attack = 0;
