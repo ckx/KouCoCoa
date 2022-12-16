@@ -427,6 +427,7 @@
             this.mobSpriteIdTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mobSpriteIdTextBox.Location = new System.Drawing.Point(79, 119);
             this.mobSpriteIdTextBox.Name = "mobSpriteIdTextBox";
+            this.mobSpriteIdTextBox.ReadOnly = true;
             this.mobSpriteIdTextBox.Size = new System.Drawing.Size(218, 23);
             this.mobSpriteIdTextBox.TabIndex = 12;
             // 

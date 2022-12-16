@@ -13,17 +13,23 @@ namespace KouCoCoa
         public MainContainer(Dictionary<RAthenaDbType, List<IDatabase>> databases, 
             Dictionary<string, Image> images)
         {
-            _databases = new(databases);
+            foreach (KeyValuePair<RAthenaDbType, List<IDatabase>> dbCollection in databases) {
+                Databases.Add(dbCollection.Key, dbCollection.Value);
+            }
             _images = new(images);
             InitializeComponent();
             KouCoCoaInitialization();
         }
         #endregion
 
+        #region Public fields
+        public static readonly Dictionary<RAthenaDbType, List<IDatabase>> Databases = new();
+        #endregion
+
         #region Private fields
-        private readonly Dictionary<RAthenaDbType, List<IDatabase>> _databases = new();
         private readonly Dictionary<string, Image> _images = new();
         private readonly ContextMenuStrip _mobDbsCMS = new();
+        private readonly ContextMenuStrip _spawnGroupDbsCMS = new();
         private readonly List<Form> _openDbForms = new();
         #endregion
 
@@ -35,6 +41,10 @@ namespace KouCoCoa
             // MobDBs menu
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
             mobDBToolStripMenuItem.DropDown = _mobDbsCMS;
+
+            // SpawnGroupDBs menu
+            _spawnGroupDbsCMS.Opening += new CancelEventHandler(spawnGroupDbs_Opening);
+            spawnGroupDBsToolStripMenuItem.DropDown = _spawnGroupDbsCMS;
         }
 
         private static string GetVersionTagline()
@@ -70,15 +80,28 @@ namespace KouCoCoa
         /// <summary>
         /// Checks if an existing DB form exists (based on name). Sets focus to existing window if it exists.
         /// </summary>
-        private bool CheckExistingDbForm(IDatabase dbName)
+        private bool CheckExistingDbForm(IDatabase db)
         {
             foreach (Form form in _openDbForms) {
-                if (form.Text == $"{dbName.Name} :: {form.Name}") {
+                if (form.Text == $"{db.Name} :: {form.Name}") {
                     form.Focus();
                     return true;
                 }
             }
             return false;
+        }
+
+        private bool ValidateNewDatabaseSelection(IDatabase db)
+        {
+            if (CheckExistingDbForm(db)) {
+                return false;
+            }
+            if (!Databases.ContainsKey(db.DatabaseType)) {
+                Logger.WriteLine($"Something went wrong. You tried to open a database of " +
+                    $"type {db.DatabaseType}, but no databases of that type are currently loaded.", LogLevel.Error);
+                return false;
+            }
+            return true;
         }
         #endregion
 
@@ -91,12 +114,12 @@ namespace KouCoCoa
         {
             // Clear the old list of entries, re-populate them
             _mobDbsCMS.Items.Clear();
-            if (!_databases.ContainsKey(RAthenaDbType.MOB_DB)) {
+            if (!Databases.ContainsKey(RAthenaDbType.MOB_DB)) {
                 ToolStripItem noneTsi = _mobDbsCMS.Items.Add("None");
                 noneTsi.Enabled = false;
                 return;
             }
-            foreach (MobDatabase mobDb in _databases[RAthenaDbType.MOB_DB]) {
+            foreach (MobDatabase mobDb in Databases[RAthenaDbType.MOB_DB]) {
                 ToolStripItem entryTsi = _mobDbsCMS.Items.Add(mobDb.Name);
                 entryTsi.Click += delegate(object sender, EventArgs e) { mobDbs_Selection(sender, e, mobDb); };
             }
@@ -108,21 +131,21 @@ namespace KouCoCoa
         /// </summary>
         private void mobDbs_Selection(object sender, EventArgs e, MobDatabase senderMobDb) 
         {
-            if (CheckExistingDbForm(senderMobDb)) {
+            if (!ValidateNewDatabaseSelection(senderMobDb)) {
                 return;
             }
-            if (_databases[RAthenaDbType.MOB_DB].Contains(senderMobDb)) {
+            if (Databases[RAthenaDbType.MOB_DB].Contains(senderMobDb)) {
                 MobDatabaseEditor mde;
                 MobSkillDatabase mobSkillDb = new();
-                if (_databases.ContainsKey(RAthenaDbType.MOB_SKILL_DB)) {
+                if (Databases.ContainsKey(RAthenaDbType.MOB_SKILL_DB)) {
                     // TODO: Is there any point to all this? We will probably only ever have 1 mob skill db...
                     // https://github.com/ckx/KouCoCoa/issues/2
-                    mobSkillDb = (MobSkillDatabase)_databases[RAthenaDbType.MOB_SKILL_DB][0];
+                    mobSkillDb = (MobSkillDatabase)Databases[RAthenaDbType.MOB_SKILL_DB][0];
                 }
                 NpcIdentityDatabase npcIdDb = new();
-                if (_databases.ContainsKey(RAthenaDbType.NPC_IDENTITY)) {
+                if (Databases.ContainsKey(RAthenaDbType.NPC_IDENTITY)) {
                     // ditto the above...
-                    npcIdDb = (NpcIdentityDatabase)_databases[RAthenaDbType.NPC_IDENTITY][0];
+                    npcIdDb = (NpcIdentityDatabase)Databases[RAthenaDbType.NPC_IDENTITY][0];
                 }
                 mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
                 mde.MdiParent = this;
@@ -131,11 +154,45 @@ namespace KouCoCoa
                 mde.Show();
             }
         }
-        #endregion
+
+        /// <summary>
+        /// Triggers on _spawnGroupDbsCMS, populates the menu list of SpawnGroupDbs
+        /// </summary>
+        private void spawnGroupDbs_Opening(object sender, CancelEventArgs e)
+        {
+            _spawnGroupDbsCMS.Items.Clear();
+            if (!Databases.ContainsKey(RAthenaDbType.SPAWNGROUP_DB)) {
+                ToolStripItem noneTsi = _mobDbsCMS.Items.Add("None");
+                noneTsi.Enabled = false;
+                return;
+            }
+            foreach (SpawnGroupDatabase spawnGroupDb in Databases[RAthenaDbType.SPAWNGROUP_DB]) {
+                ToolStripItem entryTsi = _spawnGroupDbsCMS.Items.Add(spawnGroupDb.Name);
+                entryTsi.Click += delegate (object sender, EventArgs e) { spawnGroupDbs_Selection(sender, e, spawnGroupDb); };
+            }
+        }
+
+        /// <summary>
+        /// Triggers on selectio of an entry in _spawnGroupCMS, 
+        /// creates a new SpawnGroupDatabaseEditor based on the approrpiate spawnGroupDb
+        /// </summary>
+        private void spawnGroupDbs_Selection(object sender, EventArgs e, SpawnGroupDatabase senderSpawnGroupDb)
+        {
+            if (!ValidateNewDatabaseSelection(senderSpawnGroupDb)) {
+                return;
+            }
+            if (Databases[RAthenaDbType.SPAWNGROUP_DB].Contains(senderSpawnGroupDb)) {
+                SpawnGroupDatabaseEditor sgde = new(senderSpawnGroupDb);
+                sgde.MdiParent = this;
+                _openDbForms.Add(sgde);
+                sgde.FormClosed += childForm_Closed;
+                sgde.Show();
+            }
+        }
 
         private void databaseOrganizerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DatabaseOrganizer dbOranizer = new(_databases);
+            DatabaseOrganizer dbOranizer = new(Databases);
             dbOranizer.Parent = this;
             dbOranizer.Show();
         }
@@ -147,5 +204,6 @@ namespace KouCoCoa
                 _openDbForms.Remove((Form)sender);
             }
         }
+        #endregion
     }
 }

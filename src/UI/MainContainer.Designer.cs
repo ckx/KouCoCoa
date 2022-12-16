@@ -30,10 +30,11 @@
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseOrganizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mobDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.databaseOrganizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnGroupDBsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,8 @@
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.windowToolStripMenuItem,
-            this.mobDBToolStripMenuItem});
+            this.mobDBToolStripMenuItem,
+            this.spawnGroupDBsToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(1691, 24);
@@ -63,13 +65,20 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.newToolStripMenuItem.Text = "&New";
+            // 
+            // databaseOrganizerToolStripMenuItem
+            // 
+            this.databaseOrganizerToolStripMenuItem.Name = "databaseOrganizerToolStripMenuItem";
+            this.databaseOrganizerToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.databaseOrganizerToolStripMenuItem.Text = "&Database Organizer";
+            this.databaseOrganizerToolStripMenuItem.Click += new System.EventHandler(this.databaseOrganizerToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             // 
             // windowToolStripMenuItem
@@ -84,12 +93,11 @@
             this.mobDBToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.mobDBToolStripMenuItem.Text = "&MobDBs";
             // 
-            // databaseOrganizerToolStripMenuItem
+            // spawnGroupDBsToolStripMenuItem
             // 
-            this.databaseOrganizerToolStripMenuItem.Name = "databaseOrganizerToolStripMenuItem";
-            this.databaseOrganizerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.databaseOrganizerToolStripMenuItem.Text = "&Database Organizer";
-            this.databaseOrganizerToolStripMenuItem.Click += new System.EventHandler(this.databaseOrganizerToolStripMenuItem_Click);
+            this.spawnGroupDBsToolStripMenuItem.Name = "spawnGroupDBsToolStripMenuItem";
+            this.spawnGroupDBsToolStripMenuItem.Size = new System.Drawing.Size(107, 20);
+            this.spawnGroupDBsToolStripMenuItem.Text = "&SpawnGroupDBs";
             // 
             // MainContainer
             // 
@@ -115,5 +123,6 @@
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mobDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databaseOrganizerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spawnGroupDBsToolStripMenuItem;
     }
 }

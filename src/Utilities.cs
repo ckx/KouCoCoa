@@ -31,6 +31,21 @@ namespace KouCoCoa
             }
         }
 
+        internal static string SpawnGroupToListEntry(SpawnGroup sg)
+        {
+            return $"[{sg.Id}] {sg.Name}";
+        }
+
+        internal static string MobToListEntry(Mob mob)
+        {
+            return $"[{mob.Id}] {mob.Name} ({mob.AegisName})";
+        }
+
+        internal static string SkillToListEntry(MobSkill skill)
+        {
+            return $"[{skill.State}] {skill.SkillName} (Lv. {skill.SkillLv})";
+        }
+
         /// <summary>
         /// Yes, I'm lazy enough to be making a wrapper for TryParse.
         /// </summary>

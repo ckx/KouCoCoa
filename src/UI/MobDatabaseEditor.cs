@@ -57,7 +57,7 @@ namespace KouCoCoa
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
             List<string> mobNames = new();
             foreach (Mob mob in _mobDb.Mobs) {
-                mobNames.Add(MobToListEntry(mob));
+                mobNames.Add(Utilities.MobToListEntry(mob));
             }
             mobListBoxCollection.AddRange(mobNames.Cast<object>().ToArray());
             mobListBox.Items.AddRange(mobListBoxCollection);
@@ -240,7 +240,7 @@ namespace KouCoCoa
             mobSkillList.BeginUpdate();
             mobSkillList.Items.Clear();
             foreach (MobSkill skill in _selectedMob.Skills) {
-                mobSkillList.Items.Add(SkillToListEntry(skill));
+                mobSkillList.Items.Add(Utilities.SkillToListEntry(skill));
             }
             mobSkillList.EndUpdate();
         }
@@ -366,11 +366,11 @@ namespace KouCoCoa
             mobModesIgnoreMeleeCheckBox.Checked = mob.Modes.IgnoreMelee;
             mobModesIgnoreRangedCheckBox.Checked = mob.Modes.IgnoreRanged;
             mobModesIgnoreMagicCheckBox.Checked = mob.Modes.IgnoreMagic;
+            mobModesIgnoreMiscCheckBox.Checked = mob.Modes.IgnoreMisc;
             mobModesStatusImmuneCheckBox.Checked = mob.Modes.StatusImmune;
             mobModesSkillImmuneCheckBox.Checked = mob.Modes.SkillImmune;
             mobModesKnockbackImmuneCheckBox.Checked = mob.Modes.KnockbackImmune;
             mobModesFixedItemDropCheckBox.Checked = mob.Modes.FixedItemDrop;
-            mobModesIgnoreMiscCheckBox.Checked = mob.Modes.IgnoreMisc;
             mobModesTeleportBlockCheckBox.Checked = mob.Modes.TeleportBlock;
 
             PrintAiSummary(mob);
@@ -407,16 +407,6 @@ namespace KouCoCoa
             }
             mobModesEnabledTextBox.SelectionStart = 0;
             mobModesEnabledTextBox.ScrollToCaret();
-        }
-
-        private static string MobToListEntry(Mob mob)
-        {
-            return $"[{mob.Id}] {mob.Name} ({mob.AegisName})";
-        }
-
-        private static string SkillToListEntry(MobSkill skill)
-        {
-            return $"[{skill.State}] {skill.SkillName} (Lv. {skill.SkillLv})";
         }
 
         private void SetSelectedMob(string selectedText)
@@ -466,7 +456,7 @@ namespace KouCoCoa
             }
             _npcIdDb.Identities.Add(mob.Id, identity);
             _mobDb.Mobs.Add(mob);
-            mobListBox.Items.Add(MobToListEntry(mob));
+            mobListBox.Items.Add(Utilities.MobToListEntry(mob));
         }
 
         private void DeleteMob_Event(object sender, EventArgs e)
@@ -500,7 +490,7 @@ namespace KouCoCoa
 
             _mobSkillDb.Skills.Add(skill);
             _selectedMob.Skills.Add(skill);
-            mobSkillList.Items.Add(SkillToListEntry(skill));
+            mobSkillList.Items.Add(Utilities.SkillToListEntry(skill));
         }
 
         private void DeleteSkill_Event(object sender, EventArgs e)
@@ -522,7 +512,7 @@ namespace KouCoCoa
         {
             List<string> mobFilterResults = new();
             foreach (Mob mob in _mobDb.Mobs) {
-                mobFilterResults.Add(MobToListEntry(mob));
+                mobFilterResults.Add(Utilities.MobToListEntry(mob));
             }
             mobListBox.BeginUpdate();
             mobListBox.Items.Clear();
@@ -563,7 +553,7 @@ namespace KouCoCoa
 
         private void mobListBox_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (mobListBox.SelectedItem == null) {
+            if (mobListBox.SelectedItem == null || mobListBox.SelectedIndex == -1) {
                 return;
             }
             string selectedItem = mobListBox.SelectedItem.ToString();
@@ -636,9 +626,9 @@ namespace KouCoCoa
             _selectedMob.AttackRange = (int)mobStatsAtkRangeUpDown.Value;
             _selectedMob.SkillRange = (int)mobStatsSkillRangeUpDown.Value;
             _selectedMob.ChaseRange = (int)mobStatsChaseRangeUpDown.Value;
-            _selectedMob.WalkSpeed = (int)mobStatsAtkDelayUpDown.Value;
+            _selectedMob.WalkSpeed = (int)mobStatsMoveSpeedUpDown.Value;
             _selectedMob.AttackDelay = (int)mobStatsAtkDelayUpDown.Value;
-            _selectedMob.AttackMotion = (int)mobStatsDmgMotionUpDown.Value;
+            _selectedMob.AttackMotion = (int)mobStatsAtkMotionUpDown.Value;
             _selectedMob.DamageMotion = (int)mobStatsDmgMotionUpDown.Value;
 
             _selectedMob.Modes.CanMove = mobModesCanMoveCheckBox.Checked;
@@ -663,7 +653,7 @@ namespace KouCoCoa
             _selectedMob.Modes.IgnoreMisc = mobModesIgnoreMiscCheckBox.Checked;
             _selectedMob.Modes.SkillImmune = mobModesSkillImmuneCheckBox.Checked;
             _selectedMob.Modes.StatusImmune = mobModesStatusImmuneCheckBox.Checked;
-            _selectedMob.Modes.KnockbackImmune = mobModesFixedItemDropCheckBox.Checked;
+            _selectedMob.Modes.KnockbackImmune = mobModesKnockbackImmuneCheckBox.Checked;
             _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
             _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
             Logger.WriteLine($"{_selectedMob.AegisName} successfully saved.", LogLevel.DebugVerbose);
