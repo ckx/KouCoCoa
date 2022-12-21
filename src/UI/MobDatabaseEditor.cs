@@ -48,10 +48,11 @@ namespace KouCoCoa
             AssignMobSkillsToMobs();
             // Event subscriptions
             mobListBox.SelectedValueChanged += mobListBox_SelectedValueChanged;
+            mobListBox.MouseDown += mobListBox_MouseDown;
+            mobListBox.MouseMove += mobListBox_MouseMove;
             mobFilterBox.TextChanged += mobFilterBox_TextChanged;
             mobSkillList.MouseDoubleClick += mobSkillList_MouseDoubleClick;
             mobSkillList.MouseDown += mobSkillList_MouseDown;
-            mobListBox.MouseDown += mobListBox_MouseDown;
 
             // Populate the left-docked mobList 
             ListBox.ObjectCollection mobListBoxCollection = new(mobListBox);
@@ -70,9 +71,10 @@ namespace KouCoCoa
 
         private void mobListBox_MouseDown(object sender, MouseEventArgs e)
         {
+            mobListBox.SelectedIndex = mobListBox.IndexFromPoint(e.Location);
+            // Right click for context menu
             if (e.Button == MouseButtons.Right) {
                 mobListContextMenuStrip.Items.Clear();
-                mobListBox.SelectedIndex = mobListBox.IndexFromPoint(e.Location);
                 ToolStripMenuItem addMob = new("Add new mob...");
                 addMob.Click += delegate (object sender, EventArgs e) { AddNewMob_Event(sender, e, null); };
                 mobListContextMenuStrip.Items.Add(addMob);
@@ -85,6 +87,28 @@ namespace KouCoCoa
                     mobListContextMenuStrip.Items.Add(deleteMob);
                 }
                 mobListContextMenuStrip.Show(Cursor.Position);
+                return;
+            }
+        }
+
+        private void mobListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((Control.MouseButtons & MouseButtons.Left) != 0 && mobListBox.SelectedIndex != -1) {
+                if (!this.Focused) {
+                    mobListBox_SelectedValueChanged(null, null);
+                }
+                // We don't want to set Selected Mob on drag and drop events, so we fully handle it here
+                Mob selectedMob = new();
+                int mobId = int.Parse(Utilities.StringSplit(mobListBox.SelectedItem.ToString(), '[', ']'));
+                foreach (Mob entry in _mobDb.Mobs) {
+                    if (entry.Id == mobId) {
+                        selectedMob = entry;
+                        break;
+                    }
+                }
+                // this is what apathy looks like
+                string dragText = $"{selectedMob.Id}|{selectedMob.Name}";
+                mobListBox.DoDragDrop(dragText, DragDropEffects.Copy);
             }
         }
 

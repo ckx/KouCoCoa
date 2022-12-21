@@ -29,6 +29,8 @@ namespace KouCoCoa
 
             // Event subscripes
             sgListBox.SelectedValueChanged += sgListBox_SelectedValueChanged;
+            sgMembersDataGridView.DragEnter += sgMembersDataGridView_DragEnter;
+            sgMembersDataGridView.DragDrop += sgMembersDataGridView_DragDrop;
 
             // Populate the left-docked spawnGroupListBox
             ListBox.ObjectCollection sgListBoxCollection = new(sgListBox);
@@ -79,6 +81,8 @@ namespace KouCoCoa
             }
 
             sgMembersDataGridView.DataSource = dt;
+            sgMembersDataGridView.AllowDrop = true;
+            sgMembersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         #endregion
 
@@ -124,6 +128,48 @@ namespace KouCoCoa
 
             sgTitleLabel.Text = Utilities.SpawnGroupToListEntry(_selectedSpawnGroup);
             SetupDataGridView();
+        }
+
+        private void sgMembersDataGridView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Text)) {
+                e.Effect = DragDropEffects.Copy;
+            } else {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void sgMembersDataGridView_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] memberInfo = e.Data.GetData(DataFormats.Text).ToString().Split('|');
+            if (memberInfo.Length == 2) {
+                DataTable dt = (DataTable)sgMembersDataGridView.DataSource;
+                DataRow row = dt.NewRow();
+                row[0] = int.TryParse(memberInfo[0], out int id) ? id : 0;
+                row[1] = memberInfo[1];
+                row[2] = 0;
+                row[3] = 0;
+                dt.Rows.Add(row);
+                sgMembersDataGridView.DataSource = dt;
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            _selectedSpawnGroup.Members = new();
+            DataGridViewRowCollection rowCollection = sgMembersDataGridView.Rows;
+            foreach (DataGridViewRow row in rowCollection) {
+                if (row.DataBoundItem == null) {
+                    continue;
+                }
+                DataRow dataRow = (row.DataBoundItem as DataRowView).Row;
+                SpawnGroupMember sgMember = new();
+                sgMember.Id = int.TryParse(dataRow[0].ToString(), out int id) ? id : int.MinValue;
+                sgMember.Name = dataRow[1].ToString();
+                sgMember.Count = int.TryParse(dataRow[2].ToString(), out int count) ? count : int.MinValue;
+                sgMember.RewardMod = int.TryParse(dataRow[3].ToString(), out int rewardMod) ? rewardMod : int.MinValue;
+                _selectedSpawnGroup.Members.Add(sgMember);
+            }
         }
         #endregion
     }

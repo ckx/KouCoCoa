@@ -36,6 +36,7 @@
             this.sgTitleLabel = new System.Windows.Forms.Label();
             this.spawnGroupInfoTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sgMembersDataGridView = new System.Windows.Forms.DataGridView();
+            this.saveButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.spawnGroupInfoTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sgMembersDataGridView)).BeginInit();
@@ -61,6 +62,7 @@
             // 
             // sgListBox
             // 
+            this.sgListBox.AllowDrop = true;
             this.sgListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sgListBox.FormattingEnabled = true;
             this.sgListBox.ItemHeight = 15;
@@ -95,6 +97,7 @@
             this.spawnGroupInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.72668F));
             this.spawnGroupInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.27331F));
             this.spawnGroupInfoTableLayoutPanel.Controls.Add(this.sgMembersDataGridView, 0, 0);
+            this.spawnGroupInfoTableLayoutPanel.Controls.Add(this.saveButton, 1, 1);
             this.spawnGroupInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spawnGroupInfoTableLayoutPanel.Location = new System.Drawing.Point(171, 33);
             this.spawnGroupInfoTableLayoutPanel.Name = "spawnGroupInfoTableLayoutPanel";
@@ -106,6 +109,7 @@
             // 
             // sgMembersDataGridView
             // 
+            this.sgMembersDataGridView.AllowDrop = true;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -138,8 +142,20 @@
             this.sgMembersDataGridView.Size = new System.Drawing.Size(521, 466);
             this.sgMembersDataGridView.TabIndex = 0;
             // 
+            // saveButton
+            // 
+            this.saveButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.saveButton.Location = new System.Drawing.Point(530, 475);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(89, 41);
+            this.saveButton.TabIndex = 1;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // SpawnGroupDatabaseEditor
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(796, 555);
@@ -162,5 +178,6 @@
         private System.Windows.Forms.Label sgTitleLabel;
         private System.Windows.Forms.TableLayoutPanel spawnGroupInfoTableLayoutPanel;
         private System.Windows.Forms.DataGridView sgMembersDataGridView;
+        private System.Windows.Forms.Button saveButton;
     }
 }
