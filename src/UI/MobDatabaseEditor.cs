@@ -435,6 +435,10 @@ namespace KouCoCoa
 
         private void SetSelectedMob(string selectedText)
         {
+            // Before setting a new selection, update the old mob
+            if (_selectedMob != null) {
+                UpdateMob();
+            }
             // Find the mob we've selected
             Mob selectedMob = new();
             int mobId = int.Parse(Utilities.StringSplit(selectedText, '[', ']'));
@@ -444,6 +448,74 @@ namespace KouCoCoa
                     break;
                 }
             }
+        }
+
+        private void UpdateMob()
+        {
+            Logger.WriteLine($"Saving mob {_selectedMob.AegisName} to {_mobDb.Name}...", LogLevel.DebugVerbose);
+            _selectedMob.Name = mobFriendlyNameTextBox.Text;
+            _selectedMob.AegisName = mobAegisNameTextBox.Text;
+            _selectedMob.JapaneseName = mobJpNameTextBox.Text;
+            _selectedMob.Id = (int)mobIdNumericUpDown.Value;
+            //TODO: sprite selector
+            string aegisAiModeFullString = mobAegisAiComboBox.SelectedItem.ToString();
+            string[] aegisAiSplitString = aegisAiModeFullString.Split(" ");
+            _selectedMob.Ai = aegisAiSplitString[0];
+            _selectedMob.Class = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mobClass)
+                ? mobClass : _selectedMob.Class;
+            _selectedMob.Size = Enum.TryParse(mobSizeComboBox.SelectedItem.ToString(), out MobSize mobSize)
+                ? mobSize : _selectedMob.Size;
+            _selectedMob.Race = Enum.TryParse(mobRaceComboBox.SelectedItem.ToString(), out MobRace mobRace)
+                ? mobRace : _selectedMob.Race;
+            _selectedMob.Element = Enum.TryParse(mobElementComboBox.SelectedItem.ToString(), out MobElement mobElement)
+                ? mobElement : _selectedMob.Element;
+            _selectedMob.ElementLevel = Utilities.GetIntFromControl(mobEleLvlComboBox);
+            _selectedMob.Str = (int)mobBaseStatsStrUpDown.Value;
+            _selectedMob.Int = (int)mobBaseStatsIntUpDown.Value;
+            _selectedMob.Agi = (int)mobBaseStatsAgiUpDown.Value;
+            _selectedMob.Dex = (int)mobBaseStatsDexUpDown.Value;
+            _selectedMob.Vit = (int)mobBaseStatsVitUpDown.Value;
+            _selectedMob.Luk = (int)mobBaseStatsLukUpDown.Value;
+            _selectedMob.Hp = (int)mobStatsHpUpDown.Value;
+            _selectedMob.Level = (int)mobStatsLevelUpDown.Value;
+            _selectedMob.Attack = (int)mobStatsAttackUpDown.Value;
+            _selectedMob.Attack2 = (int)mobStatsAttack2UpDown.Value;
+            _selectedMob.Defense = (int)mobStatsDefenseUpDown.Value;
+            _selectedMob.MagicDefense = (int)mobStatsMdefUpDown.Value;
+            _selectedMob.AttackRange = (int)mobStatsAtkRangeUpDown.Value;
+            _selectedMob.SkillRange = (int)mobStatsSkillRangeUpDown.Value;
+            _selectedMob.ChaseRange = (int)mobStatsChaseRangeUpDown.Value;
+            _selectedMob.WalkSpeed = (int)mobStatsMoveSpeedUpDown.Value;
+            _selectedMob.AttackDelay = (int)mobStatsAtkDelayUpDown.Value;
+            _selectedMob.AttackMotion = (int)mobStatsAtkMotionUpDown.Value;
+            _selectedMob.DamageMotion = (int)mobStatsDmgMotionUpDown.Value;
+
+            _selectedMob.Modes.CanMove = mobModesCanMoveCheckBox.Checked;
+            _selectedMob.Modes.CanAttack = mobModesCanAttackCheckBox.Checked;
+            _selectedMob.Modes.NoRandomWalk = mobModesNoRandomWalkCheckBox.Checked;
+            _selectedMob.Modes.NoCast = mobModesNoCastCheckBox.Checked;
+            _selectedMob.Modes.Detector = mobModesDetectorCheckBox.Checked;
+            _selectedMob.Modes.Looter = mobModesLooterCheckBox.Checked;
+            _selectedMob.Modes.Aggressive = mobModesAggressiveCheckBox.Checked;
+            _selectedMob.Modes.Assist = mobModesAssistAggroCheckBox.Checked;
+            _selectedMob.Modes.CastSensorIdle = mobModesCastSensorIdleCheckBox.Checked;
+            _selectedMob.Modes.CastSensorChase = mobModesCastSensorChaseCheckBox.Checked;
+            _selectedMob.Modes.ChangeTargetMelee = mobModesChangeTargetMelee.Checked;
+            _selectedMob.Modes.ChangeTargetChase = mobModesChangeTargetChase.Checked;
+            _selectedMob.Modes.RandomTarget = mobModesRandomTargetCheckBox.Checked;
+            _selectedMob.Modes.TargetWeak = mobModesTargetWeakCheckBox.Checked;
+            _selectedMob.Modes.Angry = mobModesAngryCheckBox.Checked;
+            _selectedMob.Modes.Mvp = mobModesMvpCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMelee = mobModesIgnoreMeleeCheckBox.Checked;
+            _selectedMob.Modes.IgnoreRanged = mobModesIgnoreRangedCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMagic = mobModesIgnoreMagicCheckBox.Checked;
+            _selectedMob.Modes.IgnoreMisc = mobModesIgnoreMiscCheckBox.Checked;
+            _selectedMob.Modes.SkillImmune = mobModesSkillImmuneCheckBox.Checked;
+            _selectedMob.Modes.StatusImmune = mobModesStatusImmuneCheckBox.Checked;
+            _selectedMob.Modes.KnockbackImmune = mobModesKnockbackImmuneCheckBox.Checked;
+            _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
+            _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
+            Logger.WriteLine($"{_selectedMob.AegisName} successfully saved.", LogLevel.DebugVerbose);
         }
         #endregion
 
@@ -617,75 +689,12 @@ namespace KouCoCoa
 
         private void mobSaveChangesButton_Click(object sender, EventArgs e)
         {
-            Logger.WriteLine($"Saving mob {_selectedMob.AegisName} to {_mobDb.Name}...", LogLevel.DebugVerbose);
-            _selectedMob.Name = mobFriendlyNameTextBox.Text;
-            _selectedMob.AegisName = mobAegisNameTextBox.Text;
-            _selectedMob.JapaneseName = mobJpNameTextBox.Text;
-            _selectedMob.Id = (int)mobIdNumericUpDown.Value;
-            //TODO: sprite selector
-            string aegisAiModeFullString = mobAegisAiComboBox.SelectedItem.ToString();
-            string[] aegisAiSplitString = aegisAiModeFullString.Split(" ");
-            _selectedMob.Ai = aegisAiSplitString[0];
-            _selectedMob.Class = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mobClass)
-                ? mobClass : _selectedMob.Class;
-            _selectedMob.Size = Enum.TryParse(mobSizeComboBox.SelectedItem.ToString(), out MobSize mobSize)
-                ? mobSize : _selectedMob.Size;
-            _selectedMob.Race = Enum.TryParse(mobRaceComboBox.SelectedItem.ToString(), out MobRace mobRace)
-                ? mobRace : _selectedMob.Race;
-            _selectedMob.Element = Enum.TryParse(mobElementComboBox.SelectedItem.ToString(), out MobElement mobElement)
-                ? mobElement : _selectedMob.Element;
-            _selectedMob.ElementLevel = Utilities.GetIntFromControl(mobEleLvlComboBox);
-            _selectedMob.Str = (int)mobBaseStatsStrUpDown.Value;
-            _selectedMob.Int = (int)mobBaseStatsIntUpDown.Value;
-            _selectedMob.Agi = (int)mobBaseStatsAgiUpDown.Value;
-            _selectedMob.Dex = (int)mobBaseStatsDexUpDown.Value;
-            _selectedMob.Vit = (int)mobBaseStatsVitUpDown.Value;
-            _selectedMob.Luk = (int)mobBaseStatsLukUpDown.Value;
-            _selectedMob.Hp = (int)mobStatsHpUpDown.Value;
-            _selectedMob.Level = (int)mobStatsLevelUpDown.Value;
-            _selectedMob.Attack = (int)mobStatsAttackUpDown.Value;
-            _selectedMob.Attack2 = (int)mobStatsAttack2UpDown.Value;
-            _selectedMob.Defense = (int)mobStatsDefenseUpDown.Value;
-            _selectedMob.MagicDefense = (int)mobStatsMdefUpDown.Value;
-            _selectedMob.AttackRange = (int)mobStatsAtkRangeUpDown.Value;
-            _selectedMob.SkillRange = (int)mobStatsSkillRangeUpDown.Value;
-            _selectedMob.ChaseRange = (int)mobStatsChaseRangeUpDown.Value;
-            _selectedMob.WalkSpeed = (int)mobStatsMoveSpeedUpDown.Value;
-            _selectedMob.AttackDelay = (int)mobStatsAtkDelayUpDown.Value;
-            _selectedMob.AttackMotion = (int)mobStatsAtkMotionUpDown.Value;
-            _selectedMob.DamageMotion = (int)mobStatsDmgMotionUpDown.Value;
-
-            _selectedMob.Modes.CanMove = mobModesCanMoveCheckBox.Checked;
-            _selectedMob.Modes.CanAttack = mobModesCanAttackCheckBox.Checked;
-            _selectedMob.Modes.NoRandomWalk = mobModesNoRandomWalkCheckBox.Checked;
-            _selectedMob.Modes.NoCast = mobModesNoCastCheckBox.Checked;
-            _selectedMob.Modes.Detector = mobModesDetectorCheckBox.Checked;
-            _selectedMob.Modes.Looter = mobModesLooterCheckBox.Checked;
-            _selectedMob.Modes.Aggressive = mobModesAggressiveCheckBox.Checked;
-            _selectedMob.Modes.Assist = mobModesAssistAggroCheckBox.Checked;
-            _selectedMob.Modes.CastSensorIdle = mobModesCastSensorIdleCheckBox.Checked;
-            _selectedMob.Modes.CastSensorChase = mobModesCastSensorChaseCheckBox.Checked;
-            _selectedMob.Modes.ChangeTargetMelee = mobModesChangeTargetMelee.Checked;
-            _selectedMob.Modes.ChangeTargetChase = mobModesChangeTargetChase.Checked;
-            _selectedMob.Modes.RandomTarget = mobModesRandomTargetCheckBox.Checked;
-            _selectedMob.Modes.TargetWeak = mobModesTargetWeakCheckBox.Checked;
-            _selectedMob.Modes.Angry = mobModesAngryCheckBox.Checked;
-            _selectedMob.Modes.Mvp = mobModesMvpCheckBox.Checked;
-            _selectedMob.Modes.IgnoreMelee = mobModesIgnoreMeleeCheckBox.Checked;
-            _selectedMob.Modes.IgnoreRanged = mobModesIgnoreRangedCheckBox.Checked;
-            _selectedMob.Modes.IgnoreMagic = mobModesIgnoreMagicCheckBox.Checked;
-            _selectedMob.Modes.IgnoreMisc = mobModesIgnoreMiscCheckBox.Checked;
-            _selectedMob.Modes.SkillImmune = mobModesSkillImmuneCheckBox.Checked;
-            _selectedMob.Modes.StatusImmune = mobModesStatusImmuneCheckBox.Checked;
-            _selectedMob.Modes.KnockbackImmune = mobModesKnockbackImmuneCheckBox.Checked;
-            _selectedMob.Modes.FixedItemDrop = mobModesFixedItemDropCheckBox.Checked;
-            _selectedMob.Modes.TeleportBlock = mobModesTeleportBlockCheckBox.Checked;
-            Logger.WriteLine($"{_selectedMob.AegisName} successfully saved.", LogLevel.DebugVerbose);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            UpdateMob();
             List<IDatabase> databasesToSave = new() {
                 _mobDb,
                 _mobSkillDb
             };
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DatabaseSaver.SerializeDatabase(databasesToSave);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
