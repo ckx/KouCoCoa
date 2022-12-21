@@ -85,16 +85,15 @@ namespace KouCoCoa
                 case RAthenaDbType.MOB_DB:
                     MobDatabase mobDb = (MobDatabase)db;
                     yamlDb.Body = mobDb.Mobs;
-                    try {
-                        yamlString = yamlSerializer.Serialize(yamlDb);
-                    } catch (Exception) {
-                        throw;
-                    }
+                    break;
+                case RAthenaDbType.SPAWNGROUP_DB:
+                    SpawnGroupDatabase sgDb = (SpawnGroupDatabase)db;
+                    yamlDb.Body = sgDb.SpawnGroups;
                     break;
                 default:
                     break;
             }
-
+            yamlString = yamlSerializer.Serialize(yamlDb);
             await WriteDatabaseToFile(db.FilePath, yamlString);
         }
 
