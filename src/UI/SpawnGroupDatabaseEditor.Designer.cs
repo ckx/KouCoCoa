@@ -27,16 +27,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.sgListBox = new System.Windows.Forms.ListBox();
             this.sgFilterTextBox = new System.Windows.Forms.TextBox();
             this.sgTitleLabel = new System.Windows.Forms.Label();
             this.spawnGroupInfoTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sgMembersDataGridView = new System.Windows.Forms.DataGridView();
-            this.memberId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.memberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.memberCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.memberRewardMod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.spawnGroupInfoTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sgMembersDataGridView)).BeginInit();
@@ -57,7 +56,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.429072F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.57093F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(796, 571);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(796, 555);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // sgListBox
@@ -65,9 +64,9 @@
             this.sgListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sgListBox.FormattingEnabled = true;
             this.sgListBox.ItemHeight = 15;
-            this.sgListBox.Location = new System.Drawing.Point(3, 34);
+            this.sgListBox.Location = new System.Drawing.Point(3, 33);
             this.sgListBox.Name = "sgListBox";
-            this.sgListBox.Size = new System.Drawing.Size(162, 534);
+            this.sgListBox.Size = new System.Drawing.Size(162, 519);
             this.sgListBox.TabIndex = 0;
             // 
             // sgFilterTextBox
@@ -86,7 +85,7 @@
             this.sgTitleLabel.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.sgTitleLabel.Location = new System.Drawing.Point(171, 0);
             this.sgTitleLabel.Name = "sgTitleLabel";
-            this.sgTitleLabel.Size = new System.Drawing.Size(622, 31);
+            this.sgTitleLabel.Size = new System.Drawing.Size(622, 30);
             this.sgTitleLabel.TabIndex = 2;
             this.sgTitleLabel.Text = "SpawnGroup Name";
             // 
@@ -97,62 +96,53 @@
             this.spawnGroupInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.27331F));
             this.spawnGroupInfoTableLayoutPanel.Controls.Add(this.sgMembersDataGridView, 0, 0);
             this.spawnGroupInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spawnGroupInfoTableLayoutPanel.Location = new System.Drawing.Point(171, 34);
+            this.spawnGroupInfoTableLayoutPanel.Location = new System.Drawing.Point(171, 33);
             this.spawnGroupInfoTableLayoutPanel.Name = "spawnGroupInfoTableLayoutPanel";
             this.spawnGroupInfoTableLayoutPanel.RowCount = 2;
             this.spawnGroupInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.01124F));
             this.spawnGroupInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.988764F));
-            this.spawnGroupInfoTableLayoutPanel.Size = new System.Drawing.Size(622, 534);
+            this.spawnGroupInfoTableLayoutPanel.Size = new System.Drawing.Size(622, 519);
             this.spawnGroupInfoTableLayoutPanel.TabIndex = 3;
             // 
             // sgMembersDataGridView
             // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.sgMembersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.sgMembersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.sgMembersDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.memberId,
-            this.memberName,
-            this.memberCount,
-            this.memberRewardMod});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.sgMembersDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.sgMembersDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sgMembersDataGridView.Location = new System.Drawing.Point(3, 3);
             this.sgMembersDataGridView.Name = "sgMembersDataGridView";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.sgMembersDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.sgMembersDataGridView.RowTemplate.Height = 25;
-            this.sgMembersDataGridView.Size = new System.Drawing.Size(521, 480);
+            this.sgMembersDataGridView.Size = new System.Drawing.Size(521, 466);
             this.sgMembersDataGridView.TabIndex = 0;
-            // 
-            // memberId
-            // 
-            this.memberId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.memberId.Frozen = true;
-            this.memberId.HeaderText = "ID";
-            this.memberId.MinimumWidth = 3;
-            this.memberId.Name = "memberId";
-            this.memberId.Width = 43;
-            // 
-            // memberName
-            // 
-            this.memberName.Frozen = true;
-            this.memberName.HeaderText = "Name";
-            this.memberName.Name = "memberName";
-            this.memberName.ToolTipText = "Mob\'s friendly name";
-            // 
-            // memberCount
-            // 
-            this.memberCount.Frozen = true;
-            this.memberCount.HeaderText = "Count";
-            this.memberCount.Name = "memberCount";
-            // 
-            // memberRewardMod
-            // 
-            this.memberRewardMod.Frozen = true;
-            this.memberRewardMod.HeaderText = "Reward Modifier";
-            this.memberRewardMod.Name = "memberRewardMod";
             // 
             // SpawnGroupDatabaseEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 571);
+            this.ClientSize = new System.Drawing.Size(796, 555);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SpawnGroupDatabaseEditor";
             this.Text = "SpawnGroupDatabaseEditor";
@@ -172,9 +162,5 @@
         private System.Windows.Forms.Label sgTitleLabel;
         private System.Windows.Forms.TableLayoutPanel spawnGroupInfoTableLayoutPanel;
         private System.Windows.Forms.DataGridView sgMembersDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn memberId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn memberName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn memberCount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn memberRewardMod;
     }
 }

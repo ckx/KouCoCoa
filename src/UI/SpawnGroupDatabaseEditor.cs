@@ -61,10 +61,11 @@ namespace KouCoCoa
         {
             DataTable dt = new();
 
-            //// Columns
-            //foreach (DataGridViewTextBoxColumn column in sgMembersDataGridView.Columns) {
-            //    dt.Columns.Add(column);
-            //}
+            // Columns
+            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("Count", typeof(int));
+            dt.Columns.Add("RewardMod", typeof(int));
 
             // Rows
             foreach (SpawnGroupMember member in _selectedSpawnGroup.Members) {
@@ -76,6 +77,8 @@ namespace KouCoCoa
                 row[3] = member.RewardMod;
                 dt.Rows.Add(row);
             }
+
+            sgMembersDataGridView.DataSource = dt;
         }
         #endregion
 
