@@ -31,6 +31,7 @@ namespace KouCoCoa
             sgListBox.SelectedValueChanged += sgListBox_SelectedValueChanged;
             sgMembersDataGridView.DragEnter += sgMembersDataGridView_DragEnter;
             sgMembersDataGridView.DragDrop += sgMembersDataGridView_DragDrop;
+            sgMembersDataGridView.CellEndEdit += sgMembersDataGridView_CellEndEdit;
 
             // Populate the left-docked spawnGroupListBox
             ListBox.ObjectCollection sgListBoxCollection = new(sgListBox);
@@ -83,6 +84,24 @@ namespace KouCoCoa
             sgMembersDataGridView.DataSource = dt;
             sgMembersDataGridView.AllowDrop = true;
             sgMembersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void UpdateSpawnGroup()
+        {
+            _selectedSpawnGroup.Members = new();
+            DataGridViewRowCollection rowCollection = sgMembersDataGridView.Rows;
+            foreach (DataGridViewRow row in rowCollection) {
+                if (row.DataBoundItem == null) {
+                    continue;
+                }
+                DataRow dataRow = (row.DataBoundItem as DataRowView).Row;
+                SpawnGroupMember sgMember = new();
+                sgMember.Id = int.TryParse(dataRow[0].ToString(), out int id) ? id : int.MinValue;
+                sgMember.Name = dataRow[1].ToString();
+                sgMember.Count = int.TryParse(dataRow[2].ToString(), out int count) ? count : int.MinValue;
+                sgMember.RewardMod = int.TryParse(dataRow[3].ToString(), out int rewardMod) ? rewardMod : int.MinValue;
+                _selectedSpawnGroup.Members.Add(sgMember);
+            }
         }
         #endregion
 
@@ -151,25 +170,18 @@ namespace KouCoCoa
                 row[3] = 0;
                 dt.Rows.Add(row);
                 sgMembersDataGridView.DataSource = dt;
+                UpdateSpawnGroup();
             }
+        }
+
+        private void sgMembersDataGridView_CellEndEdit(object sender, EventArgs e)
+        {
+            UpdateSpawnGroup();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            _selectedSpawnGroup.Members = new();
-            DataGridViewRowCollection rowCollection = sgMembersDataGridView.Rows;
-            foreach (DataGridViewRow row in rowCollection) {
-                if (row.DataBoundItem == null) {
-                    continue;
-                }
-                DataRow dataRow = (row.DataBoundItem as DataRowView).Row;
-                SpawnGroupMember sgMember = new();
-                sgMember.Id = int.TryParse(dataRow[0].ToString(), out int id) ? id : int.MinValue;
-                sgMember.Name = dataRow[1].ToString();
-                sgMember.Count = int.TryParse(dataRow[2].ToString(), out int count) ? count : int.MinValue;
-                sgMember.RewardMod = int.TryParse(dataRow[3].ToString(), out int rewardMod) ? rewardMod : int.MinValue;
-                _selectedSpawnGroup.Members.Add(sgMember);
-            }
+            UpdateSpawnGroup();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DatabaseSaver.SerializeDatabase(_spawnGroupDb);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
