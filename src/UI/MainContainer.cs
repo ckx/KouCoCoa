@@ -19,24 +19,40 @@ namespace KouCoCoa
             _images = new(images);
             InitializeComponent();
             KouCoCoaInitialization();
+
+            // Log Console
+            LogConsole = new();
+            LogConsole.MdiParent = this;
+            LogConsoleInitialized = true;
+            LogConsole.AddLogLine(string.Empty);
         }
+        #endregion
+
+        #region Public properties
+        public static bool LogConsoleInitialized { get; private set; }
         #endregion
 
         #region Public fields
         public static readonly Dictionary<RAthenaDbType, List<IDatabase>> Databases = new();
+        public static LoggerConsole LogConsole;
         #endregion
 
         #region Private fields
         private readonly Dictionary<string, Image> _images = new();
+        private readonly ContextMenuStrip _windowCMS = new();
         private readonly ContextMenuStrip _mobDbsCMS = new();
         private readonly ContextMenuStrip _spawnGroupDbsCMS = new();
-        private readonly List<Form> _openDbForms = new();
+        private readonly List<Form> _openChildForms = new();
         #endregion
 
         #region Private methods
         private void KouCoCoaInitialization()
         {
             Text = $"{Program.ProgramName} ～ {GetVersionTagline()}";
+
+            // Window menu
+            _windowCMS.Opening += new CancelEventHandler(window_Opening);
+            windowToolStripMenuItem.DropDown = _windowCMS;
 
             // MobDBs menu
             _mobDbsCMS.Opening += new CancelEventHandler(mobDbs_Opening);
@@ -82,7 +98,7 @@ namespace KouCoCoa
         /// </summary>
         private bool CheckExistingDbForm(IDatabase db)
         {
-            foreach (Form form in _openDbForms) {
+            foreach (Form form in _openChildForms) {
                 if (form.Text == $"{db.Name} :: {form.Name}") {
                     form.Focus();
                     return true;
@@ -107,6 +123,25 @@ namespace KouCoCoa
 
 
         #region Event Handlers
+        private void window_Opening(object sender, CancelEventArgs e)
+        {
+            _windowCMS.Items.Clear();
+            ToolStripItem mobViewerTsi = _windowCMS.Items.Add("Mob Stat Viewer");
+            if (Databases.ContainsKey(RAthenaDbType.MOB_DB)) {
+                mobViewerTsi.Click += delegate (object sender, EventArgs e) { mobStatViewer_Selection(sender, e, Databases[RAthenaDbType.MOB_DB]); };
+            } else {
+                mobViewerTsi.Enabled = false;
+            }
+
+            ToolStripItem logConsoleTsi = _windowCMS.Items.Add("Log Console");
+            logConsoleTsi.Click += delegate (object sender, EventArgs e) { logConsole_Selection(sender, e); };
+        }
+
+        private void logConsole_Selection(object sender, EventArgs e)
+        {
+            LogConsole.Show();
+        }
+
         /// <summary>
         /// Triggers on _mobDbsCMS, populates the list of MobDbs.
         /// </summary>
@@ -123,8 +158,6 @@ namespace KouCoCoa
                 ToolStripItem entryTsi = _mobDbsCMS.Items.Add(mobDb.Name);
                 entryTsi.Click += delegate(object sender, EventArgs e) { mobDbs_Selection(sender, e, mobDb); };
             }
-            ToolStripItem viewerTsi = _mobDbsCMS.Items.Add("Mob Stat Viewer");
-            viewerTsi.Click += delegate (object sender, EventArgs e) { mobStatViewer_Selection(sender, e, Databases[RAthenaDbType.MOB_DB]); };
             e.Cancel = false;
         }
 
@@ -151,7 +184,7 @@ namespace KouCoCoa
                 }
                 mde = new(senderMobDb, mobSkillDb, npcIdDb, _images);
                 mde.MdiParent = this;
-                _openDbForms.Add(mde);
+                _openChildForms.Add(mde);
                 mde.FormClosed += childForm_Closed;
                 mde.Show();
             }
@@ -186,7 +219,7 @@ namespace KouCoCoa
             if (Databases[RAthenaDbType.SPAWNGROUP_DB].Contains(senderSpawnGroupDb)) {
                 SpawnGroupDatabaseEditor sgde = new(senderSpawnGroupDb);
                 sgde.MdiParent = this;
-                _openDbForms.Add(sgde);
+                _openChildForms.Add(sgde);
                 sgde.FormClosed += childForm_Closed;
                 sgde.Show();
             }
@@ -196,7 +229,7 @@ namespace KouCoCoa
         {
             MobStatViewer mobStatViewer = new(mobDbs);
             mobStatViewer.MdiParent = this;
-            _openDbForms.Add(mobStatViewer);
+            _openChildForms.Add(mobStatViewer);
             mobStatViewer.FormClosed += childForm_Closed;
             mobStatViewer.Show();
         }
@@ -211,8 +244,8 @@ namespace KouCoCoa
         private void childForm_Closed(object sender, FormClosedEventArgs e)
         {
             Form form = (Form)sender;
-            if (_openDbForms.Contains(form)) {
-                _openDbForms.Remove((Form)sender);
+            if (_openChildForms.Contains(form)) {
+                _openChildForms.Remove((Form)sender);
             }
         }
         #endregion

@@ -12,6 +12,8 @@ namespace KouCoCoa {
             }
         }
 
+        public static string FullLog { get; private set; }
+
         private static string _logPath = "";
 
         public static async Task CreateLogFile() 
@@ -69,7 +71,11 @@ namespace KouCoCoa {
         {
             // Output log only if we are at an appropriate loglevel
             if (Globals.RunConfig.LoggingLevel >= logLevel) {
+                FullLog += $"{line}{Environment.NewLine}";
                 Console.WriteLine(line);
+                if (MainContainer.LogConsoleInitialized) {
+                    MainContainer.LogConsole.AddLogLine(line);
+                }
                 try {
                     using (StreamWriter sw = File.AppendText(_logPath)) {
                         sw.WriteLine(line);

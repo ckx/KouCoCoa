@@ -15,6 +15,7 @@ namespace KouCoCoa {
         #endregion
 
         static async Task Main(string[] args) {
+            Application.SetCompatibleTextRenderingDefault(false);
             await Logger.CreateLogFile();
             Globals.RunConfig = await ConfigIO.GetConfig();
 #if DEBUG

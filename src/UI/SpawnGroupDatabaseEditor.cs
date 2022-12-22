@@ -65,7 +65,7 @@ namespace KouCoCoa
             DataTable dt = new();
 
             // Columns
-            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("ID", typeof(int));
             dt.Columns.Add("Name", typeof(string));
             dt.Columns.Add("Count", typeof(int));
             dt.Columns.Add("RewardMod", typeof(int));
@@ -73,11 +73,10 @@ namespace KouCoCoa
             // Rows
             foreach (SpawnGroupMember member in _selectedSpawnGroup.Members) {
                 DataRow row = dt.NewRow();
-                // D I S G U S T I N G
-                row[0] = member.Id;
-                row[1] = member.Name;
-                row[2] = member.Count;
-                row[3] = member.RewardMod;
+                row["ID"] = member.Id;
+                row["Name"] = member.Name;
+                row["Count"] = member.Count;
+                row["RewardMod"] = member.RewardMod;
                 dt.Rows.Add(row);
             }
 
