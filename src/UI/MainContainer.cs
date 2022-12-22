@@ -123,6 +123,8 @@ namespace KouCoCoa
                 ToolStripItem entryTsi = _mobDbsCMS.Items.Add(mobDb.Name);
                 entryTsi.Click += delegate(object sender, EventArgs e) { mobDbs_Selection(sender, e, mobDb); };
             }
+            ToolStripItem viewerTsi = _mobDbsCMS.Items.Add("Mob Stat Viewer");
+            viewerTsi.Click += delegate (object sender, EventArgs e) { mobStatViewer_Selection(sender, e, Databases[RAthenaDbType.MOB_DB]); };
             e.Cancel = false;
         }
 
@@ -188,6 +190,15 @@ namespace KouCoCoa
                 sgde.FormClosed += childForm_Closed;
                 sgde.Show();
             }
+        }
+
+        private void mobStatViewer_Selection(object sender, EventArgs e, List<IDatabase> mobDbs)
+        {
+            MobStatViewer mobStatViewer = new(mobDbs);
+            mobStatViewer.MdiParent = this;
+            _openDbForms.Add(mobStatViewer);
+            mobStatViewer.FormClosed += childForm_Closed;
+            mobStatViewer.Show();
         }
 
         private void databaseOrganizerToolStripMenuItem_Click(object sender, EventArgs e)
