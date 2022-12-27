@@ -96,7 +96,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "LoggerConsole";
-            this.Text = "LoggerConsole";
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.headerTableLayoutPanel.ResumeLayout(false);
