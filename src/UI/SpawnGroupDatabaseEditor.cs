@@ -139,6 +139,9 @@ namespace KouCoCoa
 
         private void sgListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_selectedSpawnGroup != null) {
+                UpdateSpawnGroup();
+            }
             if (sgListBox.SelectedItem == null || sgListBox.SelectedIndex == -1) {
                 return;
             }

@@ -36,7 +36,7 @@ namespace KouCoCoa
 
             foreach (MobDatabase mobDb in _mobDbs) {
                 foreach (Mob mob in mobDb.Mobs) {
-                    mob.JapaneseName = mobDb.Name;
+                    mob.SourceDb = mobDb.Name;
                     _allMobs.Add(mob);
                 }
             }
@@ -109,7 +109,7 @@ namespace KouCoCoa
                 row["Element"] = mob.Element;
                 row["ElementLvl"] = mob.ElementLevel;
                 row["Class"] = mob.Class;
-                row["DB"] = mob.JapaneseName;
+                row["DB"] = mob.SourceDb;
                 _dt.Rows.Add(row);
             }
         }
@@ -117,11 +117,11 @@ namespace KouCoCoa
         // silly dumbo filter
         private void FilterMobs()
         {
+            _displayedMobs.Clear();
             MobClass? mobClass = Enum.TryParse(mobClassComboBox.SelectedItem.ToString(), out MobClass mc) ? mc : null;
             MobRace? mobRace = Enum.TryParse(mobRaceComboBox.SelectedItem.ToString(), out MobRace mr) ? mr : null;
             MobElement? mobElement = Enum.TryParse(mobElementComboBox.SelectedItem.ToString(), out MobElement me) ? me : null;
 
-            _displayedMobs.Clear();
             foreach (Mob mob in _allMobs) {
                 if (mobClass != null && mob.Class != mobClass) {
                     continue;

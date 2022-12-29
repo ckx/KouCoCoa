@@ -42,6 +42,7 @@ namespace KouCoCoa
             Modes = new();
             Drops = new();
             Skills = new();
+            SourceDb = string.Empty;
         }
 
         public Mob(Mob baseMob)
@@ -76,6 +77,7 @@ namespace KouCoCoa
             Modes = new MobModes(baseMob.Modes);
             Drops = new List<MobDrop>(baseMob.Drops);
             Skills = new List<MobSkill>(baseMob.Skills);
+            SourceDb = baseMob.SourceDb;
         }
         #endregion
 
@@ -115,6 +117,8 @@ namespace KouCoCoa
         public List<MobDrop> Drops { get; set; }
         [YamlDotNet.Serialization.YamlIgnore]
         public List<MobSkill> Skills { get; set; }
+        [YamlDotNet.Serialization.YamlIgnore]
+        public string SourceDb { get; set; }
         #endregion
     }
 
